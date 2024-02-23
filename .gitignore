@@ -67,10 +67,10 @@
 mono_crash.*
 
 # Build results
-[Dd]ebug/
-[Dd]ebugPublic/
-[Rr]elease/
-[Rr]eleases/
+# [Dd]ebug/    (need)
+# [Dd]ebugPublic/
+# [Rr]elease/  (need)
+# [Rr]eleases/
 # x64/   (need)
 # x86/   (need)
 [Ww][Ii][Nn]32/
