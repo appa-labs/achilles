@@ -442,3 +442,10 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+
+# VS auto-generated debug inf
+
+/Achilles
+/x64/Debug
+/x64/Release/*.pdb
