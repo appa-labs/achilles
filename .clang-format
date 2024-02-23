@@ -1,0 +1,233 @@
+# diff with shad-cpp
+# BasedOnStyle: Google
+# IndentWidth: 4
+# AccessModifierOffset: -4
+# AllowShortFunctionsOnASingleLine: None
+# DerivePointerAlignment: true
+# KeepEmptyLinesAtTheStartOfBlocks: true
+
+---
+Language:        Cpp
+# BasedOnStyle:  Google
+AccessModifierOffset: -1
+AlignAfterOpenBracket: AlwaysBreak
+AlignConsecutiveAssignments: false
+AlignConsecutiveBitFields: false
+AlignConsecutiveDeclarations: false
+AlignConsecutiveMacros: false
+AlignConsecutiveShortCaseStatements: # clang-format 17  # TODO(sokolik): it's difference with sdc config
+  Enabled: true
+AlignEscapedNewlines: Left
+AlignOperands:   Align
+AlignTrailingComments:   # clang-format 16  # TODO(sokolik): it's difference with sdc config
+  Kind: Always
+  OverEmptyLines: 2
+AllowAllArgumentsOnNextLine: true
+AllowAllConstructorInitializersOnNextLine: true  # deprecated clang-format14
+AllowAllParametersOfDeclarationOnNextLine: true
+# AllowBreakBeforeNoexceptSpecifier  clang-format 18
+AllowShortBlocksOnASingleLine: false
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortEnumsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: None  # TODO(sokolik): it's difference with sdc config
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLambdasOnASingleLine: All
+AllowShortLoopsOnASingleLine: false
+AlwaysBreakAfterDefinitionReturnType: None  # deprecated
+AlwaysBreakAfterReturnType: None
+AlwaysBreakBeforeMultilineStrings: true
+AlwaysBreakTemplateDeclarations: Yes
+AttributeMacros: ['SDC_ALWAYS_INLINE']
+BinPackArguments: true
+BinPackParameters: true
+BitFieldColonSpacing: Both
+BreakArrays: false  # clang-format 16   # TODO(sokolik): it's difference with sdc config
+BreakBeforeBraces: Attach
+BraceWrapping:
+  AfterCaseLabel:  false
+  AfterClass:      false
+  AfterControlStatement: false
+  AfterEnum:       false
+  AfterExternBlock: false
+  AfterFunction:   false
+  AfterNamespace:  false
+  AfterObjCDeclaration: false
+  AfterStruct:     false
+  AfterUnion:      false
+  BeforeCatch:     false
+  BeforeElse:      false
+  BeforeLambdaBody: false
+  BeforeWhile: false
+  IndentBraces:    false
+BracedInitializerIndentWidth: 2  # clang-format 17  # TODO(sokolik): it's difference with sdc config
+BreakAfterAttributes: Leave  # clang-format16  # TODO(sokolik): it's difference with sdc config
+BreakAfterJavaFieldAnnotations: false
+BreakBeforeBinaryOperators: None
+BreakBeforeConceptDeclarations: true
+BreakBeforeInlineASMColon: OnlyMultiline  # clang-format16  # TODO(sokolik): it's difference with sdc config
+BreakBeforeInheritanceComma: false
+BreakBeforeTernaryOperators: true
+BreakConstructorInitializers: BeforeComma
+BreakConstructorInitializersBeforeComma: true
+BreakInheritanceList: BeforeColon
+BreakStringLiterals: true
+ColumnLimit:     100
+CommentPragmas:  '^ IWYU pragma:'
+CompactNamespaces: false
+ConstructorInitializerAllOnOneLineOrOnePerLine: true  # deprecated clang-format14
+ConstructorInitializerIndentWidth: 4
+ContinuationIndentWidth: 4
+Cpp11BracedListStyle: true
+DerivePointerAlignment: false
+DisableFormat:   false
+EmptyLineAfterAccessModifier: Never
+EmptyLineBeforeAccessModifier: LogicalBlock
+ExperimentalAutoDetectBinPacking: false
+FixNamespaceComments: true
+ForEachMacros:
+  - foreach
+  - Q_FOREACH
+  - BOOST_FOREACH
+IfMacros: ['IF']
+IncludeBlocks:   Regroup
+IncludeCategories:
+  - Regex:           '^"core/.*'
+    Priority:        1
+  - Regex:           '^"ros/.*'
+    Priority:        2
+  - Regex:           '^".*'
+    Priority:        3
+  - Regex:           '^<boost.*'
+    Priority:        4
+  - Regex:           '^<.*'
+    Priority:        5
+IncludeIsMainRegex: '([-_](test|unittest))?$'
+IndentAccessModifiers: false
+IndentCaseBlocks: false
+IndentCaseLabels: true
+IndentExternBlock: NoIndent
+IndentGotoLabels: true
+IndentPPDirectives: None
+IndentRequires: false
+IndentRequiresClause: false   # TODO(sokolik): it's difference with sdc config
+IndentWidth:     4  # TODO(sokolik): it's difference with sdc config
+IndentWrappedFunctionNames: false
+InsertBraces: true  # clang-format15   # TODO(sokolik): it's difference with sdc config
+InsertNewlineAtEOF: false  # clang-format16   # TODO(sokolik): it's difference with sdc config
+IntegerLiteralSeparator:  # clang-format16   # TODO(sokolik): it's difference with sdc config
+  Binary: 4
+  BinaryMinDigits: 7
+  Decimal: 3
+  DecimalMinDigits: 5
+  Hex: 4
+  HexMinDigits: 6
+JavaScriptQuotes: Leave
+JavaScriptWrapImports: true
+KeepEmptyLinesAtEOF: false  # clang-format 17   # TODO(sokolik): it's difference with sdc config
+KeepEmptyLinesAtTheStartOfBlocks: false
+LambdaBodyIndentation: Signature
+LineEnding: LF  # clang-format16   # TODO(sokolik): it's difference with sdc config
+MacroBlockBegin: ''
+MacroBlockEnd:   ''
+# Macros: SDC_VERIFY clang-format17
+MaxEmptyLinesToKeep: 1
+NamespaceIndentation: None
+NamespaceMacros: ['TESTSUITE']
+ObjCBinPackProtocolList: Never
+ObjCBlockIndentWidth: 2
+# ObjCBreakBeforeNestedBlockParam  if you use ObjC pick some value
+ObjCSpaceAfterProperty: false
+ObjCSpaceBeforeProtocolList: true
+PPIndentWidth: 2
+PackConstructorInitializers: NextLine  # clang-format14    # TODO(sokolik): it's difference with sdc config
+PenaltyBreakAssignment: 2
+PenaltyBreakBeforeFirstCallParameter: 1
+PenaltyBreakComment: 300
+PenaltyBreakFirstLessLess: 120
+PenaltyBreakOpenParenthesis: 10 # clang-format14  # TODO(sokolik): it's difference with sdc config
+PenaltyBreakString: 1000
+PenaltyBreakTemplateDeclaration: 10
+PenaltyExcessCharacter: 1000000
+PenaltyIndentedWhitespace: 1  # TODO(someone): maybe you know better value
+PenaltyReturnTypeOnItsOwnLine: 200
+PointerAlignment: Left
+QualifierAlignment: Custom  # clang-format14   # TODO(sokolik): it's difference with sdc config
+QualifierOrder: ['friend', 'static', 'constexpr', 'inline', 'const', 'type', 'volatile', 'restrict']  # clang-format14
+RawStringFormats:
+  - Language:        Cpp
+    Delimiters:
+      - cc
+      - CC
+      - cpp
+      - Cpp
+      - CPP
+      - 'c++'
+      - 'C++'
+    CanonicalDelimiter: ''
+    BasedOnStyle:    google
+  - Language:        TextProto
+    Delimiters:
+      - pb
+      - PB
+      - proto
+      - PROTO
+    EnclosingFunctions:
+      - EqualsProto
+      - EquivToProto
+      - PARSE_PARTIAL_TEXT_PROTO
+      - PARSE_TEST_PROTO
+      - PARSE_TEXT_PROTO
+      - ParseTextOrDie
+      - ParseTextProtoOrDie
+    CanonicalDelimiter: ''
+    BasedOnStyle:    google
+ReferenceAlignment: Left
+ReflowComments:  true
+RemoveBracesLLVM: false  # clang-format14   # TODO(sokolik): it's difference with sdc config
+RemoveParentheses: MultipleParentheses  # clang-format17  # TODO(sokolik): it's difference with sdc config
+RemoveSemicolon: true  # clang-format16  # TODO(sokolik): it's difference with sdc config
+RequiresClausePosition: OwnLine  # clang-format15  # TODO(sokolik): it's difference with sdc config
+RequiresExpressionIndentation: OuterScope  # clang-format16  # TODO(sokolik): it's difference with sdc config
+SeparateDefinitionBlocks: Always  # clang-format14  # TODO(sokolik): it's difference with sdc config
+ShortNamespaceLines: 0
+SortIncludes:    true
+# SortJavaStaticImport  if you use Java pick some value
+SortUsingDeclarations: true
+SpaceAfterCStyleCast: false
+SpaceAfterLogicalNot: false
+SpaceAfterTemplateKeyword: true
+SpaceAroundPointerQualifiers: Default
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeCaseColon: false
+SpaceBeforeCpp11BracedList: false
+SpaceBeforeCtorInitializerColon: true
+SpaceBeforeInheritanceColon: true
+SpaceBeforeJsonColon: false  # clang-format17  # TODO(sokolik): it's difference with sdc config
+SpaceBeforeParens: ControlStatements
+  # SpaceBeforeParensOptions:   # clang-format14  # TODO(sokolik): it's difference with sdc config
+SpaceBeforeRangeBasedForLoopColon: true
+SpaceBeforeSquareBrackets: false
+SpaceInEmptyBlock: false
+SpaceInEmptyParentheses: false
+SpacesBeforeTrailingComments: 2
+SpacesInAngles:  false
+SpacesInCStyleCastParentheses: false
+SpacesInConditionalStatement: false
+SpacesInContainerLiterals: true
+SpacesInLineCommentPrefix:
+  Minimum: 1
+  Maximum: -1
+SpacesInParentheses: false  # clang-format 17  # TODO(sokolik): it's difference with sdc config
+SpacesInSquareBrackets: false
+Standard:        Auto
+StatementAttributeLikeMacros: ['SDC_ALWAYS_INLINE']
+StatementMacros:
+  - Q_UNUSED
+  - QT_REQUIRE_VERSION
+TabWidth:        8
+TypenameMacros: ['STACK_OF', 'LIST']
+# TypeNames  clang-format 17
+UseTab:          Never
+# VerilogBreakBetweenInstancePorts: false  clang-format17
+WhitespaceSensitiveMacros: ['STRINGIZE', 'PP_STRINGIZE']
+...
