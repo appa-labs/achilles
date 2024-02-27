@@ -1,8 +1,8 @@
 class Engine {
    public:
-    static int height;
-    static int width;
-    static double aspect;
+    inline static int height;
+    inline static int width;
+    inline static double aspect;
 
     static void Initialization();
 };
