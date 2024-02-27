@@ -70,11 +70,11 @@ Enter file in which to save the key (C:\Users\Kirill/.ssh/id_ed25519):
 # Переходим в директорию, где вы хотите разместить репозиторий с проектом
 cd <твоя выбранная директория>
 
-# Клонируем репозиторий с https://github.com/kirillpyasecky/2D_Engine
-git clone git@github.com:kirillpyasecky/2D_Engine.git
+# Клонируем репозиторий с https://github.com/appa-labs/Achilles
+git clone git@github.com:appa-labs/Achilles.git
 
 # Переходим в директорию склонированного репозитория
-cd 2D_Engine
+cd Achilles
 
 # Настраиваем гит так, чтобы он знал нас "в лицо"
 git config --local user.name "<твой логин с github.com>"
@@ -96,23 +96,22 @@ git config --local user.email "<твой email с github.com>"
  (ветка может быть другая)
 </details>
 
-## Установка MVS, ReSharper C++ <a id='install_ide'/> ##
+## Установка MVS, ReSharper C++ <a id='install_ide'/>
 
 - [Гайд по  установке Microsoft Visual Studio для С++](https://www.youtube.com/watch?v=f9QZQumiC8I) - [ссылка для скачивания](https://visualstudio.microsoft.com/ru/vs/community/)
 
 * [Гайд по установке ReSharper C++](https://www.youtube.com/watch?v=MJJ2GAPg1jE) - [ссылка для скачивания](https://www.jetbrains.com/resharper-cpp/)
-
-<details><summary><a>Если посказки ReSharper показывает слишком
-мелким шрифтом:</a></summary>
-  Заходим в Tools>>Options>Environment>Fonts and Colors>
-  и меняем шрифт для 'Statement Completion' и 'Find Results Window', в графе 'show settings for'.
+<details><summary><a>Если ReSharper показывает подсказки слишком
+мелкого шрифта:</a></summary>
+ <br>Заходим в <mark style="background-color: LightBlue">Tools > Options > Environment > Fonts and Colors</mark>
+  и меняем шрифт для Statement Completion и Find Results Window, в графе show settings for.</br>
 </details>
 
-### Отправка решения <a id='code'/>
+## Отправка решения <a id='code'/>
 
 Для работы в команде мы используем концепцию github flow. Узнать про 
 это можно [здесь](https://www.youtube.com/watch?v=43WLFU2LEMs) и [здесь](https://docs.github.com/ru/get-started/using-github/github-flow). 
 
 ![](https://lanziani.com/slides/gitflow/images/gitflow_1.png)
 
-Если в кратце, то вся работа происходит в сторонних ветках созданных для отдельных задач, после решения задачи создается pool request, который, если все хорошо, он получает approve и ветку мерджат в main.
+> Если в кратце, то вся работа происходит в сторонних ветках созданных для отдельных задач, после решения задачи создается pool request, который, если все хорошо, получает approve и ветку мерджат в main.
