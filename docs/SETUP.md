@@ -5,9 +5,8 @@
 Вам нужно будет пройти следующие шаги:
 
 - [Скачивание git репозитория](#git)
-- [Установка bazel, компиляторов, clang-tidy, clang-format](#install)
-- [Настройка IDE](#ide)
-- [Запуск проекта из консоли](#build)
+- [Установка MVS, ReSharper C++](#install_ide)
+- [Отправка решения](#code)
 
 ---
 
@@ -31,8 +30,37 @@ ssh-keygen --help
 Если же нет, то устанавливаем: [git](https://git-scm.com/download/win)
 
 ### Создание ssh-ключа
+- Воспользуйтесь `ssh-keygen` (возможно, вам придется поставить `openssh-client`), затем скопируйте **.pub** ключ:
 
-Можно почитать [туториал гитхаба](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account) о том как создать и добавить в аккаунт ssh ключ.
+```shell
+>ssh-keygen -t ed25519
+Generating public/private ed25519 key pair.
+Enter file in which to save the key (C:\Users\Kirill/.ssh/id_ed25519):
+# можете ввести любое имя файла или нажать enter,
+# в этом случае ssh-keygen создаст файл с именем id_ed25519
+>github 
+
+# Обратите внимание, что вы можете не указывать пароль для ключа,
+# чтобы не приходилось его потом вводить на каждое действие c ключом
+# Это стандартная практика, хотя и не очень безопасная
+```
+Далее вам необходимо добавить ключ, находящийся в файле с разрешением **.pub** в свой github аккаунт. 
+
+Тут можно почитать [туториал гитхаба](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account), о том как создать и добавить в аккаунт ssh ключ.
+
+<details><summary><a>Как проверить себя?</a></summary>
+
+Проверьте, что ssh соединение установлено:
+
+   ```bash
+   >ssh -T git@github.com
+   The authenticity of host 'github.com (IP ADDRESS)' can not be established.
+   ED25519 key fingerprint is SHA256:+DiY3wvvV6TuJJhbpZisF/zLDA0zPMSvHdkr4UvCOqU.
+   Are you sure you want to continue connecting (yes/no)?
+   >yes
+   Hi USERNAME! You have successfully authenticated, but GitHub does not provide shell access.
+   ```
+</details>
 
 Если что-то не получилось - обращайтесь в телеграм-чат.
 
@@ -68,50 +96,23 @@ git config --local user.email "<твой email с github.com>"
  (ветка может быть другая)
 </details>
 
-## Установка bazel, компиляторов, clang-tidy, clang-format <a id='install'/>
+## Установка MVS, ReSharper C++ <a id='install_ide'/> ##
 
- **bazel**
+- [Гайд по  установке Microsoft Visual Studio для С++](https://www.youtube.com/watch?v=f9QZQumiC8I) - [ссылка для скачивания](https://visualstudio.microsoft.com/ru/vs/community/)
 
-* [ссылка для скачивания](https://docs.bazel.build/versions/3.2.0/install-windows.html)
-* [настройка](https://www.youtube.com/watch?v=LlMX7faTQ-M)
+* [Гайд по установке ReSharper C++](https://www.youtube.com/watch?v=MJJ2GAPg1jE) - [ссылка для скачивания](https://www.jetbrains.com/resharper-cpp/)
 
-<details><summary><a>Как проверить себя?</a></summary>
-
-Проверьте, что bazel установлен корректно (находясь в внутри репозитория):
-
-   ```bash
-   > bazel
-   Usage: bazel <command> <options> ...
-
-   Available commands:
-   analyze-profile     Analyzes build profile data.
-   aquery              Analyzes the given targets and queries the action graph.
-   build               Builds the specified targets.
-   canonicalize-flags  Canonicalizes a list of bazel options.
-   clean               Removes output files and optionally stops the server.
-   coverage            Generates code coverage report for specified test targets.
-   ...
-   bazel help info-keys
-                   Displays a list of keys used by the info command.
-   ```
- (Предупреждения в начале это нормально)
+<details><summary><a>Если посказки ReSharper показывает слишком
+мелким шрифтом:</a></summary>
+  Заходим в Tools>>Options>Environment>Fonts and Colors>
+  и меняем шрифт для 'Statement Completion' и 'Find Results Window', в графе 'show settings for'.
 </details>
 
-## Установка и настройка IDE <a id='ide'/>
+### Отправка решения <a id='code'/>
 
-Настройте VS Code
-      - Смотрите [Гайд по настройке VSCode](docs/VSCode.md)
+Для работы в команде мы используем концепцию github flow. Узнать про 
+это можно [здесь](https://www.youtube.com/watch?v=43WLFU2LEMs) и [здесь](https://docs.github.com/ru/get-started/using-github/github-flow). 
 
+![](https://lanziani.com/slides/gitflow/images/gitflow_1.png)
 
-
-### Запуск проекта из консоли <a id='build'/>
-
-Все действия нужно производить из консоли, аналогично тому, как вы настраивали ключи и git.
-
-Быстрый запуск:
-
-```bash
-# Находясь в папке проекта
-bazel buld
-```
-
+Если в кратце, то вся работа происходит в сторонних ветках созданных для отдельных задач, после решения задачи создается pool request, который, если все хорошо, он получает approve и ветку мерджат в main.
