@@ -64,8 +64,12 @@ double Distance(vec p1, vec p2);
 
 double Distance(vec dot, line line);
 
+double SignedDistance(vec dot, line line);
+
 inline double Distance(line line, vec dot) {
     return Distance(dot, line);
 }
 
 double Distance(line l1, line l2);
+
+bool IsIntersect(line l1, line l2);
