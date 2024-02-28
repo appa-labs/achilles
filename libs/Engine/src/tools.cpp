@@ -49,3 +49,7 @@ bool IsIntersect(line l1, line l2) {
 
     return (a1 >= 0 && b1 <= 0 || a1 <= 0 && b1 >= 0) && (a2 >= 0 && b2 <= 0 || a2 <= 0 && b2 >= 0);
 }
+
+void Object::move(vec vector) {
+    basepoint = basepoint + vector;
+}

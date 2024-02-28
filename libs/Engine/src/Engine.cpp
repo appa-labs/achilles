@@ -12,15 +12,15 @@ void Engine::Initialization() {
     height = sf::VideoMode::getDesktopMode().height;
     aspect = static_cast<double>(width) / height;
 
-    LoadTextures("resources/textures.txt");
+    LoadObjects("resources/objects.txt");
 }
 
-void Engine::LoadTextures(std::string path) {
+void Engine::LoadObjects(std::string path) {
     // пока что формат: две координату первой точки, после две координаты второй
     std::ifstream fin;
     fin.open(path);
     if (!(fin.is_open())) {
-        std::cerr << "Ќе удалось открыть файл с текстурами по пути " +
+        std::cerr << "Ќе удалось открыть файл с объектами по пути " +
                          path;  // потом прикрутим логгер какой нибудь, мне лень
         Stop();
     }
@@ -31,7 +31,7 @@ void Engine::LoadTextures(std::string path) {
         double x1, y1, x2, y2;
         input >> x1 >> y1 >> x2 >> y2;
         buf = line(
-          {x1, y1}, {x2, y2} );  // если кажетс€, что это сделано топорно, то это только кажетс€.
+            {x1, y1}, {x2, y2});  // если кажетс€, что это сделано топорно, то это только кажетс€.
         objects_.push_back(buf);
     }
 }
