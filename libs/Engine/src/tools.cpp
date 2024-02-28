@@ -5,7 +5,7 @@ double Distance(vec p1, vec p2) {
     return std::sqrt((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y));
 }
 
-double Distance(vec dot, line line) {  // расстояние от точки до отрезка
+double Distance(vec dot, line line) {
     if ((dot - line.d1) * (line.d2 - line.d1) < 0) {
         return (dot - line.d1).length();
     }
@@ -18,7 +18,7 @@ double Distance(vec dot, line line) {  // расстояние от точки до отрезка
     return abs(a * dot.x + b * dot.y + c) / sqrt(a * a + b * b);
 }
 
-double SignedDistance(vec dot, line line) {  // знаковое расстояние от точки до отрезка (прямой)
+double SignedDistance(vec dot, line line) {
     if ((dot - line.d1) * (line.d2 - line.d1) < 0) {
         return (dot - line.d1).length();
     }

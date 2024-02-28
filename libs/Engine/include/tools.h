@@ -1,11 +1,11 @@
-#include <Engine/include/Engine.h>
-#include <cmath>
+#pragma once
 
+#include <cmath>
 
 /// немного структур с доп. функционалом
 
-
-struct vec {
+class vec {
+   public:
     double x = 0, y = 0;
     // это и вектор, и точка, по сути. Просто понаписано всяких прикольных штук для удобства
 
@@ -35,41 +35,47 @@ struct vec {
         return std::sqrt(x * x + y * y);
     }
 
-    vec cord() {  // преобразование из моих координат в сфмл
-        return {
-          (x + 1. * Engine::aspect) / Engine::aspect / 2. * Engine::width,
-          (-1 * y + 1.) / 2. * Engine::height};
-    }
+    // vec cord() {  // преобразование из моих координат в сфмл
+    //     return {
+    //       (x + 1. * Engine::aspect) / Engine::aspect / 2. * Engine::width,
+    //       (-1 * y + 1.) / 2. * Engine::height};
+    // }
 
-    vec anticord() {  // обратное
-        return {
-          x * Engine::aspect * 2. / Engine::width - 1. * Engine::aspect,
-          (-1 * y) * 2. / Engine::height + 1.};
-    }
+    // vec anticord() {  // обратное
+    //     return {
+    //       x * Engine::aspect * 2. / Engine::width - 1. * Engine::aspect,
+    //       (-1 * y) * 2. / Engine::height + 1.};
+    // }
 };
 
-struct line {
+class line {
+   public:
     vec d1, d2;  // наш отрезочек тире текстура (ну а что, в три д у нас полигоны - часть плоскости,
                  // значит тут будет часть прямой - отрезок.
 
-    vec norm() {  // единичная нормаль к поверхности, нужна будет при отражении. Я умный и сделяль
-                  // все красиво, поэтому направление нормали не имеет значения
+    line(vec p1, vec p2) : d1(p1), d2(p2){};
+
+    vec norm() {  // единичная нормаль к поверхности
         double a = d1.y - d2.y, b = d2.x - d1.x;
         vec no(a, b);
         return no / no.length();
     }
 };
 
+// перегружаем одну функцию для всевозможных расстояний
+
 double Distance(vec p1, vec p2);
 
-double Distance(vec dot, line line);
+double Distance(vec dot, line line);  // расстояние от точки до отрезка
 
-double SignedDistance(vec dot, line line);
+double SignedDistance(vec dot, line line);  // знаковое расстояние от точки до отрезка(прямой)
 
 inline double Distance(line line, vec dot) {
     return Distance(dot, line);
 }
 
-double Distance(line l1, line l2);
+double Distance(
+    line l1, line l2);  // расстояние от отрезка до отрезка (т.е минимальная длина отрезка, начало
+                        // которого принадлежит первому отрезку, а конец - второму
 
-bool IsIntersect(line l1, line l2);
+bool IsIntersect(line l1, line l2);  // пересекаются ли отрезки
