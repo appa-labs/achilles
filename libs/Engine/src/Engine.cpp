@@ -16,7 +16,7 @@ void Engine::Initialization() {
     aspect = static_cast<double>(width) / height;
 
     sf::ContextSettings settings(0, 0, 8, 1, 1, 0, false);
-    win_.create(sf::VideoMode(width, height), "Achilles", sf::Style::Fullscreen, settings);
+    window.create(sf::VideoMode(width, height), "Achilles", sf::Style::Fullscreen, settings);
 
     LoadObjTypes("resources/objectTypes.txt");
     LoadObjects("resources/objectMap.txt");
@@ -80,11 +80,18 @@ void Engine::Stop() {
 }
 
 void Engine::RenderFrame() {
-    win_.clear(sf::Color(0, 0, 0, 0));
+    window.clear(sf::Color(0, 0, 0, 0));
     for (const auto& obj : objects_) {
         RenderObject(obj);
     }
+    window.display();
 }
 
 void Engine::RenderObject(const std::unique_ptr<Object>& object) {
+    for (const auto& line : object->polygons_) {
+        sf::Vertex vline[] = {
+          sf::Vertex(sf::Vector2f(line.d1.cord(width, height).x, line.d1.cord(width, height).y)),
+          sf::Vertex(sf::Vector2f(line.d2.cord(width, height).x, line.d2.cord(width, height).y))};
+        window.draw(vline, 2, sf::Lines);
+    }
 }

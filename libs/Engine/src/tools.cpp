@@ -4,6 +4,16 @@
 #include <utility>
 #include <vector>
 
+vec vec::cord(int width, int height) const {  // преобразование из моих координат в сфмл
+    double aspect = static_cast<double>(width) / height;
+    return {(x + 1. * aspect) / aspect / 2. * width, (-1 * y + 1.) / 2. * height};
+}
+
+vec vec::anticord(int width, int height) const {  // обратное
+    double aspect = static_cast<double>(width) / height;
+    return {x * aspect * 2. / width - 1. * aspect, (-1 * y) * 2. / height + 1.};
+}
+
 line line::move(vec vector) {
     return line(d1 + vector, d2 + vector);
 }

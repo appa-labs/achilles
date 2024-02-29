@@ -38,17 +38,9 @@ class vec {
         return std::sqrt(x * x + y * y);
     }
 
-    // vec cord() {  // преобразование из моих координат в сфмл
-    //     return {
-    //       (x + 1. * Engine::aspect) / Engine::aspect / 2. * Engine::width,
-    //       (-1 * y + 1.) / 2. * Engine::height};
-    // }
+    vec cord(int width, int height) const;  // преобразование из моих координат в сфмл
 
-    // vec anticord() {  // обратное
-    //     return {
-    //       x * Engine::aspect * 2. / Engine::width - 1. * Engine::aspect,
-    //       (-1 * y) * 2. / Engine::height + 1.};
-    // }
+    vec anticord(int width, int height) const;  // обратное
 };
 
 class line {

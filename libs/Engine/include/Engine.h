@@ -12,6 +12,7 @@ class Engine {
     int height;
     int width;
     double aspect;
+    sf::RenderWindow window;
 
     void Initialization();
     void LoadObjTypes(const std::string& path);
@@ -23,5 +24,4 @@ class Engine {
    private:
     std::vector<std::unique_ptr<Object>> objects_;
     std::map<std::string, std::vector<line>> objtypes_;
-    sf::RenderWindow win_;
 };
