@@ -1,6 +1,7 @@
 #include <Engine/include/Engine.h>
 #include <Engine/include/tools.h>
 #include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -14,11 +15,14 @@ void Engine::Initialization() {
     height = sf::VideoMode::getDesktopMode().height;
     aspect = static_cast<double>(width) / height;
 
+    sf::ContextSettings settings(0, 0, 8, 1, 1, 0, false);
+    win_.create(sf::VideoMode(width, height), "Achilles", sf::Style::Fullscreen, settings);
+
     LoadObjTypes("resources/objectTypes.txt");
     LoadObjects("resources/objectMap.txt");
 }
 
-void Engine::LoadObjTypes(std::string path) {
+void Engine::LoadObjTypes(const std::string& path) {
     std::ifstream fin;
     fin.open(path);
     if (!(fin.is_open())) {
@@ -43,8 +47,9 @@ void Engine::LoadObjTypes(std::string path) {
     }
 }
 
-void Engine::LoadObjects(std::string path) {  // пока что, требование оптимизации: писать в файле
-                                              // объекты с одинаковыми названиями подряд
+void Engine::LoadObjects(
+    const std::string& path) {  // пока что, требование оптимизации: писать в файле
+    // объекты с одинаковыми названиями подряд
     std::ifstream fin;
     fin.open(path);
     if (!(fin.is_open())) {
@@ -75,12 +80,11 @@ void Engine::Stop() {
 }
 
 void Engine::RenderFrame() {
-    //win_.clear(sf::Color(0, 0, 0, 0));
+    win_.clear(sf::Color(0, 0, 0, 0));
     for (const auto& obj : objects_) {
-        
+        RenderObject(obj);
     }
 }
 
-void Engine::RenderObject(std::unique_ptr<Object> object) {
-
+void Engine::RenderObject(const std::unique_ptr<Object>& object) {
 }

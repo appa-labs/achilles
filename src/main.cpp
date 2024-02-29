@@ -2,8 +2,9 @@
 #include <libs/Engine/include/Engine.h>
 
 int main() {
-    Engine::Initialization();
-    Engine::RenderFrame();
+    Engine engine;
+    engine.Initialization();
+    engine.RenderFrame();
     //system("pause");
     return 0;
 }

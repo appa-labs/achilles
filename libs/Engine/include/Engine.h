@@ -1,6 +1,7 @@
 #pragma once
 #include <Engine/include/tools.h>
 #include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 #include <map>
 #include <memory>
 #include <string>
@@ -8,23 +9,19 @@
 
 class Engine {
    public:
-    static inline int height;
-    static inline int width;
-    static inline double aspect;
+    int height;
+    int width;
+    double aspect;
 
-    Engine() = delete;
-
-    static void Initialization();
-    static void LoadObjTypes(std::string path);
-    static void LoadObjects(std::string path);
-    static void Stop();
-    static void RenderFrame();
-    static void RenderObject(std::unique_ptr<Object> object);
+    void Initialization();
+    void LoadObjTypes(const std::string& path);
+    void LoadObjects(const std::string& path);
+    void Stop();
+    void RenderFrame();
+    void RenderObject(const std::unique_ptr<Object>& object);
 
    private:
-    static inline std::vector<std::unique_ptr<Object>> objects_;
-    static inline std::map<std::string, std::vector<line>> objtypes_;
-    // static sf::ContextSettings settings_(0, 0, 8, 1, 1, 0, false);
-    // static sf::RenderWindow win_(sf::VideoMode(width, height), "game", sf::Style::Fullscreen,
-    // settings);
+    std::vector<std::unique_ptr<Object>> objects_;
+    std::map<std::string, std::vector<line>> objtypes_;
+    sf::RenderWindow win_;
 };
