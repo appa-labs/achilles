@@ -1,5 +1,18 @@
 #include <Engine/include/tools.h>
 #include <cmath>
+#include <string>
+#include <utility>
+#include <vector>
+
+line line::move(vec vector) {
+    return line(d1 + vector, d2 + vector);
+}
+
+vec line::norm() {  // единичная нормаль к поверхности
+    double a = d1.y - d2.y, b = d2.x - d1.x;
+    vec no(a, b);
+    return no / no.length();
+}
 
 double Distance(vec p1, vec p2) {
     return std::sqrt((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y));
@@ -51,5 +64,12 @@ bool IsIntersect(line l1, line l2) {
 }
 
 void Object::move(vec vector) {
-    basepoint = basepoint + vector;
+    basepoint_ = basepoint_ + vector;
+}
+
+Object::Object(vec basepoint, std::vector<line> polygons) : basepoint_(basepoint) {
+    polygons_.reserve(polygons.size());
+    for (auto& line : polygons) {
+        polygons_.push_back(line.move(basepoint_));
+    }
 }

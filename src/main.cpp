@@ -3,5 +3,6 @@
 
 int main() {
     Engine::Initialization();
+    Engine::RenderFrame();
     return 0;
 }
