@@ -4,5 +4,6 @@
 int main() {
     Engine::Initialization();
     Engine::RenderFrame();
+    //system("pause");
     return 0;
 }
