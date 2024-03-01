@@ -75,6 +75,9 @@ bool IsIntersect(line l1, line l2) {
 
 void Object::move(vec vector) {
     basepoint_ = basepoint_ + vector;
+    for (auto& line : polygons_) {
+        line.move(vector);
+    }
 }
 
 Object::Object(vec basepoint, std::vector<line> polygons) : basepoint_(basepoint) {
