@@ -7,6 +7,8 @@
 #include <string>
 #include <vector>
 
+static inline const double PH_CONST_G = 9.81;
+
 class Engine {
    public:
     int height;

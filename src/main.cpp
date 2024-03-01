@@ -6,13 +6,13 @@ int main() {
     engine.Initialization();
 
     while (engine.window.isOpen()) {
+        engine.RenderFrame();
         sf::Event event;
         while (engine.window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
                 engine.window.close();
             }
         }
-        engine.RenderFrame();
     }
     return 0;
 }

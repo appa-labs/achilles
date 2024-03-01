@@ -76,14 +76,12 @@ bool IsIntersect(line l1, line l2);  // пересекаются ли отрезки
 /// для оптимизирования отрисовки); Содержит в себе набор полигонов (линий), позже добавим текстуру
 
 class Object {
-   private:
+   protected:
     friend class Engine;
     vec basepoint_;
     std::vector<line> polygons_;
 
    public:
-    void move(vec vector);
-
     explicit Object(std::vector<line> polygons) : basepoint_(0, 0), polygons_(std::move(polygons)) {
     }
 
@@ -92,3 +90,13 @@ class Object {
 
 // идея: хранить отдельно паттерны, типо название объекта и его полигоны (относительно basepoint). А
 // в списке текстур просто указывать название и basepoint. Load Надо будет еще поменять...
+
+class MoveableObject : public Object {
+   protected:
+    vec resultantForce_;
+    vec velocity_;
+    double mass_;
+
+   public:
+    void move(vec vector);
+};
