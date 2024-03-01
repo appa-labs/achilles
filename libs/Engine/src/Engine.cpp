@@ -113,5 +113,10 @@ void Engine::PhysicPerFrame() {
         vec& F = obj->resultantForce;
         double m = obj->mass;
         vec& vel = obj->velocity;
+
+        F = vec(0, -1 * m * PH_CONST_G);
+        vec a = F / m;
+        vel = vel + a * frametime;
+        obj->move(vel * frametime);
     }
 }

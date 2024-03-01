@@ -83,6 +83,6 @@ Object::Object(vec basepoint, std::vector<line> polygons) : basepoint_(basepoint
 void MoveableObject::move(vec vector) {
     basepoint_ = basepoint_ + vector;
     for (auto& line : polygons_) {
-        line.move(vector);
+        line = line.move(vector);
     }
 }
