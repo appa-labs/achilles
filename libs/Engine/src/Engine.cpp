@@ -101,8 +101,12 @@ void Engine::RenderFrame() {
 void Engine::RenderObject(const std::unique_ptr<Object>& object) {
     for (const auto& line : object->polygons_) {
         sf::Vertex vline[] = {
-          sf::Vertex(sf::Vector2f(line.d1.cord(width, height).x, line.d1.cord(width, height).y)),
-          sf::Vertex(sf::Vector2f(line.d2.cord(width, height).x, line.d2.cord(width, height).y))};
+          sf::Vertex(sf::Vector2f(
+              (object->basepoint_ + line.d1).cord(width, height).x,
+              (object->basepoint_ + line.d1).cord(width, height).y)),
+          sf::Vertex(sf::Vector2f(
+              (object->basepoint_ + line.d2).cord(width, height).x,
+              (object->basepoint_ + line.d2).cord(width, height).y))};
         window.draw(vline, 2, sf::Lines);
     }
 }
@@ -116,7 +120,6 @@ void Engine::PhysicsPerFrame() {
 
         F = vec(0, -1 * m * PH_CONST_G);
         for (const auto& coln : objects_) {
-            
         }
         for (const auto& coln : moveableObjects_) {
         }

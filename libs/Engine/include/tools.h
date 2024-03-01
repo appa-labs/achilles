@@ -22,27 +22,27 @@ class vec {
     vec(double _x, double _y) : x(_x), y(_y) {
     }
 
-    vec operator+(vec vect) {
+    vec operator+(vec vect) const {
         return vec(x + vect.x, y + vect.y);
     }
 
-    vec operator-(vec vect) {
+    vec operator-(vec vect) const {
         return vec(x - vect.x, y - vect.y);
     }
 
-    double operator*(vec vect) {
+    double operator*(vec vect) const {
         return x * vect.x + y * vect.y;
     }
 
-    vec operator*(double k) {
+    vec operator*(double k) const {
         return vec(x * k, y * k);
     }
 
-    vec operator/(double k) {
+    vec operator/(double k) const {
         return vec(x / k, y / k);
     }
 
-    double length() {
+    double length() const {
         return std::sqrt(x * x + y * y);
     }
 
@@ -58,8 +58,8 @@ class line {
 
     line(vec p1, vec p2) : d1(p1), d2(p2){};
 
-    line move(vec vector);
-    vec norm();  // единичная нормаль к поверхности
+    line move(vec vector) const;
+    vec norm() const;  // единичная нормаль к поверхности
 };
 
 // перегружаем одну функцию для всевозможных расстояний
@@ -94,10 +94,9 @@ class Object {
     std::vector<line> polygons_;
 
    public:
-    explicit Object(std::vector<line> polygons) : polygons_(std::move(polygons)) {
+    explicit Object(vec basepoint, const std::vector<line>& polygons)
+        : basepoint_(basepoint), polygons_(polygons) {
     }
-
-    explicit Object(vec basepoint, std::vector<line> polygons);
 
     virtual ~Object() = default;
 };
@@ -114,11 +113,11 @@ class MoveableObject : public Object {
    public:
     void move(vec vector);
 
-    explicit MoveableObject(vec basepoint, std::vector<line> polygons)
+    explicit MoveableObject(vec basepoint, const std::vector<line>& polygons)
         : Object(basepoint, polygons) {
     }
 
-    explicit MoveableObject(vec basepoint, std::vector<line> polygons, double m)
+    explicit MoveableObject(vec basepoint, const std::vector<line>& polygons, double m)
         : Object(basepoint, polygons), mass(m) {
     }
 };

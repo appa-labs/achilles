@@ -14,11 +14,11 @@ vec vec::anticord(int width, int height) const {  // обратное
     return {x * aspect * 2. / width - 1. * aspect, (-1 * y) * 2. / height + 1.};
 }
 
-line line::move(vec vector) {
+line line::move(vec vector) const {
     return line(d1 + vector, d2 + vector);
 }
 
-vec line::norm() {  // единичная нормаль к поверхности
+vec line::norm() const {  // единичная нормаль к поверхности
     double a = d1.y - d2.y, b = d2.x - d1.x;
     vec no(a, b);
     return no / no.length();
@@ -73,18 +73,8 @@ bool IsIntersect(line l1, line l2) {
     return (a1 >= 0 && b1 <= 0 || a1 <= 0 && b1 >= 0) && (a2 >= 0 && b2 <= 0 || a2 <= 0 && b2 >= 0);
 }
 
-Object::Object(vec basepoint, std::vector<line> polygons) : basepoint_(basepoint) {
-    polygons_.reserve(polygons.size());
-    for (auto& line : polygons) {
-        polygons_.push_back(line.move(basepoint_));
-    }
-}
-
 void MoveableObject::move(vec vector) {
     basepoint_ = basepoint_ + vector;
-    for (auto& line : polygons_) {
-        line = line.move(vector);
-    }
 }
 
 bool IsCollide(Object* first, Object* second) {
@@ -92,8 +82,9 @@ bool IsCollide(Object* first, Object* second) {
         return false;
     }
     for (const auto& line1 : first->polygons_) {
-        for (const auto line2 : second->polygons_) {
-            if (Distance(line1, line2) <= PH_CONST_COLLISION_PRES) {
+        for (const auto& line2 : second->polygons_) {
+            if (Distance(line1.move(first->basepoint_), line2.move(second->basepoint_)) <=
+                PH_CONST_COLLISION_PRES) {
                 return true;
             }
         }
