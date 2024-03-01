@@ -1,2 +1,2 @@
-test 0 -0.5
-player 0 0
+test 0 -0.5 s
+player 0 0 m

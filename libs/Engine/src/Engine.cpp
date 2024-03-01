@@ -71,7 +71,13 @@ void Engine::LoadObjects(
             cachename = name;
             vectorcache = objtypes_[name];
         }
-        objects_.push_back(std::make_unique<Object>(buf, vectorcache));
+        input >> inputbuffer;
+        if (inputbuffer == "m") {
+            moveableObjects_.push_back(std::make_unique<MoveableObject>(buf, vectorcache));
+        }
+        if (inputbuffer == "s") {
+            objects_.push_back(std::make_unique<Object>(buf, vectorcache));
+        }
     }
 }
 
@@ -84,6 +90,9 @@ void Engine::RenderFrame() {
     for (const auto& obj : objects_) {
         RenderObject(obj);
     }
+    for (const auto& obj : moveableObjects_) {
+        RenderObject(obj);
+    }
     window.display();
 }
 
@@ -94,4 +103,8 @@ void Engine::RenderObject(const std::unique_ptr<Object>& object) {
           sf::Vertex(sf::Vector2f(line.d2.cord(width, height).x, line.d2.cord(width, height).y))};
         window.draw(vline, 2, sf::Lines);
     }
+}
+
+void Engine::PhysicPerFrame() {
+
 }

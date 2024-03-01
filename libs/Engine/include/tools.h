@@ -10,9 +10,14 @@
 class vec {
    public:
     double x = 0, y = 0;
+
     // это и вектор, и точка, по сути. Просто понаписано всяких прикольных штук для удобства
 
-    vec(double _x, double _y) : x(_x), y(_y){};
+    vec() : x(0), y(0) {
+    }
+
+    vec(double _x, double _y) : x(_x), y(_y) {
+    }
 
     vec operator+(vec vect) {
         return vec(x + vect.x, y + vect.y);
@@ -82,10 +87,12 @@ class Object {
     std::vector<line> polygons_;
 
    public:
-    explicit Object(std::vector<line> polygons) : basepoint_(0, 0), polygons_(std::move(polygons)) {
+    explicit Object(std::vector<line> polygons) : polygons_(std::move(polygons)) {
     }
 
     explicit Object(vec basepoint, std::vector<line> polygons);
+
+    virtual ~Object() = default;
 };
 
 // идея: хранить отдельно паттерны, типо название объекта и его полигоны (относительно basepoint). А
@@ -99,4 +106,7 @@ class MoveableObject : public Object {
 
    public:
     void move(vec vector);
+
+    explicit MoveableObject(vec basepoint, std::vector<line> polygons) : Object(basepoint, polygons) {
+    }
 };

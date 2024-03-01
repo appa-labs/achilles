@@ -22,8 +22,10 @@ class Engine {
     void Stop();
     void RenderFrame();
     void RenderObject(const std::unique_ptr<Object>& object);
+    void PhysicPerFrame();
 
    private:
     std::vector<std::unique_ptr<Object>> objects_;
+    std::vector<std::unique_ptr<Object>> moveableObjects_;
     std::map<std::string, std::vector<line>> objtypes_;
 };
