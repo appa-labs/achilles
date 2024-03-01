@@ -14,7 +14,7 @@ int main() {
                 engine.window.close();
             }
         }
-        engine.PhysicPerFrame();
+        engine.PhysicsPerFrame();
         engine.RenderFrame();
         auto end = std::chrono::system_clock::now();
         engine.frametime =

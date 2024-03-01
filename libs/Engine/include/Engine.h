@@ -7,8 +7,6 @@
 #include <string>
 #include <vector>
 
-static inline const double PH_CONST_G = 9.81;
-
 class Engine {
    public:
     int height;
@@ -23,7 +21,7 @@ class Engine {
     void Stop();
     void RenderFrame();
     void RenderObject(const std::unique_ptr<Object>& object);
-    void PhysicPerFrame();
+    void PhysicsPerFrame();
 
    private:
     std::vector<std::unique_ptr<Object>> objects_;

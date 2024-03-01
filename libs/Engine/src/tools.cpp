@@ -86,3 +86,17 @@ void MoveableObject::move(vec vector) {
         line = line.move(vector);
     }
 }
+
+bool IsCollide(Object* first, Object* second) {
+    if (first == second) {
+        return false;
+    }
+    for (const auto& line1 : first->polygons_) {
+        for (const auto line2 : second->polygons_) {
+            if (Distance(line1, line2) <= PH_CONST_COLLISION_PRES) {
+                return true;
+            }
+        }
+    }
+    return false;
+}

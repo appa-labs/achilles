@@ -5,6 +5,9 @@
 #include <utility>
 #include <vector>
 
+extern inline const double PH_CONST_G = 9.81;
+extern inline const double PH_CONST_COLLISION_PRES = 0.3;
+
 /// немного структур с доп. функционалом
 
 class vec {
@@ -75,13 +78,17 @@ double Distance(
     line l1, line l2);  // рассто€ние от отрезка до отрезка (т.е минимальна€ длина отрезка, начало
                         // которого принадлежит первому отрезку, а конец - второму
 
-bool IsIntersect(line l1, line l2);  // пересекаютс€ ли отрезки
+bool IsIntersect(line l1, line l2);             // пересекаютс€ ли отрезки
+
+class Object;
+bool IsCollide(Object* first, Object* second);  // соудар€ютс€ ли объекты
 
 /// нова€ концепци€ - объект. —амое главное это его основна€ точка (по ней потом будем сортировать
 /// дл€ оптимизировани€ отрисовки); —одержит в себе набор полигонов (линий), позже добавим текстуру
 
 class Object {
    protected:
+    friend bool IsCollide(Object* first, Object* second);
     friend class Engine;
     vec basepoint_;
     std::vector<line> polygons_;

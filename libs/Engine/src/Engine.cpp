@@ -107,7 +107,7 @@ void Engine::RenderObject(const std::unique_ptr<Object>& object) {
     }
 }
 
-void Engine::PhysicPerFrame() {
+void Engine::PhysicsPerFrame() {
     for (auto& _obj : moveableObjects_) {
         auto obj = static_cast<MoveableObject*>(_obj.get());
         vec& F = obj->resultantForce;
@@ -115,6 +115,12 @@ void Engine::PhysicPerFrame() {
         vec& vel = obj->velocity;
 
         F = vec(0, -1 * m * PH_CONST_G);
+        for (const auto& coln : objects_) {
+            
+        }
+        for (const auto& coln : moveableObjects_) {
+        }
+
         vec a = F / m;
         vel = vel + a * frametime;
         obj->move(vel * frametime);
