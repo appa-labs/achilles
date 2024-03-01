@@ -15,6 +15,7 @@ class Engine {
     int width;
     double aspect;
     sf::RenderWindow window;
+    double frametime = 0;
 
     void Initialization();
     void LoadObjTypes(const std::string& path);

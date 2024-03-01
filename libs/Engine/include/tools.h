@@ -99,14 +99,19 @@ class Object {
 // в списке текстур просто указывать название и basepoint. Load Надо будет еще поменять...
 
 class MoveableObject : public Object {
-   protected:
-    vec resultantForce_;
-    vec velocity_;
-    double mass_;
+   public:
+    vec resultantForce;
+    vec velocity;
+    double mass = 1;
 
    public:
     void move(vec vector);
 
-    explicit MoveableObject(vec basepoint, std::vector<line> polygons) : Object(basepoint, polygons) {
+    explicit MoveableObject(vec basepoint, std::vector<line> polygons)
+        : Object(basepoint, polygons) {
+    }
+
+    explicit MoveableObject(vec basepoint, std::vector<line> polygons, double m)
+        : Object(basepoint, polygons), mass(m) {
     }
 };

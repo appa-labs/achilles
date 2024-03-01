@@ -73,7 +73,9 @@ void Engine::LoadObjects(
         }
         input >> inputbuffer;
         if (inputbuffer == "m") {
-            moveableObjects_.push_back(std::make_unique<MoveableObject>(buf, vectorcache));
+            double mass;
+            input >> mass;
+            moveableObjects_.push_back(std::make_unique<MoveableObject>(buf, vectorcache, mass));
         }
         if (inputbuffer == "s") {
             objects_.push_back(std::make_unique<Object>(buf, vectorcache));
@@ -106,5 +108,10 @@ void Engine::RenderObject(const std::unique_ptr<Object>& object) {
 }
 
 void Engine::PhysicPerFrame() {
-
+    for (auto& _obj : moveableObjects_) {
+        auto obj = static_cast<MoveableObject*>(_obj.get());
+        vec& F = obj->resultantForce;
+        double m = obj->mass;
+        vec& vel = obj->velocity;
+    }
 }
