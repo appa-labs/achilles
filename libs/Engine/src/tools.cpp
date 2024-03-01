@@ -78,10 +78,15 @@ void MoveableObject::move(const vec& vector) {
 }
 
 void MoveableObject::SumNormalForces(const vec& basepoint, const std::vector<line>& polygons) {
-    for (const auto& line1 : polygons_) {
-        for (const auto& line2 : polygons) {
-            if (Distance(line1.move(basepoint_), line2.move(basepoint)) <=
-                PH_CONST_COLLISION_PRES) {
+    if (basepoint == basepoint_ && polygons == polygons_) {
+        return;
+    }
+    for (auto line1 : polygons_) {
+        for (auto line2 : polygons) {
+            line1 = line1.move(basepoint_);
+            line2 = line2.move(basepoint);
+            if (Distance(line1, line2) <= PH_CONST_COLLISION_PRES) {
+                exit(-2);
             }
         }
     }

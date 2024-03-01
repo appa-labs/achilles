@@ -42,6 +42,10 @@ class vec {
         return vec(x / k, y / k);
     }
 
+    bool operator==(const vec& other) const {
+        return abs(x - other.x) <= 0.0001 && abs(y - other.y) <= 0.0001;
+    }
+
     double length() const {
         return std::sqrt(x * x + y * y);
     }
@@ -60,6 +64,10 @@ class line {
 
     line move(const vec& vector) const;
     vec norm() const;  // единична€ нормаль к поверхности
+
+    bool operator==(const line& other) const {
+        return d1 == other.d1 && d2 == other.d2;
+    }
 };
 
 // перегружаем одну функцию дл€ всевозможных рассто€ний
@@ -81,9 +89,6 @@ double Distance(const line& l1, const line& l2);  // рассто€ние от отрезка до от
 // которого принадлежит первому отрезку, а конец - второму
 
 bool IsIntersect(const line& l1, const line& l2);  // пересекаютс€ ли отрезки
-
-class Object;
-bool IsCollide(Object* first, Object* second);     // соудар€ютс€ ли объекты
 
 /// нова€ концепци€ - объект. —амое главное это его основна€ точка (по ней потом будем сортировать
 /// дл€ оптимизировани€ отрисовки); —одержит в себе набор полигонов (линий), позже добавим текстуру
