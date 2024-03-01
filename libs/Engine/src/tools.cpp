@@ -14,7 +14,7 @@ vec vec::anticord(int width, int height) const {  // обратное
     return {x * aspect * 2. / width - 1. * aspect, (-1 * y) * 2. / height + 1.};
 }
 
-line line::move(vec vector) const {
+line line::move(const vec& vector) const {
     return line(d1 + vector, d2 + vector);
 }
 
@@ -24,11 +24,11 @@ vec line::norm() const {  // единичная нормаль к поверхности
     return no / no.length();
 }
 
-double Distance(vec p1, vec p2) {
+double Distance(const vec& p1, const vec& p2) {
     return std::sqrt((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y));
 }
 
-double Distance(vec dot, line line) {
+double Distance(const vec& dot, const line& line) {
     if ((dot - line.d1) * (line.d2 - line.d1) < 0) {
         return (dot - line.d1).length();
     }
@@ -41,7 +41,7 @@ double Distance(vec dot, line line) {
     return abs(a * dot.x + b * dot.y + c) / sqrt(a * a + b * b);
 }
 
-double SignedDistance(vec dot, line line) {
+double SignedDistance(const vec& dot, const line& line) {
     if ((dot - line.d1) * (line.d2 - line.d1) < 0) {
         return (dot - line.d1).length();
     }
@@ -54,7 +54,7 @@ double SignedDistance(vec dot, line line) {
     return (a * dot.x + b * dot.y + c) / sqrt(a * a + b * b);
 }
 
-double Distance(line l1, line l2) {
+double Distance(const line& l1, const line& l2) {
     if (IsIntersect(l1, l2)) {
         return 0;
     }
@@ -63,7 +63,7 @@ double Distance(line l1, line l2) {
         std::max(Distance(l1.d2, l2), std::max(Distance(l2.d1, l1), Distance(l2.d2, l1))));
 }
 
-bool IsIntersect(line l1, line l2) {
+bool IsIntersect(const line& l1, const line& l2) {
     double a1 = SignedDistance(l1.d1, l2);
     double b1 = SignedDistance(l1.d2, l2);
 
@@ -73,21 +73,16 @@ bool IsIntersect(line l1, line l2) {
     return (a1 >= 0 && b1 <= 0 || a1 <= 0 && b1 >= 0) && (a2 >= 0 && b2 <= 0 || a2 <= 0 && b2 >= 0);
 }
 
-void MoveableObject::move(vec vector) {
+void MoveableObject::move(const vec& vector) {
     basepoint_ = basepoint_ + vector;
 }
 
-bool IsCollide(Object* first, Object* second) {
-    if (first == second) {
-        return false;
-    }
-    for (const auto& line1 : first->polygons_) {
-        for (const auto& line2 : second->polygons_) {
-            if (Distance(line1.move(first->basepoint_), line2.move(second->basepoint_)) <=
+void MoveableObject::SumNormalForces(const vec& basepoint, const std::vector<line>& polygons) {
+    for (const auto& line1 : polygons_) {
+        for (const auto& line2 : polygons) {
+            if (Distance(line1.move(basepoint_), line2.move(basepoint)) <=
                 PH_CONST_COLLISION_PRES) {
-                return true;
             }
         }
     }
-    return false;
 }

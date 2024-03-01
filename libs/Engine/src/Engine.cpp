@@ -81,6 +81,7 @@ void Engine::LoadObjects(
             objects_.push_back(std::make_unique<Object>(buf, vectorcache));
         }
     }
+    objtypes_.clear();  // оптимизация памяти, хоть какая то
 }
 
 void Engine::Stop() {
@@ -118,11 +119,15 @@ void Engine::PhysicsPerFrame() {
         double m = obj->mass;
         vec& vel = obj->velocity;
 
-        F = vec(0, -1 * m * PH_CONST_G);
+        F = vec(0, -1 * m * PH_CONST_G) + obj->magicForces;
         for (const auto& coln : objects_) {
+            obj->SumNormalForces(coln.get()->basepoint_, coln.get()->polygons_);
         }
         for (const auto& coln : moveableObjects_) {
+            obj->SumNormalForces(coln.get()->basepoint_, coln.get()->polygons_);
         }
+
+        obj->magicForces = vec(0, 0);
 
         vec a = F / m;
         vel = vel + a * frametime;

@@ -22,15 +22,15 @@ class vec {
     vec(double _x, double _y) : x(_x), y(_y) {
     }
 
-    vec operator+(vec vect) const {
+    vec operator+(const vec& vect) const {
         return vec(x + vect.x, y + vect.y);
     }
 
-    vec operator-(vec vect) const {
+    vec operator-(const vec& vect) const {
         return vec(x - vect.x, y - vect.y);
     }
 
-    double operator*(vec vect) const {
+    double operator*(const vec& vect) const {
         return x * vect.x + y * vect.y;
     }
 
@@ -56,45 +56,46 @@ class line {
     vec d1, d2;  // наш отрезочек тире текстура (ну а что, в три д у нас полигоны - часть плоскости,
                  // значит тут будет часть прямой - отрезок.
 
-    line(vec p1, vec p2) : d1(p1), d2(p2){};
+    line(const vec& p1, const vec& p2) : d1(p1), d2(p2){};
 
-    line move(vec vector) const;
+    line move(const vec& vector) const;
     vec norm() const;  // единичная нормаль к поверхности
 };
 
 // перегружаем одну функцию для всевозможных расстояний
 
-double Distance(vec p1, vec p2);
+double Distance(const vec& p1, const vec& p2);
 
-double Distance(vec dot, line line);  // расстояние от точки до отрезка
+double Distance(const vec& dot, const line& line);  // расстояние от точки до отрезка
 
-double SignedDistance(vec dot, line line);  // знаковое расстояние от точки до отрезка(прямой)
+double SignedDistance(
+    const vec& dot, const line& line);  // знаковое расстояние от точки до отрезка(прямой)
 
-inline double Distance(line line, vec dot) {
+inline double Distance(const line& line, const vec& dot) {
     return Distance(dot, line);
 }
 
-double Distance(
-    line l1, line l2);  // расстояние от отрезка до отрезка (т.е минимальная длина отрезка, начало
-                        // которого принадлежит первому отрезку, а конец - второму
+double Distance(const line& l1, const line& l2);  // расстояние от отрезка до отрезка (т.е
+                                                  // минимальная длина отрезка,
+// начало
+// которого принадлежит первому отрезку, а конец - второму
 
-bool IsIntersect(line l1, line l2);             // пересекаются ли отрезки
+bool IsIntersect(const line& l1, const line& l2);  // пересекаются ли отрезки
 
 class Object;
-bool IsCollide(Object* first, Object* second);  // соударяются ли объекты
+bool IsCollide(Object* first, Object* second);     // соударяются ли объекты
 
 /// новая концепция - объект. Самое главное это его основная точка (по ней потом будем сортировать
 /// для оптимизирования отрисовки); Содержит в себе набор полигонов (линий), позже добавим текстуру
 
 class Object {
    protected:
-    friend bool IsCollide(Object* first, Object* second);
     friend class Engine;
     vec basepoint_;
     std::vector<line> polygons_;
 
    public:
-    explicit Object(vec basepoint, const std::vector<line>& polygons)
+    explicit Object(const vec& basepoint, const std::vector<line>& polygons)
         : basepoint_(basepoint), polygons_(polygons) {
     }
 
@@ -109,15 +110,18 @@ class MoveableObject : public Object {
     vec resultantForce;
     vec velocity;
     double mass = 1;
+    vec magicForces;
 
    public:
-    void move(vec vector);
+    void move(const vec& vector);
 
-    explicit MoveableObject(vec basepoint, const std::vector<line>& polygons)
+    void SumNormalForces(const vec& basepoint, const std::vector<line>& polygons);
+
+    explicit MoveableObject(const vec& basepoint, const std::vector<line>& polygons)
         : Object(basepoint, polygons) {
     }
 
-    explicit MoveableObject(vec basepoint, const std::vector<line>& polygons, double m)
+    explicit MoveableObject(const vec& basepoint, const std::vector<line>& polygons, double m)
         : Object(basepoint, polygons), mass(m) {
     }
 };
