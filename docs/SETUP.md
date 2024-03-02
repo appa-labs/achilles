@@ -104,7 +104,7 @@ git config --local user.email "<твой email с github.com>"
 <details><summary><a>Если ReSharper показывает подсказки слишком
 мелкого шрифта:</a></summary>
  <br>Заходим в <mark style="background-color: LightBlue">Tools > Options > Environment > Fonts and Colors</mark>
-  и меняем шрифт для Statement Completion и Find Results Window, в графе show settings for.</br>
+  и меняем шрифт для Statement Completion и Editor tooltip, в графе show settings for.</br>
 </details>
 
 ## Отправка решения <a id='code'/>
