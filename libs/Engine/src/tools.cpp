@@ -66,6 +66,21 @@ bool IsIntersect(const line& l1, const line& l2) {
     return (a1 >= 0 && b1 <= 0 || a1 <= 0 && b1 >= 0) && (a2 >= 0 && b2 <= 0 || a2 <= 0 && b2 >= 0);
 }
 
+vec Proection(const vec& what, const line& axis) {
+    vec vaxis(axis.d1.x - axis.d2.x, axis.d1.y - axis.d2.y);
+    if (vaxis * what <= 0) {
+        vaxis = vaxis * (-1);
+    }
+    return vaxis / vaxis.length() * (vaxis * what) / vaxis.length() / what.length();
+}
+
+vec Proection(const vec& what, vec vaxis) {
+    if (vaxis * what <= 0) {
+        vaxis = vaxis * (-1);
+    }
+    return vaxis / vaxis.length() * (vaxis * what) / vaxis.length() / what.length();
+}
+
 void MoveableObject::move(const vec& vector) {
     basepoint_ = basepoint_ + vector;
 }
@@ -79,7 +94,10 @@ void MoveableObject::SumNormalForces(const vec& basepoint, const std::vector<lin
             line1 = line1.move(basepoint_);
             line2 = line2.move(basepoint);
             if (Distance(line1, line2) <= PH_CONST_COLLISION_PRES) {
-                exit(-2);
+                velocity = Proection(velocity, line2);
+                vec N = Proection(resultantForce, line2.norm()) * (-1);
+                vec Ffrict = velocity * N.length() * frictionCoef * (-1);
+                resultantForce = resultantForce + N + Ffrict;
             }
         }
     }

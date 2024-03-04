@@ -90,6 +90,10 @@ double Distance(const line& l1, const line& l2);  // расстояние от отрезка до от
 
 bool IsIntersect(const line& l1, const line& l2);  // пересекаются ли отрезки
 
+vec Proection(const vec& what, const line& axis);
+
+vec Proection(const vec& what, vec vaxis);
+
 /// новая концепция - объект. Самое главное это его основная точка (по ней потом будем сортировать
 /// для оптимизирования отрисовки); Содержит в себе набор полигонов (линий), позже добавим текстуру
 
@@ -114,8 +118,9 @@ class MoveableObject : public Object {
    public:
     vec resultantForce;
     vec velocity;
-    double mass = 1;
+    double mass = 0;
     vec magicForces;
+    double frictionCoef = 0;
 
    public:
     void move(const vec& vector);

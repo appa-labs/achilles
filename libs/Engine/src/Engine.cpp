@@ -130,7 +130,7 @@ void Engine::PhysicsPerFrame() {
         obj->magicForces = vec(0, 0);
 
         vec a = F / m;
-        vel = vel + a * frametime;
-        obj->move(vel * frametime);
+        vel = vel + a * frametime / 10;
+        obj->move(vel * frametime / 10);
     }
 }
