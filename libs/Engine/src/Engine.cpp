@@ -1,5 +1,6 @@
 #include <Engine/include/Engine.h>
 #include <Engine/include/tools.h>
+#include <Engine/include/debug.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <fstream>
@@ -132,5 +133,21 @@ void Engine::PhysicsPerFrame() {
         vec a = F / m;
         vel = vel + a * frametime / 10;
         obj->move(vel * frametime / 10);
+    }
+}
+
+// [debug]
+void Engine::RenderCollider(const std::unique_ptr<Object>& object) {
+    sf::Color white = {255, 255, 255};
+    for (const auto& line : object->polygons_) {
+    ColliderShape collider;
+    collider.setFillColor(white);
+    collider.setRadius(10);
+    collider.setPoints({sf::Vector2f((object->basepoint_ + line.d1).cord(width, height).x,
+                        (object->basepoint_ + line.d1).cord(width, height).y),sf::Vector2f(
+                        (object->basepoint_ + line.d2).cord(width, height).x,
+                        (object->basepoint_ + line.d2).cord(width, height).y)});
+        
+        window.draw(collider);
     }
 }
