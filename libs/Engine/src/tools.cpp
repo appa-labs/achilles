@@ -42,13 +42,6 @@ double Distance(const vec& dot, const line& line) {
 }
 
 double SignedDistance(const vec& dot, const line& line) {
-    if ((dot - line.d1) * (line.d2 - line.d1) < 0) {
-        return (dot - line.d1).length();
-    }
-    if ((dot - line.d2) * (line.d1 - line.d2) < 0) {
-        return (dot - line.d2).length();
-    }
-
     double a = line.d1.y - line.d2.y, b = line.d2.x - line.d1.x,
            c = line.d1.x * line.d2.y - line.d2.x * line.d1.y;
     return (a * dot.x + b * dot.y + c) / sqrt(a * a + b * b);
@@ -81,8 +74,8 @@ void MoveableObject::SumNormalForces(const vec& basepoint, const std::vector<lin
     if (basepoint == basepoint_ && polygons == polygons_) {
         return;
     }
-    for (auto line1 : polygons_) {
-        for (auto line2 : polygons) {
+    for (line line1 : polygons_) {
+        for (line line2 : polygons) {
             line1 = line1.move(basepoint_);
             line2 = line2.move(basepoint);
             if (Distance(line1, line2) <= PH_CONST_COLLISION_PRES) {
