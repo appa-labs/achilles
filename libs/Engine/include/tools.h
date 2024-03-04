@@ -6,7 +6,7 @@
 #include <vector>
 
 extern inline const double PH_CONST_G = 9.81;
-extern inline const double PH_CONST_COLLISION_PRES = 0.3;
+extern inline const double PH_CONST_COLLISION_PRES = 0.15;
 
 /// немного структур с доп. функционалом
 
