@@ -44,16 +44,16 @@ double Distance(const vec& dot, const line& line) {
 double SignedDistance(const vec& dot, const line& line) {
     double a = line.d1.y - line.d2.y, b = line.d2.x - line.d1.x,
            c = line.d1.x * line.d2.y - line.d2.x * line.d1.y;
-    return (a * dot.x + b * dot.y + c) / sqrt(a * a + b * b);
+    return (a * dot.x + b * dot.y + c) / std::sqrt(a * a + b * b);
 }
 
 double Distance(const line& l1, const line& l2) {
     if (IsIntersect(l1, l2)) {
         return 0;
     }
-    return std::max(
+    return std::min(
         Distance(l1.d1, l2),
-        std::max(Distance(l1.d2, l2), std::max(Distance(l2.d1, l1), Distance(l2.d2, l1))));
+        std::min(Distance(l1.d2, l2), std::min(Distance(l2.d1, l1), Distance(l2.d2, l1))));
 }
 
 bool IsIntersect(const line& l1, const line& l2) {
@@ -85,20 +85,26 @@ void MoveableObject::move(const vec& vector) {
     basepoint_ = basepoint_ + vector;
 }
 
-void MoveableObject::SumNormalForces(const vec& basepoint, const std::vector<line>& polygons) {
-    if (basepoint == basepoint_ && polygons == polygons_) {
+ #include <fstream>
+ extern std::ofstream fout("test.txt");
+
+void MoveableObject::SumNormalForces(Object* obj) {
+    if (this == obj) {
         return;
     }
     for (line line1 : polygons_) {
-        for (line line2 : polygons) {
+        for (line line2 : obj->polygons_) {
             line1 = line1.move(basepoint_);
-            line2 = line2.move(basepoint);
-            if (Distance(line1, line2) <= PH_CONST_COLLISION_PRES) {
-                velocity = Proection(velocity, line2);
+            line2 = line2.move(obj->basepoint_);
+            fout << Distance(line1, line2) << " ";
+            if (Distance(line1, line2) == 0 /*Distance(line1, line2) <= PH_CONST_COLLISION_PRES*/) {
+                exit(-2);
+                /*velocity = Proection(velocity, line2);
                 vec N = Proection(resultantForce, line2.norm()) * (-1);
                 vec Ffrict = velocity * N.length() * frictionCoef * (-1);
-                resultantForce = resultantForce + N + Ffrict;
+                resultantForce = resultantForce + N + Ffrict;*/
             }
         }
     }
+    fout << std::endl;
 }

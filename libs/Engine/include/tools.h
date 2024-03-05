@@ -98,7 +98,7 @@ vec Proection(const vec& what, vec vaxis);
 /// для оптимизирования отрисовки); Содержит в себе набор полигонов (линий), позже добавим текстуру
 
 class Object {
-   protected:
+   public:  // пока так, костыль, потом изменить
     friend class Engine;
     vec basepoint_;
     std::vector<line> polygons_;
@@ -125,7 +125,7 @@ class MoveableObject : public Object {
    public:
     void move(const vec& vector);
 
-    void SumNormalForces(const vec& basepoint, const std::vector<line>& polygons);
+    void SumNormalForces(Object* obj);
 
     explicit MoveableObject(const vec& basepoint, const std::vector<line>& polygons)
         : Object(basepoint, polygons) {
