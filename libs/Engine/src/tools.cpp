@@ -25,7 +25,7 @@ vec line::norm() const {  // единичная нормаль к поверхности
 }
 
 double Distance(const vec& p1, const vec& p2) {
-    return std::sqrt((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y));
+    return sqrt((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y));
 }
 
 double Distance(const vec& dot, const line& line) {
@@ -44,7 +44,7 @@ double Distance(const vec& dot, const line& line) {
 double SignedDistance(const vec& dot, const line& line) {
     double a = line.d1.y - line.d2.y, b = line.d2.x - line.d1.x,
            c = line.d1.x * line.d2.y - line.d2.x * line.d1.y;
-    return (a * dot.x + b * dot.y + c) / std::sqrt(a * a + b * b);
+    return (a * dot.x + b * dot.y + c) / sqrt(a * a + b * b);
 }
 
 double Distance(const line& l1, const line& l2) {
@@ -85,8 +85,8 @@ void MoveableObject::move(const vec& vector) {
     basepoint_ = basepoint_ + vector;
 }
 
- #include <fstream>
- extern std::ofstream fout("test.txt");
+#include <fstream>
+extern std::ofstream fout("test.txt");
 
 void MoveableObject::SumNormalForces(Object* obj) {
     if (this == obj) {

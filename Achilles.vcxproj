@@ -19,10 +19,12 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="libs\Engine\include\debug.h" />
     <ClInclude Include="libs\Engine\include\Engine.h" />
     <ClInclude Include="libs\Engine\include\tools.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="libs\Engine\src\debug.cpp" />
     <ClCompile Include="libs\Engine\src\Engine.cpp" />
     <ClCompile Include="libs\Engine\src\tools.cpp" />
     <ClCompile Include="src\main.cpp" />

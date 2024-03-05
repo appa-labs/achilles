@@ -22,6 +22,7 @@ class Engine {
     void RenderFrame();
     void RenderObject(const std::unique_ptr<Object>& object);
     void PhysicsPerFrame();
+    void RenderCollider(const std::unique_ptr<Object>& object);
 
    private:
     std::vector<std::unique_ptr<Object>> objects_;
