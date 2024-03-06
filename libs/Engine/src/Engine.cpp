@@ -137,6 +137,29 @@ void Engine::PhysicsPerFrame() {
     }
 }
 
+void Engine::CharacterJump() {
+    auto player = static_cast<MoveableObject*>(moveableObjects_[0].get());
+    player->magicForces = vec(0, 3000);
+}
+
+void Engine::CharacterLeft() {
+    auto player = static_cast<MoveableObject*>(moveableObjects_[0].get());
+    player->magicForces = vec(-300, 0);
+}
+
+void Engine::CharacterRight() {
+    auto player = static_cast<MoveableObject*>(moveableObjects_[0].get());
+    player->magicForces = vec(300, 0);
+}
+
+void Engine::Restart() {
+    auto player = static_cast<MoveableObject*>(moveableObjects_[0].get());
+    player->basepoint_ = vec(0, 0);
+    player->magicForces = vec(0, 0);
+    player->velocity = vec(0, 0);
+    player->resultantForce = vec(0, 0);
+}
+
 // [debug]
 void Engine::RenderCollider(const std::unique_ptr<Object>& object) {
     sf::Color white = {255, 255, 255};
