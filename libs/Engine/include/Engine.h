@@ -24,6 +24,11 @@ class Engine {
     void PhysicsPerFrame();
     void RenderCollider(const std::unique_ptr<Object>& object);
 
+    void CharacterJump();
+    void CharacterLeft();
+    void CharacterRight();
+    void Restart();
+
    private:
     std::vector<std::unique_ptr<Object>> objects_;
     std::vector<std::unique_ptr<Object>> moveableObjects_;

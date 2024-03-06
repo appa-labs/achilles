@@ -96,6 +96,9 @@ void MoveableObject::SumNormalForces(Object* obj) {
             if (Distance(line1, line2) <= PH_CONST_COLLISION_PRES) {
                 velocity = Proection(velocity, line2);
                 vec N = Proection(resultantForce, line2.norm()) * (-1);
+                if (N * (basepoint_ - line2.d1) <= 0) {
+                    continue;
+                }
                 vec Ffrict = velocity * N.length() * frictionCoef * (-1);
                 resultantForce = resultantForce + N + Ffrict;
             }

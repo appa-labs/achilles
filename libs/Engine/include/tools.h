@@ -118,9 +118,9 @@ class MoveableObject : public Object {
    public:
     vec resultantForce;
     vec velocity;
-    double mass = 0;
     vec magicForces;
-    double frictionCoef = 0;
+    double mass = 0;
+    double frictionCoef = 0.5;
 
    public:
     void move(const vec& vector);

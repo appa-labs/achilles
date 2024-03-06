@@ -13,6 +13,25 @@ int main() {
             if (event.type == sf::Event::Closed) {
                 engine.window.close();
             }
+            if (event.type == sf::Event::KeyPressed) {
+                switch (event.key.code) {
+                    case sf::Keyboard::Escape:
+                        engine.Stop();
+                        break;
+                    case sf::Keyboard::Space:
+                        engine.CharacterJump();
+                        break;
+                    case sf::Keyboard::A:
+                        engine.CharacterLeft();
+                        break;
+                    case sf::Keyboard::D:
+                        engine.CharacterRight();
+                        break;
+                    case sf::Keyboard::R:
+                        engine.Restart();
+                        break;
+                }
+            }
         }
         engine.PhysicsPerFrame();
         engine.RenderFrame();
