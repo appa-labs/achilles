@@ -21,9 +21,6 @@
     <ClInclude Include="libs\Engine\include\tools.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="libs\Engine\include\debug.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\main.cpp">
@@ -33,9 +30,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="libs\Engine\src\tools.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="libs\Engine\src\debug.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

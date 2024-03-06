@@ -85,28 +85,22 @@ void MoveableObject::move(const vec& vector) {
     basepoint_ = basepoint_ + vector;
 }
 
-#include <fstream>
-extern std::ofstream fout("test.txt");
-
 void MoveableObject::SumNormalForces(Object* obj) {
     if (this == obj) {
         return;
     }
     for (line line1 : polygons_) {
+        line1 = line1.move(basepoint_);
         for (line line2 : obj->polygons_) {
-            line1 = line1.move(basepoint_);
             line2 = line2.move(obj->basepoint_);
-            fout << Distance(line1, line2) << " ";
-            if (Distance(line1, line2) == 0 /*Distance(line1, line2) <= PH_CONST_COLLISION_PRES*/) {
-                exit(-2);
-                /*velocity = Proection(velocity, line2);
+            if (Distance(line1, line2) <= PH_CONST_COLLISION_PRES) {
+                velocity = Proection(velocity, line2);
                 vec N = Proection(resultantForce, line2.norm()) * (-1);
                 vec Ffrict = velocity * N.length() * frictionCoef * (-1);
-                resultantForce = resultantForce + N + Ffrict;*/
+                resultantForce = resultantForce + N + Ffrict;
             }
         }
     }
-    fout << std::endl;
 }
 
 void ColliderShape::setPoints(const std::pair<sf::Vector2f, sf::Vector2f>& points) {
