@@ -23,7 +23,7 @@ class Engine {
     void RenderObject(const std::unique_ptr<Object>& object);
     void PhysicsPerFrame();
     void RenderCollider(const std::unique_ptr<Object>& object);
-    void ColliderPrint(const line& l);
+    void PrintCollider(const line& l);
 
     void CharacterJump();
     void CharacterLeft();

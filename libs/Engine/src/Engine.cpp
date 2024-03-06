@@ -96,7 +96,7 @@ void Engine::RenderFrame() {
     for (const auto& obj : moveableObjects_) {
         RenderObject(obj);
         // RenderCollider(obj);
-        ColliderPrint(obj->polygons_[0].move(obj->basepoint_ - vec(PH_CONST_COLLISION_PRES, -PH_CONST_COLLISION_PRES)));
+        PrintCollider(obj->polygons_[0].move(obj->basepoint_ - vec(PH_CONST_COLLISION_PRES, -PH_CONST_COLLISION_PRES)));
     }
     window.display();
 }
@@ -179,18 +179,20 @@ void Engine::RenderCollider(const std::unique_ptr<Object>& object) {
     }
 }
 
-void Engine::ColliderPrint(const line& l) {
+void Engine::PrintCollider(const line& l) {
+    auto white = sf::Color(255, 255, 255);
+
     sf::CircleShape circle1(PH_CONST_COLLISION_PRES / 2 * height); 
-    circle1.setFillColor(sf::Color(255, 255, 255));
+    circle1.setFillColor(white);
     circle1.move(l.d1.cord(width, height).x, l.d1.cord(width, height).y);
 
     sf::CircleShape circle2(PH_CONST_COLLISION_PRES / 2 * height);
-    circle2.setFillColor(sf::Color(255, 255, 255));
+    circle2.setFillColor(white);
     circle2.move(l.d2.cord(width, height).x, l.d2.cord(width, height).y);
 
-    sf::RectangleShape rect((sf::Vector2f(PH_CONST_COLLISION_PRES * height, 0.3 / 2 * height))); //прямоугольник задается размером
-    rect.setFillColor(sf::Color(255, 255, 255));
-    rect.move(l.d1.cord(width, height).x, (l.d1 - vec(0, PH_CONST_COLLISION_PRES)).cord(width, height).y); //смещается относительно левой верхней точки
+    sf::RectangleShape rect((sf::Vector2f(PH_CONST_COLLISION_PRES * height, 0.3 / 2 * height))); //the rectangle is specified by the size
+    rect.setFillColor(white);
+    rect.move(l.d1.cord(width, height).x, (l.d1 - vec(0, PH_CONST_COLLISION_PRES)).cord(width, height).y); //shifted relative to the top left point
     
     window.draw(circle1);
     window.draw(circle2);
