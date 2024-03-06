@@ -71,14 +71,14 @@ vec Proection(const vec& what, const line& axis) {
     if (vaxis * what <= 0) {
         vaxis = vaxis * (-1);
     }
-    return vaxis / vaxis.length() * (vaxis * what) / vaxis.length() / what.length();
+    return vaxis / vaxis.length() * (vaxis * what) / vaxis.length();
 }
 
 vec Proection(const vec& what, vec vaxis) {
     if (vaxis * what <= 0) {
         vaxis = vaxis * (-1);
     }
-    return vaxis / vaxis.length() * (vaxis * what) / vaxis.length() / what.length();
+    return vaxis / vaxis.length() * (vaxis * what) / vaxis.length();
 }
 
 void MoveableObject::move(const vec& vector) {
