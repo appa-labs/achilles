@@ -120,7 +120,7 @@ class MoveableObject : public Object {
     vec velocity;
     vec magicForces;
     double mass = 0;
-    double frictionCoef = 0.5;
+    double frictionCoef = 1;
 
    public:
     void move(const vec& vector);
