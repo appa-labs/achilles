@@ -94,14 +94,13 @@ void MoveableObject::SumNormalForces(Object* obj) {
         for (line line2 : obj->polygons_) {
             line2 = line2.move(obj->basepoint_);
             if (Distance(line1, line2) <= PH_CONST_COLLISION_PRES) {
-                vec N = Proection(resultantForce, line2.norm()) * (-1);
-                if (N * (basepoint_ - line2.d1) <= 0) {
+                if (Proection(velocity, line2.norm()) * (basepoint_ - line2.d1) >= 0) {
                     continue;
                 }
-                velocity = Proection(velocity, line2);
+                vec N = Proection(resultantForce, line2.norm()) * (-1);
                 vec Ffrict = velocity * N.length() * frictionCoef * (-1);
                 resultantForce = resultantForce + N + Ffrict;
-                /*velocity = Proection(velocity, line2);*/
+                velocity = Proection(velocity, line2);
             }
         }
     }
