@@ -98,9 +98,10 @@ void MoveableObject::SumNormalForces(Object* obj) {
                 if (N * (basepoint_ - line2.d1) <= 0) {
                     continue;
                 }
+                velocity = Proection(velocity, line2);
                 vec Ffrict = velocity * N.length() * frictionCoef * (-1);
                 resultantForce = resultantForce + N + Ffrict;
-                velocity = Proection(velocity, line2);
+                /*velocity = Proection(velocity, line2);*/
             }
         }
     }

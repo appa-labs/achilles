@@ -97,7 +97,7 @@ void Engine::RenderFrame() {
     for (const auto& obj : moveableObjects_) {
         RenderObject(obj);
         // RenderCollider(obj);
-        PrintCollider(obj->polygons_[0].move(obj->basepoint_ - vec(PH_CONST_COLLISION_PRES, -PH_CONST_COLLISION_PRES)));
+        PrintCollider(obj);
     }
     window.display();
 }
@@ -180,10 +180,12 @@ void Engine::RenderCollider(const std::unique_ptr<Object>& object) {
     }
 }
 
-void Engine::PrintCollider(const line& l) {
+void Engine::PrintCollider(const std::unique_ptr<Object>& obj) {
+    line l = obj->polygons_[0];
+    l = l.move(obj->basepoint_ - vec(PH_CONST_COLLISION_PRES, -PH_CONST_COLLISION_PRES));
     auto white = sf::Color(255, 255, 255);
 
-    sf::CircleShape circle1(PH_CONST_COLLISION_PRES / 2 * height); 
+    sf::CircleShape circle1(PH_CONST_COLLISION_PRES / 2 * height);
     circle1.setFillColor(white);
     circle1.move(l.d1.cord(width, height).x, l.d1.cord(width, height).y);
 
@@ -191,10 +193,15 @@ void Engine::PrintCollider(const line& l) {
     circle2.setFillColor(white);
     circle2.move(l.d2.cord(width, height).x, l.d2.cord(width, height).y);
 
-    sf::RectangleShape rect((sf::Vector2f(PH_CONST_COLLISION_PRES * height, 0.3 / 2 * height))); //the rectangle is specified by the size
+    sf::RectangleShape rect(sf::Vector2f(
+        PH_CONST_COLLISION_PRES * height,
+        0.3 / 2 * height));  // the rectangle is specified by the size
     rect.setFillColor(white);
-    rect.move(l.d1.cord(width, height).x, (l.d1 - vec(0, PH_CONST_COLLISION_PRES)).cord(width, height).y); //shifted relative to the top left point
-    
+    rect.move(
+        l.d1.cord(width, height).x, (l.d1 - vec(0, PH_CONST_COLLISION_PRES))
+                                        .cord(width, height)
+                                        .y);  // shifted relative to the top left point
+
     window.draw(circle1);
     window.draw(circle2);
     window.draw(rect);
