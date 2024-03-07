@@ -17,6 +17,7 @@ void Engine::Initialization() {
 
     sf::ContextSettings settings(0, 0, 8, 1, 1, 0, false);
     window.create(sf::VideoMode(width, height), "Achilles", sf::Style::Fullscreen, settings);
+    window.setMouseCursorVisible(false);
 
     LoadObjTypes("resources/objectTypes.txt");
     LoadObjects("resources/objectMap.txt");
