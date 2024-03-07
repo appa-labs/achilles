@@ -441,6 +441,5 @@ FodyWeavers.xsd
 
 # VS auto-generated debug inf
 /Achilles
-/x64/Debug/*.pdb
-/x64/Release/*.pdb
+/x64
 *.recipe
