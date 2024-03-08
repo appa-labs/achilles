@@ -1,4 +1,5 @@
 #pragma once
+
 #include <Engine/include/tools.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -7,6 +8,14 @@
 #include <string>
 #include <vector>
 
+// ----------------------------------------------------------------------
+// Engine
+// ----------------------------------------------------------------------
+// Класс Engine выступает в роли объекта игры(приложения). Содержит
+// методы инициализации: initialization(), loadObjTypes(..), ...; методы
+// рендера: renderFrame(), renderObject(..), ...; контроля состояния
+// приложения stop(), restart() и движения игрока: characterJump(),
+// characterLeft().
 class Engine {
    public:
     int height;
@@ -15,20 +24,19 @@ class Engine {
     sf::RenderWindow window;
     double frametime = 0;
 
-    void Initialization();
-    void LoadObjTypes(const std::string& path);
-    void LoadObjects(const std::string& path);
-    void Stop();
-    void RenderFrame();
-    void RenderObject(const std::unique_ptr<Object>& object);
-    void PhysicsPerFrame();
-    void RenderCollider(const std::unique_ptr<Object>& object);
-    void PrintCollider(const std::unique_ptr<Object>& obj);
+    void initialization();
+    void loadObjTypes(const std::string& path); // TODO: add AssetManager
+    void loadObjects(const std::string& path);
+    void stop();
+    void renderFrame();
+    void renderObject(const std::unique_ptr<Object>& object);
+    void physicsPerFrame();
+    void drawCollider(const std::unique_ptr<Object>& obj);
 
-    void CharacterJump();
-    void CharacterLeft();
-    void CharacterRight();
-    void Restart();
+    void characterJump();
+    void characterLeft();
+    void characterRight();
+    void restart();
 
    private:
     std::vector<std::unique_ptr<Object>> objects_;

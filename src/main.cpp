@@ -4,7 +4,7 @@
 
 int main() {
     Engine engine;
-    engine.Initialization();
+    engine.initialization();
 
     while (engine.window.isOpen()) {
         auto start = std::chrono::system_clock::now();
@@ -16,25 +16,25 @@ int main() {
             if (event.type == sf::Event::KeyPressed) {
                 switch (event.key.code) {
                     case sf::Keyboard::Escape:
-                        engine.Stop();
+                        engine.stop();
                         break;
                     case sf::Keyboard::Space:
-                        engine.CharacterJump();
+                        engine.characterJump();
                         break;
                     case sf::Keyboard::A:
-                        engine.CharacterLeft();
+                        engine.characterLeft();
                         break;
                     case sf::Keyboard::D:
-                        engine.CharacterRight();
+                        engine.characterRight();
                         break;
                     case sf::Keyboard::R:
-                        engine.Restart();
+                        engine.restart();
                         break;
                 }
             }
         }
-        engine.PhysicsPerFrame();
-        engine.RenderFrame();
+        engine.physicsPerFrame();
+        engine.renderFrame();
         auto end = std::chrono::system_clock::now();
         engine.frametime =
             std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() / 1000.;

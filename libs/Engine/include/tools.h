@@ -2,25 +2,25 @@
 
 #include <SFML/Graphics.hpp>
 #include <cmath>
-#include <string>
-#include <utility>
 #include <vector>
+
 extern inline const double PH_CONST_G = 9.81;
 extern inline const double PH_CONST_COLLISION_PRES = 0.05;
 
-/// немного структур с доп. функционалом
-
+// ----------------------------------------------------------------------
+// vec
+// ----------------------------------------------------------------------
+// Класс vec выступает в роли вектора и точки. Для преобразования в
+// координаты sfml используется метод cord(int width, int height) и метод
+// anticord(int width, int height) - обратно.
 class vec {
    public:
-    double x = 0, y = 0;
+    double x = 0;
+    double y = 0;
 
-    // это и вектор, и точка, по сути. Просто понаписано всяких прикольных штук для удобства
+    vec() : x(0), y(0) {};
 
-    vec() : x(0), y(0) {
-    }
-
-    vec(double _x, double _y) : x(_x), y(_y) {
-    }
+    vec(double _x, double _y) : x(_x), y(_y) {};
 
     vec operator+(const vec& vect) const {
         return vec(x + vect.x, y + vect.y);
@@ -50,70 +50,84 @@ class vec {
         return std::sqrt(x * x + y * y);
     }
 
-    vec cord(int width, int height) const;  // преобразование из моих координат в сфмл
+    vec cord(int width, int height) const;  // convert cords to sfml
 
-    vec anticord(int width, int height) const;  // обратное
+    vec anticord(int width, int height) const;  // convert back
 };
 
+// ----------------------------------------------------------------------
+// line
+// ----------------------------------------------------------------------
+// Класс line выступает в роли отрезка. Хранит точки концов. Метод norm()
+// возвращает вектор еденичной нормали к отрезку.
 class line {
    public:
-    vec d1, d2;  // наш отрезочек тире текстура (ну а что, в три д у нас полигоны - часть плоскости,
-                 // значит тут будет часть прямой - отрезок.
+    vec p1, p2; // end points of a segment
 
-    line(const vec& p1, const vec& p2) : d1(p1), d2(p2){};
+    line(const vec& point1, const vec& point2) : p1(point1), p2(point2){};
 
     line move(const vec& vector) const;
-    vec norm() const;  // единичная нормаль к поверхности
+
+    vec norm() const;  // единичная нормаль к отрезку/прямой
 
     bool operator==(const line& other) const {
-        return d1 == other.d1 && d2 == other.d2;
+        return p1 == other.p1 && p2 == other.p2;
     }
 };
 
-// перегружаем одну функцию для всевозможных расстояний
-
+// Расстояние между двумя точками
 double Distance(const vec& p1, const vec& p2);
 
-double Distance(const vec& dot, const line& line);  // расстояние от точки до отрезка
+// Расстояние между прямой(отрезком) и точкой
+double Distance(const vec& point, const line& segment);
 
-double SignedDistance(
-    const vec& dot, const line& line);  // знаковое расстояние от точки до отрезка(прямой)
-
-inline double Distance(const line& line, const vec& dot) {
-    return Distance(dot, line);
+// Вторая перегрузка
+inline double Distance(const line& segment, const vec& point) {
+    return Distance(point, segment);
 }
 
-double Distance(const line& l1, const line& l2);  // расстояние от отрезка до отрезка (т.е
-                                                  // минимальная длина отрезка,
-// начало
-// которого принадлежит первому отрезку, а конец - второму
+// Знаковое расстояние от точки до отрезка(прямой)
+double SignedDistance(const vec& point, const line& segment);
 
-bool IsIntersect(const line& l1, const line& l2);  // пересекаются ли отрезки
+// Расстояние от отрезка до отрезка (т.е минимальная длинна отрезка, начало которого
+// принадлежит одному отрезку, конец другому)
+double Distance(const line& l1, const line& l2);  
 
-vec Proection(const vec& what, const line& axis);
+// Пересекаются ли отрезки
+bool IsIntersect(const line& l1, const line& l2);  
 
-vec Proection(const vec& what, vec vaxis);
+vec Projection(const vec& v, const line& axis);
 
-/// новая концепция - объект. Самое главное это его основная точка (по ней потом будем сортировать
-/// для оптимизирования отрисовки); Содержит в себе набор полигонов (линий), позже добавим текстуру
+vec Projection(const vec& v, vec axis);
 
+// ----------------------------------------------------------------------
+// Object
+// ----------------------------------------------------------------------
+// Класс Object выступает в роли объекта для рендера (новая концепция).
+// Хранит координаты basepoint'a (аналог центра, по нему будем
+// сортировать объекты). Также содержит в себе набор полигонов (линий) -
+// polygons, позже добавим текстуру.
 class Object {
-   public:  // пока так, костыль, потом изменить
+   public:  // TODO (later): change visability for members - bpoint & polygons 
     friend class Engine;
-    vec basepoint_;
-    std::vector<line> polygons_;
 
-   public:
-    explicit Object(const vec& basepoint, const std::vector<line>& polygons)
-        : basepoint_(basepoint), polygons_(polygons) {
+    explicit Object(const vec& _basepoint, const std::vector<line>& _polygons)
+        : basepoint(_basepoint), polygons(_polygons) {
     }
 
     virtual ~Object() = default;
+
+    vec basepoint;
+    std::vector<line> polygons;
 };
 
-// идея: хранить отдельно паттерны, типо название объекта и его полигоны (относительно basepoint). А
-// в списке текстур просто указывать название и basepoint. Load Надо будет еще поменять...
-
+// ----------------------------------------------------------------------
+// MoveableObject
+// ----------------------------------------------------------------------
+// Класс MoveableObject выступает в роли объекта для рендера, способного
+// к движегию. Наследик класса Object. Хранит поля необходимые для
+// вычисления физики: resultantForce, velocity, magicForces, mass,
+// frictionCoef. Метод move(vector) сдвигает basepoint на вектор vector.
 class MoveableObject : public Object {
    public:
     vec resultantForce;
@@ -134,44 +148,4 @@ class MoveableObject : public Object {
     explicit MoveableObject(const vec& basepoint, const std::vector<line>& polygons, double m)
         : Object(basepoint, polygons), mass(m) {
     }
-};
-
-class ColliderShape : public sf::Shape {
-   public:
-    ColliderShape() : points_{{0, 0}, {0, 0}}, point_count_(50), radius_(PH_CONST_COLLISION_PRES) {
-        update();
-    }
-
-    void setPoints(const std::pair<sf::Vector2f, sf::Vector2f>&);
-
-    void setRadius(const int&);
-
-    void setPointCount(const size_t&);
-
-    [[nodiscard]] virtual size_t getPointCount() const override {
-        return point_count_;
-    }
-
-    [[nodiscard]] virtual sf::Vector2f getPoint(size_t index) const override {
-        static const float pi = 3.141592654f;
-        static const float k_eps = 1e-9;
-
-        const float segment_normal_angle =
-            pi / 2 -
-            std::atan2(points_.first.y - points_.first.y, points_.first.x - points_.first.x);
-        const float angle = index * 2 * pi / getPointCount();
-
-        const float x = std::cos(angle + segment_normal_angle) * radius_;
-        const float y = std::sin(angle + segment_normal_angle) * radius_;
-
-        if (angle - pi < k_eps) {
-            return {points_.first.x + x, points_.first.y + y};
-        }
-        return {points_.second.y + x, points_.second.y + y};
-    }
-
-   private:
-    std::pair<sf::Vector2f, sf::Vector2f> points_;
-    size_t point_count_;
-    int radius_;
 };
