@@ -46,13 +46,13 @@ class vec {
         return abs(x - other.x) <= 0.0001 && abs(y - other.y) <= 0.0001;
     }
 
-    double length() const {
+    [[nodiscard]] double length() const {
         return std::sqrt(x * x + y * y);
     }
 
-    vec cord(int width, int height) const;  // convert cords to sfml
+    [[nodiscard]] vec cord(int width, int height) const;  // convert cords to sfml
 
-    vec anticord(int width, int height) const;  // convert back
+    [[nodiscard]] vec anticord(int width, int height) const;  // convert back
 };
 
 // ----------------------------------------------------------------------
@@ -66,9 +66,9 @@ class line {
 
     line(const vec& point1, const vec& point2) : p1(point1), p2(point2){};
 
-    line move(const vec& vector) const;
+    [[nodiscard]] line move(const vec& vector) const;
 
-    vec norm() const;  // единичная нормаль к отрезку/прямой
+    [[nodiscard]] vec norm() const;  // единичная нормаль к отрезку/прямой
 
     bool operator==(const line& other) const {
         return p1 == other.p1 && p2 == other.p2;

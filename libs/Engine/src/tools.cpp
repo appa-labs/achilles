@@ -3,21 +3,21 @@
 #include <utility>
 #include <vector>
 
-vec vec::cord(int width, int height) const {  // преобразование из моих координат в сфмл
+[[nodiscard]] vec vec::cord(int width, int height) const {  // преобразование из моих координат в сфмл
     double aspect = static_cast<double>(width) / height;
     return {(x + 1. * aspect) / aspect / 2. * width, (-1 * y + 1.) / 2. * height};
 }
 
-vec vec::anticord(int width, int height) const {  // обратное
+[[nodiscard]] vec vec::anticord(int width, int height) const {  // обратное
     double aspect = static_cast<double>(width) / height;
     return {x * aspect * 2. / width - 1. * aspect, (-1 * y) * 2. / height + 1.};
 }
 
-line line::move(const vec& vector) const {
+[[nodiscard]] line line::move(const vec& vector) const {
     return line(p1 + vector, p2 + vector);
 }
 
-vec line::norm() const {  // единичная нормаль к поверхности
+[[nodiscard]] vec line::norm() const {  // единичная нормаль к поверхности
     double a = p1.y - p2.y, b = p2.x - p1.x;
     vec no(a, b);
     return no / no.length();
