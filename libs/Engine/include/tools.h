@@ -98,7 +98,7 @@ bool IsIntersect(const line& l1, const line& l2);
 
 vec Projection(const vec& v, const line& axis);
 
-vec Projection(const vec& v, vec axis);
+vec Projection(const vec& v, vec axis_vec);
 
 // ----------------------------------------------------------------------
 // Object
