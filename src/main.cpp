@@ -11,11 +11,14 @@ int main() {
     spdlog::info("Engine start");
     engine.initialization();
     spdlog::info("Engine initialization");
+
     sf::Clock deltaClock;
     while (engine.window.isOpen()) {
-        auto start = std::chrono::system_clock::now();
+
+        sf::Time deltaTimer = deltaClock.restart();
+        engine.frametime = deltaTimer.asMilliseconds() / 1000.;
+
         sf::Event event;
-        sf::Time dt = deltaClock.restart();
         while (engine.window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
                 engine.window.close();
@@ -47,8 +50,6 @@ int main() {
         }
         engine.physicsPerFrame();
         engine.renderFrame();
-
-        engine.frametime = dt.asMilliseconds() / 1000.;
     }
      
     spdlog::info("Engine stops with code {}", 0);
