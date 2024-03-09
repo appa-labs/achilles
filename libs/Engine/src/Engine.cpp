@@ -124,10 +124,10 @@ void Engine::physicsPerFrame() {
 
         F = vec(0, -1 * m * PH_CONST_G) + obj->magicForces;
         for (const auto& coln : objects_) {
-            obj->SumNormalForces(coln.get());
+            obj->sumNormalForces(coln.get());
         }
         for (const auto& coln : moveableObjects_) {
-            obj->SumNormalForces(coln.get());
+            obj->sumNormalForces(coln.get());
         }
 
         obj->magicForces = vec(0, 0);

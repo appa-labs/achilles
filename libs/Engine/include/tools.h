@@ -139,7 +139,7 @@ class MoveableObject : public Object {
    public:
     void move(const vec& vector);
 
-    void SumNormalForces(Object* obj);
+    void sumNormalForces(Object* obj);
 
     explicit MoveableObject(const vec& basepoint, const std::vector<line>& polygons)
         : Object(basepoint, polygons) {

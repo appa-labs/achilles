@@ -84,7 +84,7 @@ void MoveableObject::move(const vec& vector) {
     basepoint = basepoint + vector;
 }
 
-void MoveableObject::SumNormalForces(Object* obj) {
+void MoveableObject::sumNormalForces(Object* obj) {
     if (this == obj) {
         return;
     }
