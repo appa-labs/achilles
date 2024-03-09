@@ -9,6 +9,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <Logger/include/logger.h>
 
 void Engine::initialization() {
     width = sf::VideoMode::getDesktopMode().width;
@@ -27,8 +28,7 @@ void Engine::loadObjTypes(const std::string& path) {
     std::ifstream fin;
     fin.open(path);
     if (!(fin.is_open())) {
-        std::cerr << "Не удалось открыть файл с паттернами объектов по пути " +
-                         path;  // потом прикрутим логгер какой нибудь, мне лень
+        spdlog::error("Bad file path for objects patterns file: {}", path);
         stop();
     }
     line buf({0, 0}, {0, 0});
@@ -54,8 +54,7 @@ void Engine::loadObjects(
     std::ifstream fin;
     fin.open(path);
     if (!(fin.is_open())) {
-        std::cerr << "Не удалось открыть файл с картой объектов по пути " +
-                         path;  // TODO: add logger
+        spdlog::error("Bad file path for objects map file: {}", path);
         stop();
     }
     vec buf(0, 0);

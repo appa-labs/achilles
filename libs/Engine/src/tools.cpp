@@ -66,18 +66,18 @@ bool IsIntersect(const line& l1, const line& l2) {
 }
 
 vec Projection(const vec& v, const line& axis) {
-    vec vaxis(axis.p1.x - axis.p2.x, axis.p1.y - axis.p2.y);
-    if (vaxis * v <= 0) {
-        vaxis = vaxis * (-1);
+    vec axis_vec(axis.p1.x - axis.p2.x, axis.p1.y - axis.p2.y);
+    if (axis_vec * v <= 0) {
+        axis_vec = axis_vec * (-1);
     }
-    return vaxis / vaxis.length() * (vaxis * v) / vaxis.length();
+    return axis_vec / axis_vec.length() * (axis_vec * v) / axis_vec.length();
 }
 
-vec Projection(const vec& v, vec axis) {
-    if (axis * v <= 0) {
-        axis = axis * (-1);
+vec Projection(const vec& v, vec axis_vec) {
+    if (axis_vec * v <= 0) {
+        axis_vec = axis_vec * (-1);
     }
-    return axis / axis.length() * (axis * v) / axis.length();
+    return axis_vec / axis_vec.length() * (axis_vec * v) / axis_vec.length();
 }
 
 void MoveableObject::move(const vec& vector) {
