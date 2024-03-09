@@ -50,7 +50,7 @@ int main() {
 
         engine.frametime = dt.asMilliseconds() / 1000.;
     }
-
+     
     spdlog::info("Engine stops with code {}", 0);
     return 0;
 }
