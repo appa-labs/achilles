@@ -12,8 +12,12 @@ int main() {
     engine.initialization();
     spdlog::info("Engine initialization");
 
+    sf::Clock deltaClock;
     while (engine.window.isOpen()) {
-        auto start = std::chrono::system_clock::now();
+
+        sf::Time deltaTimer = deltaClock.restart();
+        engine.frametime = deltaTimer.asMilliseconds() / 1000.;
+
         sf::Event event;
         while (engine.window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
@@ -46,12 +50,8 @@ int main() {
         }
         engine.physicsPerFrame();
         engine.renderFrame();
-
-        auto end = std::chrono::system_clock::now();
-        engine.frametime =
-            std::chrono::duration_cast<std::chrono::milliseconds>(end - start).count() / 1000.;
     }
-
+     
     spdlog::info("Engine stops with code {}", 0);
     return 0;
 }
