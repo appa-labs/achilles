@@ -9,15 +9,30 @@ int main() {
 
     Engine engine;
     spdlog::info("Engine start");
+
+    //----------------------------------------------- INITIALIZE -----------------------------------------------
     engine.initialization();
     spdlog::info("Engine initialization");
+    sf::Text frameRateText;
+    sf::Font font;
+    sf::Clock Clock;
 
-    sf::Clock deltaClock;
+    //----------------------------------------------- LOAD -----------------------------------------------
+    if (font.loadFromFile("resources/fonts/arial.ttf")) {
+        frameRateText.setFont(font);
+        spdlog::info("Font successfuly loaded");
+    }
+    else {
+        spdlog::info("Font load error", -1);
+        engine.stop();
+    }
+
+    engine.window.setFramerateLimit(60);
     while (engine.window.isOpen()) {
+        sf::Time deltaTimer = Clock.restart();
 
-        sf::Time deltaTimer = deltaClock.restart();
-        engine.frametime = deltaTimer.asMilliseconds() / 1000.;
-
+        engine.frametime = deltaTimer.asSeconds(); //compute the framerate
+        
         sf::Event event;
         while (engine.window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
@@ -50,6 +65,7 @@ int main() {
         }
         engine.physicsPerFrame();
         engine.renderFrame();
+        engine.renderFPS(frameRateText);
     }
      
     spdlog::info("Engine stops with code {}", 0);

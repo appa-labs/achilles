@@ -139,17 +139,17 @@ void Engine::physicsPerFrame() {
 
 void Engine::characterJump() {
     auto player = static_cast<MoveableObject*>(moveableObjects_[0].get());
-    player->magicForces = vec(0, 2000);
+    player->magicForces = vec(0, 20);
 }
 
 void Engine::characterLeft() {
     auto player = static_cast<MoveableObject*>(moveableObjects_[0].get());
-    player->magicForces = vec(-300, 0);
+    player->magicForces = vec(-20, 0);
 }
 
 void Engine::characterRight() {
     auto player = static_cast<MoveableObject*>(moveableObjects_[0].get());
-    player->magicForces = vec(300, 0);
+    player->magicForces = vec(20, 0);
 }
 
 void Engine::restart() {
@@ -185,4 +185,13 @@ void Engine::drawCollider(const std::unique_ptr<Object>& obj) {
     window.draw(circle1);
     window.draw(circle2);
     window.draw(rect);
+}
+
+void Engine::renderFPS(sf::Text& frameRateText) {
+
+    double fps = 1.0f / (frametime) * 2;
+    frameRateText.setString(std::to_string(fps));
+
+    window.draw(frameRateText);
+    window.display();
 }
