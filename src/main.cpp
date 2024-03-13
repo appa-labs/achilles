@@ -35,7 +35,7 @@ int main() {
     while (engine.window.isOpen()) {
         sf::Time delta_timer = clock.restart();
 
-        engine.frametime = delta_timer.asSeconds();  // compute the framerate
+        engine.frametime = delta_timer.asMilliseconds();  // compute the framerate
 
         sf::Event event;
         while (engine.window.pollEvent(event)) {

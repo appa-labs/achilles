@@ -133,8 +133,8 @@ void Engine::physicsPerFrame() {
         obj->magicForces = vec(0, 0);
 
         vec a = F / m;
-        vel = vel + a * frametime;
-        obj->move(vel * frametime);
+        vel = vel + a * frametime / 1000.f;
+        obj->move(vel * frametime / 1000.f);
     }
 }
 
@@ -189,7 +189,7 @@ void Engine::drawCollider(const std::unique_ptr<Object>& obj) {
 }
 
 void Engine::renderFPS(sf::Text& frame_rate_text) {
-    int fps = static_cast<int>(1.0f / (frametime) * 2);
+    int fps = 1000 * 2 / frametime;
     frame_rate_text.setString(std::to_string(fps));
     frame_rate_text.setCharacterSize(20);
 
