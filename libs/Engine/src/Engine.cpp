@@ -14,7 +14,7 @@
 void Engine::initialization() {
     width = sf::VideoMode::getDesktopMode().width;
     height = sf::VideoMode::getDesktopMode().height;
-    aspect = static_cast<double>(width) / height;
+    aspect = static_cast<float>(width) / height;
 
     sf::ContextSettings settings(0, 0, 8, 1, 1, 0, false);
     window.create(sf::VideoMode(width, height), "Achilles", sf::Style::Fullscreen, settings);
@@ -35,7 +35,7 @@ void Engine::loadObjTypes(const std::string& path) {
     std::string inputbuffer;
     std::string strbuf;
     std::vector<line> vectorbuf;
-    double x1, y1, x2, y2;
+    float x1, y1, x2, y2;
     while (std::getline(fin, inputbuffer)) {
         std::stringstream input(inputbuffer);
         input >> strbuf;
@@ -62,7 +62,7 @@ void Engine::loadObjects(
     std::string name;
     std::vector<line> vectorcache;
     std::string cachename;
-    double x1, y1;
+    float x1, y1;
     while (std::getline(fin, inputbuffer)) {
         std::stringstream input(inputbuffer);
         input >> name >> x1 >> y1;
@@ -73,7 +73,7 @@ void Engine::loadObjects(
         }
         input >> inputbuffer;
         if (inputbuffer == "m") {
-            double mass;
+            float mass;
             input >> mass;
             moveableObjects_.push_back(std::make_unique<MoveableObject>(buf, vectorcache, mass));
         }
@@ -119,7 +119,7 @@ void Engine::physicsPerFrame() {
     for (auto& _obj : moveableObjects_) {
         auto obj = static_cast<MoveableObject*>(_obj.get());
         vec& F = obj->resultantForce;
-        double m = obj->mass;
+        float m = obj->mass;
         vec& vel = obj->velocity;
 
         F = vec(0, -1 * m * PH_CONST_G) + obj->magicForces;

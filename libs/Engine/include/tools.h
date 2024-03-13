@@ -4,8 +4,8 @@
 #include <cmath>
 #include <vector>
 
-extern inline const double PH_CONST_G = 9.81;
-extern inline const double PH_CONST_COLLISION_PRES = 0.05;
+extern inline const float PH_CONST_G = 9.81f;
+extern inline const float PH_CONST_COLLISION_PRES = 0.05f;
 
 // ----------------------------------------------------------------------
 // vec
@@ -15,12 +15,12 @@ extern inline const double PH_CONST_COLLISION_PRES = 0.05;
 // anticord(int width, int height) - обратно.
 class vec {
    public:
-    double x = 0;
-    double y = 0;
+    float x = 0;
+    float y = 0;
 
-    vec() : x(0), y(0) {};
+    vec() : x(0), y(0){};
 
-    vec(double _x, double _y) : x(_x), y(_y) {};
+    vec(float _x, float _y) : x(_x), y(_y){};
 
     vec operator+(const vec& vect) const {
         return vec(x + vect.x, y + vect.y);
@@ -30,27 +30,27 @@ class vec {
         return vec(x - vect.x, y - vect.y);
     }
 
-    double operator*(const vec& vect) const {
+    float operator*(const vec& vect) const {
         return x * vect.x + y * vect.y;
     }
 
-    vec operator*(double k) const {
+    vec operator*(float k) const {
         return vec(x * k, y * k);
     }
 
-    vec operator/(double k) const {
+    vec operator/(float k) const {
         return vec(x / k, y / k);
     }
 
     bool operator==(const vec& other) const {
-        return abs(x - other.x) <= 0.0001 && abs(y - other.y) <= 0.0001;
+        return abs(x - other.x) <= 0.001f && abs(y - other.y) <= 0.001f;
     }
 
-    [[nodiscard]] double length() const {
+    [[nodiscard]] float length() const {
         return std::sqrt(x * x + y * y);
     }
 
-    [[nodiscard]] vec cord(int width, int height) const;  // convert cords to sfml
+    [[nodiscard]] vec cord(int width, int height) const;      // convert cords to sfml
 
     [[nodiscard]] vec anticord(int width, int height) const;  // convert back
 };
@@ -62,7 +62,7 @@ class vec {
 // возвращает вектор еденичной нормали к отрезку.
 class line {
    public:
-    vec p1, p2; // end points of a segment
+    vec p1, p2;  // end points of a segment
 
     line(const vec& point1, const vec& point2) : p1(point1), p2(point2){};
 
@@ -76,25 +76,25 @@ class line {
 };
 
 // –ассто€ние между двум€ точками
-double Distance(const vec& p1, const vec& p2);
+float Distance(const vec& p1, const vec& p2);
 
 // –ассто€ние между пр€мой(отрезком) и точкой
-double Distance(const vec& point, const line& segment);
+float Distance(const vec& point, const line& segment);
 
 // ¬тора€ перегрузка
-inline double Distance(const line& segment, const vec& point) {
+inline float Distance(const line& segment, const vec& point) {
     return Distance(point, segment);
 }
 
 // «наковое рассто€ние от точки до отрезка(пр€мой)
-double SignedDistance(const vec& point, const line& segment);
+float SignedDistance(const vec& point, const line& segment);
 
 // –ассто€ние от отрезка до отрезка (т.е минимальна€ длинна отрезка, начало которого
 // принадлежит одному отрезку, конец другому)
-double Distance(const line& l1, const line& l2);  
+float Distance(const line& l1, const line& l2);
 
 // ѕересекаютс€ ли отрезки
-bool IsIntersect(const line& l1, const line& l2);  
+bool IsIntersect(const line& l1, const line& l2);
 
 vec Projection(const vec& v, const line& axis);
 
@@ -108,7 +108,7 @@ vec Projection(const vec& v, vec axis_vec);
 // сортировать объекты). “акже содержит в себе набор полигонов (линий) -
 // polygons, позже добавим текстуру.
 class Object {
-   public:  // TODO (later): change visability for members - bpoint & polygons 
+   public:  // TODO (later): change visability for members - bpoint & polygons
     friend class Engine;
 
     explicit Object(const vec& _basepoint, const std::vector<line>& _polygons)
@@ -133,8 +133,8 @@ class MoveableObject : public Object {
     vec resultantForce;
     vec velocity;
     vec magicForces;
-    double mass = 0;
-    double frictionCoef = 1;
+    float mass = 0.f;
+    float frictionCoef = 1.f;
 
    public:
     void move(const vec& vector);
@@ -145,7 +145,7 @@ class MoveableObject : public Object {
         : Object(basepoint, polygons) {
     }
 
-    explicit MoveableObject(const vec& basepoint, const std::vector<line>& polygons, double m)
+    explicit MoveableObject(const vec& basepoint, const std::vector<line>& polygons, float m)
         : Object(basepoint, polygons), mass(m) {
     }
 };
