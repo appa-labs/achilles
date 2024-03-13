@@ -15,7 +15,7 @@ int main() {
     spdlog::info("Engine initialization");
     sf::Text frameRateText;
     sf::Font font;
-    sf::Clock Clock;
+    sf::Clock clock;
 
     //----------------------------------------------- LOAD -----------------------------------------------
     if (font.loadFromFile("resources/fonts/arial.ttf")) {
@@ -27,9 +27,9 @@ int main() {
         engine.stop();
     }
 
-    engine.window.setFramerateLimit(60);
+    //engine.window.setFramerateLimit(0);
     while (engine.window.isOpen()) {
-        sf::Time deltaTimer = Clock.restart();
+        sf::Time deltaTimer = clock.restart();
 
         engine.frametime = deltaTimer.asSeconds(); //compute the framerate
         
