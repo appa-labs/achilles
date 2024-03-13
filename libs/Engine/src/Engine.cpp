@@ -192,7 +192,7 @@ void Engine::renderFPS(sf::Text& frame_rate_text) {
     if (frametime == 0) {
         ++frametime;
     }
-    int fps = 1000 * 2 / frametime;
+    int fps = 2000.f / frametime;
     frame_rate_text.setString(std::to_string(fps));
     frame_rate_text.setCharacterSize(20);
 

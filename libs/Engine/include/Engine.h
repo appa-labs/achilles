@@ -25,7 +25,7 @@ class Engine {
     int width;
     float aspect;
     sf::RenderWindow window;
-    int frametime = 1;
+    float frametime = 1.f;
 
     void initialization();
     void loadObjTypes(const std::string& path);  // TODO: add AssetManager
