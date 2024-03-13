@@ -32,7 +32,7 @@ class Engine {
     void renderObject(const std::unique_ptr<Object>& object);
     void physicsPerFrame();
     void drawCollider(const std::unique_ptr<Object>& obj);
-    void renderFPS(sf::Text& FrameRateText);
+    void renderFPS(sf::Text& frame_rate_text);
 
     void characterJump();
     void characterLeft();

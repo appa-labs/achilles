@@ -187,12 +187,12 @@ void Engine::drawCollider(const std::unique_ptr<Object>& obj) {
     window.draw(rect);
 }
 
-void Engine::renderFPS(sf::Text& frameRateText) {
+void Engine::renderFPS(sf::Text& frame_rate_text) {
 
     int fps = static_cast<int>(1.0f / (frametime) * 2);
-    frameRateText.setString(std::to_string(fps));
-    frameRateText.setCharacterSize(20);
+    frame_rate_text.setString(std::to_string(fps));
+    frame_rate_text.setCharacterSize(20);
 
-    window.draw(frameRateText);
+    window.draw(frame_rate_text);
     window.display();
 }
