@@ -1,5 +1,6 @@
 #include <Engine/include/Engine.h>
 #include <Engine/include/tools.h>
+#include <Logger/include/logger.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
 #include <fstream>
@@ -9,7 +10,6 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include <Logger/include/logger.h>
 
 void Engine::initialization() {
     width = sf::VideoMode::getDesktopMode().width;
@@ -85,6 +85,7 @@ void Engine::loadObjects(
 }
 
 void Engine::stop() {
+    spdlog::info("Engine stops with code {}", -1);
     std::exit(-1);
 }
 
@@ -95,7 +96,7 @@ void Engine::renderFrame() {
         renderObject(obj);
     }
     for (const auto& obj : moveableObjects_) {
-        //renderObject(obj);
+        // renderObject(obj);
         drawCollider(obj);
     }
     window.display();
@@ -188,7 +189,6 @@ void Engine::drawCollider(const std::unique_ptr<Object>& obj) {
 }
 
 void Engine::renderFPS(sf::Text& frame_rate_text) {
-
     int fps = static_cast<int>(1.0f / (frametime) * 2);
     frame_rate_text.setString(std::to_string(fps));
     frame_rate_text.setCharacterSize(20);

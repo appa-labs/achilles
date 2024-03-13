@@ -1,5 +1,8 @@
 #pragma once
 
+#define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING
+#define _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS
+
 #include <Engine/include/tools.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -25,7 +28,7 @@ class Engine {
     double frametime = 0;
 
     void initialization();
-    void loadObjTypes(const std::string& path); // TODO: add AssetManager
+    void loadObjTypes(const std::string& path);  // TODO: add AssetManager
     void loadObjects(const std::string& path);
     void stop();
     void renderFrame();
