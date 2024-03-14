@@ -40,7 +40,7 @@ int main() {
         sf::Event event;
         while (engine.window.pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
-                engine.window.close();
+                engine.stop();
             }
             if (event.type == sf::Event::KeyPressed) {
                 switch (event.key.code) {
