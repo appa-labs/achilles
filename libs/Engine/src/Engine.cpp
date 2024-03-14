@@ -85,8 +85,8 @@ void Engine::loadObjects(
 }
 
 void Engine::stop() {
-    spdlog::info("Engine stops with code {}", -1);
-    std::exit(-1);
+    spdlog::info("Engine close window");
+    window.close();
 }
 
 void Engine::renderFrame() {
