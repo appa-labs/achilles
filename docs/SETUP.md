@@ -35,7 +35,7 @@ ssh-keygen --help
 ```shell
 >ssh-keygen -t ed25519
 Generating public/private ed25519 key pair.
-Enter file in which to save the key (C:\Users\Kirill/.ssh/id_ed25519):
+Enter file in which to save the key (C:\Users\<user_name>/.ssh/id_ed25519):
 # можете ввести любое имя файла или нажать enter,
 # в этом случае ssh-keygen создаст файл с именем id_ed25519
 >github 
