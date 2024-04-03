@@ -19,7 +19,7 @@ The game is being developed using C++ and SFML, which allows for smooth graphics
 
 ## Installation
 
-To install Achilles Game, follow this (steps)[https://github.com/appa-labs/Achilles/blob/main/docs/SETUP.md]
+To install Achilles Game, follow this [steps](https://github.com/appa-labs/Achilles/blob/main/docs/SETUP.md).
 
 ## Usage
 
