@@ -15,7 +15,7 @@ Achilles Game is a 2D platformer game developed using C++ and SFML. It is curren
 
 Achilles Game is an exciting 2D platformer game that aims to provide a thrilling gaming experience. The game features a protagonist named Achilles who embarks on an epic adventure through various levels filled with obstacles, enemies, and puzzles. 
 
-The game is being developed using C++ and SFML, which allows for smooth graphics, animations, and sound effects. The early level of development focuses on creating the basic gameplay mechanics (especially physics), such as character movement and collision detection.
+The game is being developed using C++ and [SFML](https://github.com/SFML/SFML), which allows for smooth graphics, animations, and sound effects. The early level of development focuses on creating the basic gameplay mechanics (especially physics), such as character movement and collision detection.
 
 ## Installation
 
