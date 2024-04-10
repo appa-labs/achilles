@@ -123,6 +123,7 @@ void Engine::physicsPerFrame() {
         vec& vel = obj->velocity;
 
         F = vec(0, -1 * m * PH_CONST_G) + obj->magicForces;
+        obj->isInTouch = false;
         for (const auto& coln : objects_) {
             obj->sumNormalForces(coln.get());
         }
@@ -140,7 +141,9 @@ void Engine::physicsPerFrame() {
 
 void Engine::characterJump() {
     auto player = static_cast<MoveableObject*>(moveableObjects_[0].get());
-    player->magicForces = vec(0, 20);
+    if (player->isInTouch) {
+        player->velocity = player->velocity + vec(0, 3);
+    }
 }
 
 void Engine::characterLeft() {

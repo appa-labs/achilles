@@ -86,6 +86,7 @@ void MoveableObject::move(const vec& vector) {
 }
 
 void MoveableObject::sumNormalForces(Object* obj) {
+    bool touch = false;
     if (this == obj) {
         return;
     }
@@ -95,6 +96,7 @@ void MoveableObject::sumNormalForces(Object* obj) {
             line2 = line2.move(obj->basepoint);
             vec Nadditional;
             if (Distance(line1, line2) <= PH_CONST_COLLISION_PRES) {
+                touch = true;
                 if (Projection(velocity, line2.norm()) * (basepoint - line2.p1) >= 0) {
                     continue;  // make obj get out of other obj
                 }
@@ -110,4 +112,5 @@ void MoveableObject::sumNormalForces(Object* obj) {
             resultantForce = resultantForce + Nadditional;
         }
     }
+    isInTouch |= touch;
 }

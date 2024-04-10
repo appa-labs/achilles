@@ -135,6 +135,7 @@ class MoveableObject : public Object {
     vec magicForces;
     float mass = 0.f;
     float frictionCoef = 1.f;
+    bool isInTouch = false;
 
    public:
     void move(const vec& vector);
