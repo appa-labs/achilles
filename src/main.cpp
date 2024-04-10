@@ -50,18 +50,18 @@ int main() {
                     case sf::Keyboard::Space:
                         engine.characterJump();
                         break;
-                    case sf::Keyboard::A:
-                        engine.characterLeft();
-                        break;
-                    case sf::Keyboard::D:
-                        engine.characterRight();
-                        break;
                     case sf::Keyboard::R:
                         spdlog::info("Engine restart");
                         engine.restart();
                         break;
                 }
             }
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+            engine.characterLeft();
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+            engine.characterRight();
         }
         engine.physicsPerFrame();
         engine.renderFrame();
