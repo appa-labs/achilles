@@ -111,7 +111,10 @@ git config --local user.email "<твой email с github.com>"
 Быстрый запуск:
 
 ```bash
-# Находясь в папке проекта
+# Cобрать
 bazel buld <path-to-build-file>:<pocket-name>
+
+# Собрать и запустить
+bazel run <path-to-build-file>:<pocket-name>
 ```
 
