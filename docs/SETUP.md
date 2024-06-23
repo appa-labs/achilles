@@ -112,6 +112,6 @@ git config --local user.email "<твой email с github.com>"
 
 ```bash
 # Находясь в папке проекта
-bazel buld
+bazel buld <path-to-build-file>:<pocket-name>
 ```
 
