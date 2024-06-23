@@ -1,0 +1,40 @@
+###############################################################################
+# Bazel now uses Bzlmod by default to manage external dependencies.
+# Please consider migrating your external dependencies from WORKSPACE to MODULE.bazel.
+#
+# For more details, please check https://github.com/bazelbuild/bazel/issues/18958
+###############################################################################
+# bazel_dep(name = "rules_go", version = "0.46.0")
+bazel_dep(name = "rules_cc", version = "0.0.9")
+bazel_dep(name = "bazel_skylib", version = "1.5.0")
+
+# cpp lib
+bazel_dep(name = "fmt", version = "10.2.1")
+bazel_dep(name = "spdlog", version = "1.13.0")
+
+# Tests frameworks
+bazel_dep(name = "catch2", version = "3.5.4")
+
+# compile_comands.json generator
+# Hedron's Compile Commands Extractor for Bazel
+# https://github.com/hedronvision/bazel-compile-commands-extractor
+bazel_dep(name = "hedron_compile_commands", dev_dependency = True)
+git_override(
+    module_name = "hedron_compile_commands",
+    commit = "a14ad3a64e7bf398ab48105aaa0348e032ac87f8",
+    remote = "https://github.com/hedronvision/bazel-compile-commands-extractor.git",
+)
+
+# bazel linter
+bazel_dep(name = "buildozer", version = "7.1.1.1")
+bazel_dep(name = "depend_on_what_you_use", version = "0.2.0")
+
+
+# static analyzer
+bazel_dep(name = "bazel_clang_tidy", dev_dependency = True)
+git_override(
+    module_name = "bazel_clang_tidy",
+    commit = "bff5c59c843221b05ef0e37cef089ecc9d24e7da",
+    remote = "https://github.com/erenon/bazel_clang_tidy.git",
+)
+

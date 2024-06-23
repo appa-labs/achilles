@@ -1,0 +1,34 @@
+workspace(name = "Achilles")
+
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+
+BAZEL_CLANG_FORMAT_COMMIT = "ad5f2572518053b36a2d999f7b824fb5a7819ab4"
+
+BAZEL_CLANG_FORMAT_SHA = "c31f0ea477dd0da84fc2c694a533797a9d2bf060f8cca8b5ea30402a47a2ea0a"
+
+http_archive(
+    name = "bazel_clang_format",
+    sha256 = BAZEL_CLANG_FORMAT_SHA,
+    strip_prefix = "bazel_clang_format-{commit}".format(
+        commit = BAZEL_CLANG_FORMAT_COMMIT,
+    ),
+    url = "https://github.com/oliverlee/bazel_clang_format/archive/{commit}.tar.gz".format(
+        commit = BAZEL_CLANG_FORMAT_COMMIT,
+    ),
+)
+
+http_archive(
+    name = "ranges",
+    integrity = "sha256-AVrbIwCpjt/OrwclvuwzN/VCr0kVzsTQuJ+giG9Lqcs=",
+    strip_prefix = "range-v3-0.12.0",
+    url = "https://github.com/ericniebler/range-v3/archive/refs/tags/0.12.0.tar.gz",
+)
+
+http_archive(
+    name = "magic_enum",
+    integrity = "sha256-Yln+Zimm2GUIGtKRGlvOi2h/jQhq4EVg4tfOOIPp6o0=",
+    strip_prefix = "magic_enum-0.9.5",
+    url = "https://github.com/Neargye/magic_enum/archive/refs/tags/v0.9.5.zip",
+)
+
+# SFML

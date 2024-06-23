@@ -1,0 +1,37 @@
+load("@hedron_compile_commands//:refresh_compile_commands.bzl", "refresh_compile_commands")
+load("@rules_python//python/pip_install:requirements.bzl", "compile_pip_requirements")
+
+filegroup(
+    name = "clang_tidy_config",
+    srcs = [".clang-tidy"],
+    visibility = ["//visibility:public"],
+)
+
+filegroup(
+    name = "clang_format_config",
+    srcs = [".clang-format"],
+    visibility = ["//visibility:public"],
+)
+
+refresh_compile_commands(
+    name = "refresh_compile_commands",
+    exclude_headers = "all",
+)
+
+config_setting(
+    name = "windows",
+    constraint_values = ["@platforms//os:windows"],
+    visibility = ["//visibility:public"],
+)
+
+config_setting(
+    name = "macos",
+    constraint_values = ["@platforms//os:macos"],
+    visibility = ["//visibility:public"],
+)
+
+compile_pip_requirements(
+    name = "requirements",
+    requirements_in = "requirements.txt",
+    requirements_txt = "requirements_lock.txt",
+)
