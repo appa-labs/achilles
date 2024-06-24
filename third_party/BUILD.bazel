@@ -20,6 +20,7 @@ cc_library(
         "-framework freetype",
         "-framework vorbisenc",
     ],
+    # TODO(Kirill): Remove srip prefixes, if compliler errors
     # Include libraries like this: #include "SFML/Graphics.hpp"
     strip_include_prefix = "include/",
     visibility = ["//visibility:public"],
