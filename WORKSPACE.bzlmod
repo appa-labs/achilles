@@ -30,5 +30,3 @@ http_archive(
     strip_prefix = "magic_enum-0.9.5",
     url = "https://github.com/Neargye/magic_enum/archive/refs/tags/v0.9.5.zip",
 )
-
-# SFML
