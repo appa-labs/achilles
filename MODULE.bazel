@@ -24,6 +24,8 @@ git_override(
     commit = "a14ad3a64e7bf398ab48105aaa0348e032ac87f8",
     remote = "https://github.com/hedronvision/bazel-compile-commands-extractor.git",
 )
+# usage: bazel run @hedron_compile_commands//:refresh_all
+# do it in your local repository to avoid clangd errors
 
 # bazel linter
 bazel_dep(name = "buildozer", version = "7.1.1.1")
