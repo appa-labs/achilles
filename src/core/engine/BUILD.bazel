@@ -10,11 +10,8 @@ cc_library(
     ],
     deps = [
         "//src/core/tools:tools",
+        "//third_party:sfml",
         "@spdlog//:spdlog",
-    ],
-    linkopts = [
-        "-lsfml-graphics",
-        "-lsfml-window",
     ],
     visibility = ["//visibility:public"],
 )

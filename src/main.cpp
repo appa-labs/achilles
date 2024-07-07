@@ -54,6 +54,8 @@ int main() {
                         spdlog::info("Engine restart");
                         engine.restart();
                         break;
+                    default:
+                        break;
                 }
             }
         }

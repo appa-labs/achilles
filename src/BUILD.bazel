@@ -21,15 +21,10 @@ cc_binary(
         "//src/core/tools:tools",
         "//src:config",
         "//src/logger:logger_init",
+        "//third_party:sfml",
         "@spdlog//:spdlog",
     ],
     copts = [
         "-std=c++20",
-        "-Wswitch",
-    ],
-    linkopts = [
-        "-lsfml-graphics",
-        "-lsfml-window",
-        "-lsfml-system",
     ],
 )
