@@ -1,0 +1,20 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+cc_library(
+    name = "engine",
+    hdrs = [
+        "engine.h",
+    ],
+    srcs = [
+        "engine.cpp",
+    ],
+    deps = [
+        "//src/core/tools:tools",
+        "@spdlog//:spdlog",
+    ],
+    linkopts = [
+        "-lsfml-graphics",
+        "-lsfml-window",
+    ],
+    visibility = ["//visibility:public"],
+)

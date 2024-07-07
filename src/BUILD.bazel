@@ -1,0 +1,35 @@
+load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary")
+
+cc_library(
+    name = "config",
+    hdrs = [
+        "config.h",
+    ],
+    visibility = ["//visibility:public"],
+)
+
+cc_binary(
+    name = "game",
+    srcs = [
+        "main.cpp",
+    ],
+    data = [
+        "//:resources",
+    ],
+    deps = [
+        "//src/core/engine:engine",
+        "//src/core/tools:tools",
+        "//src:config",
+        "//src/logger:logger_init",
+        "@spdlog//:spdlog",
+    ],
+    copts = [
+        "-std=c++20",
+        "-Wswitch",
+    ],
+    linkopts = [
+        "-lsfml-graphics",
+        "-lsfml-window",
+        "-lsfml-system",
+    ],
+)

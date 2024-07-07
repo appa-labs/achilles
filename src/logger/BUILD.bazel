@@ -1,9 +1,9 @@
 load("@rules_cc//cc:defs.bzl", "cc_library")
 
 cc_library(
-    name = "logger_config",
+    name = "logger_init",
     hdrs = [
-        "init.h",
+        "logger_init.h",
     ],
     deps = [
         "@spdlog//:spdlog"

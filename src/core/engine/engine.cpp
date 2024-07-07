@@ -1,15 +1,4 @@
-#include <Engine/include/Engine.h>
-#include <Engine/include/tools.h>
-#include <Logger/include/logger.h>
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
-#include <fstream>
-#include <iostream>
-#include <map>
-#include <memory>
-#include <sstream>
-#include <string>
-#include <vector>
+#include "src/core/engine/engine.h"
 
 void Engine::initialization() {
     width = sf::VideoMode::getDesktopMode().width;
@@ -49,8 +38,8 @@ void Engine::loadObjTypes(const std::string& path) {
 }
 
 void Engine::loadObjects(
-    const std::string& path) {  // пока что, требование оптимизации: писать в файле
-    // объекты с одинаковыми названиями подряд
+    const std::string& path) {  // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ
+    // пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
     std::ifstream fin;
     fin.open(path);
     if (!(fin.is_open())) {
@@ -81,7 +70,7 @@ void Engine::loadObjects(
             objects_.push_back(std::make_unique<Object>(buf, vectorcache));
         }
     }
-    objtypes_.clear();  // оптимизация памяти, хоть какая то
+    objtypes_.clear();  // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅ
 }
 
 void Engine::stop() {

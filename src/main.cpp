@@ -1,11 +1,11 @@
-#define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING
-#define _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS
-
-#include <Logger/include/logger.h>
-#include <SFML/Graphics.hpp>
 #include <chrono>
-#include <config.h>
-#include <libs/Engine/include/Engine.h>
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+#include <SFML/System.hpp>
+
+#include "src/config.h"
+#include "src/logger/logger_init.h"
+#include "src/core/engine/engine.h"
 
 int main() {
     loggerInit(config::log_file_path);

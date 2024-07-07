@@ -1,23 +1,26 @@
 #pragma once
 
-#define _SILENCE_STDEXT_ARR_ITERS_DEPRECATION_WARNING
-#define _SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS
-
-#include <Engine/include/tools.h>
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
 #include <map>
 #include <memory>
 #include <string>
 #include <vector>
+#include <fstream>
+#include <iostream>
+#include <map>
+#include <sstream>
+#include <spdlog/spdlog.h>
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
+
+#include "src/core/tools/tools.h"
 
 // ----------------------------------------------------------------------
 // Engine
 // ----------------------------------------------------------------------
-// Класс Engine выступает в роли объекта игры(приложения). Содержит
-// методы инициализации: initialization(), loadObjTypes(..), ...; методы
-// рендера: renderFrame(), renderObject(..), ...; контроля состояния
-// приложения stop(), restart() и движения игрока: characterJump(),
+// пїЅпїЅпїЅпїЅпїЅ Engine пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ(пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ). пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+// пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ: initialization(), loadObjTypes(..), ...; пїЅпїЅпїЅпїЅпїЅпїЅ
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅ: renderFrame(), renderObject(..), ...; пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+// пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ stop(), restart() пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ: characterJump(),
 // characterLeft().
 class Engine {
    public:

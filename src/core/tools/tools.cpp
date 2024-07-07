@@ -1,15 +1,12 @@
-#include <Engine/include/tools.h>
-#include <cmath>
-#include <utility>
-#include <vector>
+#include "src/core/tools/tools.h"
 
 [[nodiscard]] vec vec::cord(
-    int width, int height) const {  // преобразование из моих координат в сфмл
+    int width, int height) const {  // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅ
     float aspect = static_cast<float>(width) / height;
     return {(x + 1.f * aspect) / aspect / 2.f * width, (-1.f * y + 1.f) / 2.f * height};
 }
 
-[[nodiscard]] vec vec::anticord(int width, int height) const {  // обратное
+[[nodiscard]] vec vec::anticord(int width, int height) const {  // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     float aspect = static_cast<float>(width) / height;
     return {x * aspect * 2.f / width - 1.f * aspect, (-1.f * y) * 2.f / height + 1.f};
 }
@@ -18,7 +15,7 @@
     return line(p1 + vector, p2 + vector);
 }
 
-[[nodiscard]] vec line::norm() const {  // единичная нормаль к поверхности
+[[nodiscard]] vec line::norm() const {  // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
     float a = p1.y - p2.y, b = p2.x - p1.x;
     vec no(a, b);
     return no / no.length();

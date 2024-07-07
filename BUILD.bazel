@@ -12,6 +12,12 @@ filegroup(
     visibility = ["//visibility:public"],
 )
 
+filegroup(
+    name = "resources",
+    srcs = glob(["resources/**"]),
+    visibility = ["//visibility:public"],
+)
+
 #usage: bazel run :refresh_compile_commands
 refresh_compile_commands(
     name = "refresh_compile_commands",
