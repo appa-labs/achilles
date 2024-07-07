@@ -23,7 +23,4 @@ cc_binary(
         "//third_party:sfml",
         "@spdlog//:spdlog",
     ],
-    copts = [
-        "-std=c++20",
-    ],
 )
