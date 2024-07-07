@@ -5,7 +5,6 @@ cc_library(
     hdrs = [
         "config.h",
     ],
-    visibility = ["//visibility:public"],
 )
 
 cc_binary(
@@ -17,9 +16,9 @@ cc_binary(
         "//:resources",
     ],
     deps = [
+        ":config",
         "//src/core/engine:engine",
         "//src/core/tools:tools",
-        "//src:config",
         "//src/logger:logger_init",
         "//third_party:sfml",
         "@spdlog//:spdlog",

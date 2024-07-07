@@ -3,7 +3,7 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 
-#include "src/config.h"
+#include "src/app/config.h"
 #include "src/logger/logger_init.h"
 #include "src/core/engine/engine.h"
 
