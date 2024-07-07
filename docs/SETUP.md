@@ -42,8 +42,8 @@ ssh-keygen --help
 # Переходим в директорию, где вы хотите разместить репозиторий с проектом
 cd <твоя выбранная директория>
 
-# Клонируем репозиторий с https://github.com/kirillpyasecky/2D_Engine
-git clone git@github.com:kirillpyasecky/2D_Engine.git
+# Клонируем репозиторий с https://github.com/repo_name
+git clone git@github.com:repo_name.git
 
 # Переходим в директорию склонированного репозитория
 cd 2D_Engine
@@ -111,7 +111,12 @@ git config --local user.email "<твой email с github.com>"
 Быстрый запуск:
 
 ```bash
-# Находясь в папке проекта
-bazel buld
+# Скачать sfml
+sudo apt install -y libsfml-dev
+# Cобрать
+bazel buld <path-to-build-file>:<pocket-name>
+
+# Собрать и запустить
+bazel run <path-to-build-file>:<pocket-name>
 ```
 
