@@ -111,6 +111,8 @@ git config --local user.email "<твой email с github.com>"
 Быстрый запуск:
 
 ```bash
+# Скачать sfml
+sudo apt install -y libsfml-dev
 # Cобрать
 bazel buld <path-to-build-file>:<pocket-name>
 
