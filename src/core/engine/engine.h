@@ -29,6 +29,7 @@ class Engine {
     float aspect;
     sf::RenderWindow window;
     float frametime = 1.f;
+    vec camera{};
 
     void initialization();
     void loadObjTypes(const std::string& path);  // TODO: add AssetManager
@@ -37,7 +38,7 @@ class Engine {
     void renderFrame();
     void renderObject(const std::unique_ptr<Object>& object);
     void physicsPerFrame();
-    void drawCollider(const std::unique_ptr<Object>& obj);
+    void drawBaton(const std::unique_ptr<Object>& obj);
     void renderFPS(sf::Text& frame_rate_text);
 
     void characterJump();

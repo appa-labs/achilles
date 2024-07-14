@@ -86,7 +86,8 @@ void Engine::renderFrame() {
     }
     for (const auto& obj : moveableObjects_) {
         // renderObject(obj);
-        drawCollider(obj);
+        camera = obj->basepoint;
+        drawBaton(obj);
     }
     window.display();
 }
@@ -95,11 +96,11 @@ void Engine::renderObject(const std::unique_ptr<Object>& object) {
     for (const auto& line : object->polygons) {
         sf::Vertex vline[] = {
           sf::Vertex(sf::Vector2f(
-              (object->basepoint + line.p1).cord(width, height).x,
-              (object->basepoint + line.p1).cord(width, height).y)),
+              (object->basepoint + line.p1 - camera).cord(width, height).x,
+              (object->basepoint + line.p1 - camera).cord(width, height).y)),
           sf::Vertex(sf::Vector2f(
-              (object->basepoint + line.p2).cord(width, height).x,
-              (object->basepoint + line.p2).cord(width, height).y))};
+              (object->basepoint + line.p2 - camera).cord(width, height).x,
+              (object->basepoint + line.p2 - camera).cord(width, height).y))};
         window.draw(vline, 2, sf::Lines);
     }
 }
@@ -153,9 +154,9 @@ void Engine::restart() {
     player->resultantForce = vec(0, 0);
 }
 
-void Engine::drawCollider(const std::unique_ptr<Object>& obj) {
+void Engine::drawBaton(const std::unique_ptr<Object>& obj) {
     line l = obj->polygons[0];
-    l = l.move(obj->basepoint - vec(PH_CONST_COLLISION_PRES, -PH_CONST_COLLISION_PRES));
+    l = l.move(obj->basepoint - vec(PH_CONST_COLLISION_PRES, -PH_CONST_COLLISION_PRES) - camera);
     auto white = sf::Color(255, 255, 255);
 
     sf::CircleShape circle1(PH_CONST_COLLISION_PRES / 2 * height);
