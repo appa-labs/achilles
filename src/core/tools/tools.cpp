@@ -87,23 +87,23 @@ void MoveableObject::sumNormalForces(Object* obj) {
     if (this == obj) {
         return;
     }
-    for (line line1 : polygons) {
-        line1 = line1.move(basepoint);
-        for (line line2 : obj->polygons) {
-            line2 = line2.move(obj->basepoint);
+    for (auto self_line : polygons) {
+        self_line = self_line.move(basepoint);
+        for (auto other_line : obj->polygons) {
+            other_line = other_line.move(obj->basepoint);
             vec Nadditional;
-            if (Distance(line1, line2) <= PH_CONST_COLLISION_PRES) {
+            if (Distance(self_line, other_line) <= PH_CONST_COLLISION_PRES) {
                 touch = true;
-                if (Projection(velocity, line2.norm()) * (basepoint - line2.p1) >= 0) {
+                if (Projection(velocity, other_line.norm()) * (basepoint - other_line.p1) >= 0) {
                     continue;  // make obj get out of other obj
                 }
-                vec N = Projection(resultantForce, line2.norm()) * (-1);
-                if (Projection(N, line2.norm()) * (basepoint - line2.p1) <= 0) {
+                vec N = Projection(resultantForce, other_line.norm()) * (-1);
+                if (Projection(N, other_line.norm()) * (basepoint - other_line.p1) <= 0) {
                     N = vec(0, 0);
                 }
                 vec Ffrict = velocity / velocity.length() * N.length() * frictionCoef * (-1);
                 resultantForce = resultantForce + N + Ffrict;
-                velocity = Projection(velocity, line2);
+                velocity = Projection(velocity, other_line);
                 Nadditional = N / 2.;
             }
             resultantForce = resultantForce + Nadditional;
