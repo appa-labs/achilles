@@ -82,31 +82,29 @@ void MoveableObject::move(const vec& vector) {
     basepoint = basepoint + vector;
 }
 
+vec NormilizeVector(const vec& vec) {
+    return vec / vec.length();
+}
+
 void MoveableObject::sumNormalForces(Object* obj) {
     bool touch = false;
     if (this == obj) {
         return;
     }
+    vec N = {0, 0};
     for (auto self_line : polygons) {
         self_line = self_line.move(basepoint);
         for (auto other_line : obj->polygons) {
             other_line = other_line.move(obj->basepoint);
-            vec Nadditional;
-            if (Distance(self_line, other_line) <= PH_CONST_COLLISION_PRES) {
-                touch = true;
-                if (Projection(velocity, other_line.norm()) * (basepoint - other_line.p1) >= 0) {
-                    continue;  // make obj get out of other obj
-                }
-                vec N = Projection(resultantForce, other_line.norm()) * (-1);
-                if (Projection(N, other_line.norm()) * (basepoint - other_line.p1) <= 0) {
-                    N = vec(0, 0);
-                }
-                vec Ffrict = velocity / velocity.length() * N.length() * frictionCoef * (-1);
-                resultantForce = resultantForce + N + Ffrict;
-                velocity = Projection(velocity, other_line);
-                Nadditional = N / 2.;
+            // if not in touch or object is inside another object
+            if (Distance(self_line, other_line) > PH_CONST_COLLISION_PRES ||
+                Projection(velocity, other_line.norm()) * (basepoint - other_line.p1) >= 0) {
+                continue;
             }
-            resultantForce = resultantForce + Nadditional;
+
+            N = N + NormilizeVector(Projection(resultantForce, other_line.norm())) * (-1);
+
+            resultantForce = resultantForce - Projection(resultantForce, N);
         }
     }
     isInTouch |= touch;
