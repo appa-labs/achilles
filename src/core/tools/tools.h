@@ -135,11 +135,10 @@ class MoveableObject : public Object {
     vec resultantForce;
     vec velocity;
     vec magicForces;
-    float mass = 0.f;
-    float frictionCoef = 1.f;
+    float mass = 0.F;
+    float frictionCoef = 1.F;
     bool isInTouch = false;
-
-   public:
+   
     void move(const vec& vector);
 
     void sumNormalForces(Object* obj);
