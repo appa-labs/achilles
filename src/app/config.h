@@ -2,8 +2,8 @@
 
 #include <string>
 
-// TODO: Remove this file for json or protobuf
+// TODO(fndk): Remove this file for json or protobuf
 
 namespace config {
-    const std::string log_file_path = "logs/engine-log.txt";
+    const std::string kLogFilePath = "logs/engine-log.txt";
 }

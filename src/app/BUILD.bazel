@@ -1,12 +1,5 @@
 load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary")
 
-cc_library(
-    name = "config",
-    hdrs = [
-        "config.h",
-    ],
-)
-
 cc_binary(
     name = "game",
     srcs = [
@@ -16,7 +9,6 @@ cc_binary(
         "//:resources",
     ],
     deps = [
-        ":config",
         "//src/core/engine:engine",
         "//src/core/tools:tools",
         "//src/logger:logger_init",

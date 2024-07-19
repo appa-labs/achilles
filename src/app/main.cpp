@@ -1,28 +1,30 @@
-#include <chrono>
 #include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
 #include <SFML/System.hpp>
+#include <SFML/Window.hpp>
 
-#include "src/app/config.h"
-#include "src/logger/logger_init.h"
 #include "src/core/engine/engine.h"
+#include "src/logger/logger_init.h"
 
 int main() {
-    loggerInit(config::log_file_path);
+
+    // TODO(fndk): Add config file, maybe json or protobuf
+    loggerInit("logs/engine-log.txt");
 
     Engine engine;
     spdlog::info("Engine start");
 
-    //----------------------------------------------- INITIALIZE
-    //-----------------------------------------------
+    // ------------------------------------------------------------
+    // Engine initialization
+    // ------------------------------------------------------------
     engine.initialization();
     spdlog::info("Engine initialization");
     sf::Text frame_rate_text;
     sf::Font font;
     sf::Clock clock;
 
-    //----------------------------------------------- LOAD
-    //-----------------------------------------------
+    // ------------------------------------------------------------
+    // Font loading
+    // ------------------------------------------------------------
     if (font.loadFromFile("resources/fonts/arial.ttf")) {
         frame_rate_text.setFont(font);
         spdlog::info("Font successfuly loaded");
@@ -31,9 +33,13 @@ int main() {
         engine.stop();
     }
 
+
+    // ------------------------------------------------------------
+    // Main loop
+    // ------------------------------------------------------------
     engine.window.setFramerateLimit(60);
     while (engine.window.isOpen()) {
-        sf::Time delta_timer = clock.restart();
+        const sf::Time delta_timer = clock.restart();
 
         engine.frametime = delta_timer.asSeconds() * 1000.f;  // compute the framerate
 
