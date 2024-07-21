@@ -1,153 +1,172 @@
 #pragma once
 
 #include <cmath>
+#include <spdlog/spdlog.h>
 #include <utility>
 #include <vector>
 
-
+#define math_sqrt(x) std::sqrt(x)
 
 extern inline const float PH_CONST_G = 9.81f;
 extern inline const float PH_CONST_COLLISION_PRES = 0.05f;
 
 // ----------------------------------------------------------------------
-// vec
+// Vector2f
 // ----------------------------------------------------------------------
-// ����� vec ��������� � ���� ������� � �����. ��� �������������� �
-// ���������� sfml ������������ ����� cord(int width, int height) � �����
-// anticord(int width, int height) - �������.
-class vec {
+// Class Vector2f represents a vector in 2D space and point, depends on context.
+// It has two float fields: x and y. It has methods for vector normalization,
+// getting SFML coordinates, getting local coordinates, vector addition,
+// subtraction, multiplication by scalar, division by scalar, comparison.
+class Vector2f {
    public:
-    float x = 0;
-    float y = 0;
+    float x{0};
+    float y{0};
 
-    vec() : x(0), y(0){};
+    Vector2f() = default;
 
-    vec(float _x, float _y) : x(_x), y(_y){};
+    Vector2f(float _x, float _y) : x(_x), y(_y){}; // NOLINT
 
-    vec operator+(const vec& vect) const {
-        return vec(x + vect.x, y + vect.y);
-    }
+    [[nodiscard]] float length() const;
 
-    vec operator-(const vec& vect) const {
-        return vec(x - vect.x, y - vect.y);
-    }
+    [[nodiscard]] float squaredLength() const; // avoid a sqrt
+    
+    Vector2f& normilize();
+    
+    // Arithmetic
+    Vector2f& operator+=(const Vector2f& other);
+    
+    Vector2f& operator-=(const Vector2f& other);
+    
+    Vector2f& operator*=(float scalar);
 
-    float operator*(const vec& vect) const {
-        return x * vect.x + y * vect.y;
-    }
+    Vector2f& operator*=(const Vector2f& other);
+    
+    Vector2f& operator/=(float scalar);
 
-    vec operator*(float k) const {
-        return vec(x * k, y * k);
-    }
+    Vector2f& operator/=(const Vector2f& other);
+    
+    Vector2f operator+(const Vector2f& other) const;
+    
+    Vector2f operator-(const Vector2f& other) const;
+    
+    Vector2f operator*(float scalar) const;
 
-    vec operator/(float k) const {
-        return vec(x / k, y / k);
-    }
+    Vector2f operator*(const Vector2f& other) const;
+    
+    Vector2f operator/(float scalar) const;
 
-    bool operator==(const vec& other) const {
-        return abs(x - other.x) <= 0.001f && abs(y - other.y) <= 0.001f;
-    }
+    Vector2f operator/(const Vector2f& other) const;
 
-    [[nodiscard]] float length() const {
-        return std::sqrt(x * x + y * y);
-    }
+    Vector2f operator-() const;
 
-    [[nodiscard]] vec cord(int width, int height) const;      // convert cords to sfml
+    friend Vector2f operator*(float scalar, const Vector2f& vector);
 
-    [[nodiscard]] vec anticord(int width, int height) const;  // convert back
+    // Comparison
+    bool operator==(const Vector2f& other) const;
+
+    bool operator!=(const Vector2f& other) const;
+
+    [[nodiscard]] Vector2f getSfmlCords(int width, int height) const;
+    
+    [[nodiscard]] Vector2f getLocalCords(int width, int height) const;
 };
 
 // ----------------------------------------------------------------------
-// line
+// LineSegment
 // ----------------------------------------------------------------------
-// ����� line ��������� � ���� �������. ������ ����� ������. ����� norm()
-// ���������� ������ ��������� ������� � �������.
-class line {
+// Class Line represents a line segment. It has two fields: p1 and p2
+// of type Point2f. It has methods for moving the line segment by a vector,
+// getting the normal to the line segment, comparison.
+class LineSegment {
    public:
-    vec p1, p2;  // end points of a segment
+    Vector2f p1;
+    Vector2f p2;
 
-    line(const vec& point1, const vec& point2) : p1(point1), p2(point2){};
+    LineSegment(const Vector2f& _p1, const Vector2f& _p2) : p1(_p1), p2(_p2){}; // NOLINT
 
-    [[nodiscard]] line move(const vec& vector) const;
+    [[nodiscard]] float squaredLength() const;
 
-    [[nodiscard]] vec norm() const;  // ��������� ������� � �������/������
+    // Get new segment moved by vector
+    [[nodiscard]] LineSegment move(const Vector2f& vector) const;
 
-    bool operator==(const line& other) const {
+    // Get normal to the line segment
+    [[nodiscard]] Vector2f getNormal() const;
+
+    // Comparison
+    bool operator==(const LineSegment& other) const {
         return p1 == other.p1 && p2 == other.p2;
     }
 };
 
-// ���������� ����� ����� �������
-float Distance(const vec& p1, const vec& p2);
+// ----------------------------------------------------------------------
+// Math functions
+// ----------------------------------------------------------------------
+float DotProduct(const Vector2f& v1, const Vector2f& v2);
 
-// ���������� ����� ������(��������) � ������
-float Distance(const vec& point, const line& segment);
+float Distance(const Vector2f& p1, const Vector2f& p2);
 
-// ������ ����������
-inline float Distance(const line& segment, const vec& point) {
+float Distance(const Vector2f& point, const LineSegment& segment);
+
+inline float Distance(const LineSegment& segment, const Vector2f& point) {
     return Distance(point, segment);
 }
 
-// �������� ���������� �� ����� �� �������(������)
-float SignedDistance(const vec& point, const line& segment);
+float SignedDistance(const Vector2f& point, const LineSegment& segment);
 
-// ���������� �� ������� �� ������� (�.� ����������� ������ �������, ������ ��������
-// ����������� ������ �������, ����� �������)
-float Distance(const line& l1, const line& l2);
+float Distance(const LineSegment& s1, const LineSegment& s2);
 
-// ������������ �� �������
-bool IsIntersect(const line& l1, const line& l2);
+bool IsIntersect(const LineSegment& l1, const LineSegment& l2);
 
-vec Projection(const vec& v, const line& axis);
+Vector2f Projection(const Vector2f& v, const LineSegment& axis);
 
-vec Projection(const vec& v, vec axis_vec);
+Vector2f Projection(const Vector2f& v, Vector2f axis_vec);
 
 // ----------------------------------------------------------------------
 // Object
 // ----------------------------------------------------------------------
-// ����� Object ��������� � ���� ������� ��� ������� (����� ���������).
-// ������ ���������� basepoint'a (������ ������, �� ���� �����
-// ����������� �������). ����� �������� � ���� ����� ��������� (�����) -
-// polygons, ����� ������� ��������.
+// Class Object represents a static object in 2D space. It has two fields:
+// basepoint of type Point2f and polygons of type std::vector<LineSegment>.
+// It has a constructor that initializes the fields. It has a friend class
+// Engine.
 class Object {
    public:  // TODO (later): change visability for members - bpoint & polygons
     friend class Engine;
 
-    explicit Object(const vec& _basepoint, const std::vector<line>& _polygons)
+    explicit Object(const Vector2f& _basepoint, const std::vector<LineSegment>& _polygons)  // NOLINT
         : basepoint(_basepoint), polygons(_polygons) {
     }
 
     virtual ~Object() = default;
 
-    vec basepoint;
-    std::vector<line> polygons;
+    Vector2f basepoint;
+    std::vector<LineSegment> polygons;
 };
 
 // ----------------------------------------------------------------------
 // MoveableObject
 // ----------------------------------------------------------------------
-// ����� MoveableObject ��������� � ���� ������� ��� �������, ����������
-// � ��������. �������� ������ Object. ������ ���� ����������� ���
-// ���������� ������: resultantForce, velocity, magicForces, mass,
-// frictionCoef. ����� move(vector) �������� basepoint �� ������ vector.
+// Class MoveableObject represents a moveable object in 2D space. It has
+// fields: resultantForce, velocity, magicForces, mass, frictionCoef,
+// isInTouch. It has methods: move, sumNormalForces. It has a constructor
+// that initializes the fields. It inherits from class Object.
 class MoveableObject : public Object {
    public:
-    vec resultantForce;
-    vec velocity;
-    vec magicForces;
+    Vector2f resultantForce;
+    Vector2f velocity;
+    Vector2f magicForces;
     float mass = 0.F;
     float frictionCoef = 1.F;
     bool isInTouch = false;
    
-    void move(const vec& vector);
+    void move(const Vector2f& vector);
 
     void sumNormalForces(Object* obj);
 
-    explicit MoveableObject(const vec& basepoint, const std::vector<line>& polygons)
+    explicit MoveableObject(const Vector2f& basepoint, const std::vector<LineSegment>& polygons)
         : Object(basepoint, polygons) {
     }
 
-    explicit MoveableObject(const vec& basepoint, const std::vector<line>& polygons, float m)
+    explicit MoveableObject(const Vector2f& basepoint, const std::vector<LineSegment>& polygons, float m)
         : Object(basepoint, polygons), mass(m) {
     }
 };

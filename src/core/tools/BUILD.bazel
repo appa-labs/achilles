@@ -8,5 +8,8 @@ cc_library(
     srcs = [
         "tools.cpp",
     ],
+    deps = [
+        "@spdlog//:spdlog",
+    ],
     visibility = ["//visibility:public"],
 )

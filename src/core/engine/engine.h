@@ -7,7 +7,6 @@
 #include <fstream>
 #include <iostream>
 #include <map>
-#include <sstream>
 #include <spdlog/spdlog.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/Window.hpp>
@@ -29,7 +28,7 @@ class Engine {
     float aspect;
     sf::RenderWindow window;
     float frametime = 1.f;
-    vec camera{};
+    Vector2f camera;
 
     void initialization();
     void loadObjTypes(const std::string& path);  // TODO: add AssetManager
@@ -49,5 +48,5 @@ class Engine {
    private:
     std::vector<std::unique_ptr<Object>> objects_;
     std::vector<std::unique_ptr<Object>> moveableObjects_;
-    std::map<std::string, std::vector<line>> objtypes_;
+    std::map<std::string, std::vector<LineSegment>> objtypes_;
 };

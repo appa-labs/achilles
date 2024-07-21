@@ -1,89 +1,188 @@
 #include "src/core/tools/tools.h"
 
-[[nodiscard]] vec vec::cord(
-    int width, int height) const {  // �������������� �� ���� ��������� � ����
+[[nodiscard]] Vector2f Vector2f::getSfmlCords(
+    int width, int height) const {
     float aspect = static_cast<float>(width) / height;
     return {(x + 1.f * aspect) / aspect / 2.f * width, (-1.f * y + 1.f) / 2.f * height};
 }
 
-[[nodiscard]] vec vec::anticord(int width, int height) const {  // ��������
+[[nodiscard]] Vector2f Vector2f::getLocalCords(int width, int height) const {
     float aspect = static_cast<float>(width) / height;
     return {x * aspect * 2.f / width - 1.f * aspect, (-1.f * y) * 2.f / height + 1.f};
 }
 
-[[nodiscard]] line line::move(const vec& vector) const {
-    return line(p1 + vector, p2 + vector);
+[[nodiscard]] float Vector2f::length() const {
+    return math_sqrt(squaredLength());
 }
 
-[[nodiscard]] vec line::norm() const {  // ��������� ������� � �����������
-    float a = p1.y - p2.y, b = p2.x - p1.x;
-    vec no(a, b);
-    return no / no.length();
+[[nodiscard]] float Vector2f::squaredLength() const {
+    return x * x + y * y;
 }
 
-float Distance(const vec& p1, const vec& p2) {
-    return sqrt((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y));
+Vector2f& Vector2f::normilize() {
+    float vec_length = math_sqrt(squaredLength());
+    x /= vec_length;
+    y /= vec_length;
+    return *this;
 }
 
-float Distance(const vec& point, const line& segment) {
-    if ((point - segment.p1) * (segment.p2 - segment.p1) < 0) {
-        return (point - segment.p1).length();
+
+Vector2f Vector2f::operator+(const Vector2f& other) const {
+    return {x + other.x, y + other.y};
+}
+
+Vector2f& Vector2f::operator+=(const Vector2f& other) {
+    *this = *this + other;
+    return *this;
+}
+
+Vector2f Vector2f::operator-(const Vector2f& other) const {
+    return {x - other.x, y - other.y};
+}
+
+Vector2f& Vector2f::operator-=(const Vector2f& other) {
+    *this = *this - other;
+    return *this;
+}
+
+Vector2f Vector2f::operator*(float scalar) const {
+    return {x * scalar, y * scalar};
+}
+
+Vector2f& Vector2f::operator*=(float scalar) {
+    *this = *this * scalar;
+    return *this;
+}
+
+Vector2f Vector2f::operator*(const Vector2f& other) const {
+    return {x * other.x, y * other.y};
+}
+
+Vector2f& Vector2f::operator*=(const Vector2f& other) {
+    *this = *this * other;
+    return *this;
+}
+
+Vector2f Vector2f::operator/(float scalar) const {
+    return {x / scalar, y / scalar};
+}
+
+Vector2f& Vector2f::operator/=(float scalar) {
+    *this = *this / scalar;
+    return *this;
+}
+
+Vector2f Vector2f::operator/(const Vector2f& other) const {
+    return {x / other.x, y / other.y};
+}
+
+Vector2f& Vector2f::operator/=(const Vector2f& other) {
+    *this = *this / other;
+    return *this;
+}
+
+Vector2f Vector2f::operator-() const {
+    return {-x, -y};
+}
+
+Vector2f operator*(float scalar, const Vector2f& vector) {
+    return vector * scalar;
+}
+
+bool Vector2f::operator==(const Vector2f& other) const {
+    return x == other.x && y == other.y;
+}
+
+bool Vector2f::operator!=(const Vector2f& other) const {
+    return !(*this == other);
+}
+
+[[nodiscard]] float LineSegment::squaredLength() const {
+    return (p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y);
+}
+
+[[nodiscard]] LineSegment LineSegment::move(const Vector2f& vector) const {
+    return {p1 + vector, p2 + vector};
+}
+
+[[nodiscard]] Vector2f LineSegment::getNormal() const {
+    float a = p1.y - p2.y;
+    float b = p2.x - p1.x;
+    Vector2f normal(a, b);
+    normal.normilize();
+    return normal;
+}
+
+float DotProduct(const Vector2f &v1, const Vector2f &v2) {
+    return v1.x * v2.x + v1.y * v2.y;
+}
+
+float Distance(const Vector2f& p1, const Vector2f& p2) {
+    return math_sqrt((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y));
+}
+
+float Distance(const Vector2f& point, const LineSegment& segment) {
+    float l2 = segment.squaredLength();// avoid sqrt
+    if (l2 == 0) { // length == 0
+        return Distance(point, segment.p1);
     }
-    if ((point - segment.p2) * (segment.p1 - segment.p2) < 0) {
-        return (point - segment.p2).length();
-    }
-
-    float a = segment.p1.y - segment.p2.y, b = segment.p2.x - segment.p1.x,
-          c = segment.p1.x * segment.p2.y - segment.p2.x * segment.p1.y;
-    return abs(a * point.x + b * point.y + c) / sqrt(a * a + b * b);
+    // Consider the line extending the segment, parameterized as p1 + t(p2 - p1).
+    // We find projection of point p onto the line. 
+    // It falls where t = [(p-p1) . (p2-p1)] / |p2-p1|^2
+    // We clamp t from [0,1] to handle points outside the segment.
+    const float t = std::max(0.0f, std::min(1.0f, DotProduct(point - segment.p1, segment.p2 - segment.p1) / l2));
+    const Vector2f projection = segment.p1 + t * ( - segment.p1);  // Projection falls on the segment
+    return Distance(point, projection);
 }
 
-float SignedDistance(const vec& point, const line& segment) {
-    float a = segment.p1.y - segment.p2.y, b = segment.p2.x - segment.p1.x,
-          c = segment.p1.x * segment.p2.y - segment.p2.x * segment.p1.y;
-    return (a * point.x + b * point.y + c) / sqrt(a * a + b * b);
-}
-
-float Distance(const line& l1, const line& l2) {
-    if (IsIntersect(l1, l2)) {
+float Distance(const LineSegment& s1, const LineSegment& s2) {
+    if (IsIntersect(s1, s2)) {
         return 0;
     }
     return std::min(
-        Distance(l1.p1, l2),
-        std::min(Distance(l1.p2, l2), std::min(Distance(l2.p1, l1), Distance(l2.p2, l1))));
+        Distance(s1.p1, s2),
+        std::min(Distance(s1.p2, s2), 
+            std::min(Distance(s2.p1, s1), 
+                Distance(s2.p2, s1))));
 }
 
-bool IsIntersect(const line& l1, const line& l2) {
-    float a1 = SignedDistance(l1.p1, l2);
-    float b1 = SignedDistance(l1.p2, l2);
-
-    float a2 = SignedDistance(l2.p1, l1);
-    float b2 = SignedDistance(l2.p2, l1);
-
-    return (a1 >= 0 && b1 <= 0 || a1 <= 0 && b1 >= 0) && (a2 >= 0 && b2 <= 0 || a2 <= 0 && b2 >= 0);
+float SignedDistance(const Vector2f& point, const LineSegment& segment) {
+    float a = segment.p1.y - segment.p2.y;
+    float b = segment.p2.x - segment.p1.x;
+    float c = segment.p1.x * segment.p2.y - segment.p2.x * segment.p1.y;
+    return (a * point.x + b * point.y + c) / math_sqrt(a * a + b * b);
 }
 
-vec Projection(const vec& v, const line& axis) {
-    vec axis_vec(axis.p1.x - axis.p2.x, axis.p1.y - axis.p2.y);
-    if (axis_vec * v <= 0) {
+bool IsIntersect(const LineSegment& s1, const LineSegment& s2) {
+    float a1 = SignedDistance(s1.p1, s2);
+    float b1 = SignedDistance(s1.p2, s2);
+
+    float a2 = SignedDistance(s2.p1, s1);
+    float b2 = SignedDistance(s2.p2, s1);
+
+    return ((a1 >= 0 && b1 <= 0) || (a1 <= 0 && b1 >= 0)) && 
+            ((a2 >= 0 && b2 <= 0) || (a2 <= 0 && b2 >= 0));
+}
+
+// TODO(Kirill): check correctness of this func
+Vector2f Projection(const Vector2f& v, const LineSegment& axis) {
+    Vector2f axis_vec(axis.p1.x - axis.p2.x, axis.p1.y - axis.p2.y);
+    if ((axis_vec * v).length() <= 0) {
+        axis_vec = axis_vec * (-1);
+    }
+    return axis_vec.normilize() * (axis_vec * v) / axis_vec.length();
+}
+
+// TODO(Kirill): check correctness of this func
+Vector2f Projection(const Vector2f& v, Vector2f axis_vec) {
+    if ((axis_vec * v).length() <= 0) {
         axis_vec = axis_vec * (-1);
     }
     return axis_vec / axis_vec.length() * (axis_vec * v) / axis_vec.length();
 }
 
-vec Projection(const vec& v, vec axis_vec) {
-    if (axis_vec * v <= 0) {
-        axis_vec = axis_vec * (-1);
-    }
-    return axis_vec / axis_vec.length() * (axis_vec * v) / axis_vec.length();
-}
-
-void MoveableObject::move(const vec& vector) {
+void MoveableObject::move(const Vector2f& vector) {
     basepoint = basepoint + vector;
-}
-
-vec NormilizeVector(const vec& vec) {
-    return vec / vec.length();
 }
 
 void MoveableObject::sumNormalForces(Object* obj) {
@@ -91,21 +190,24 @@ void MoveableObject::sumNormalForces(Object* obj) {
     if (this == obj) {
         return;
     }
-    vec N = {0, 0};
+    Vector2f N = {0, 0};
     for (auto self_line : polygons) {
         self_line = self_line.move(basepoint);
         for (auto other_line : obj->polygons) {
             other_line = other_line.move(obj->basepoint);
-            // if not in touch or object is inside another object
-            if (Distance(self_line, other_line) > PH_CONST_COLLISION_PRES ||
-                Projection(velocity, other_line.norm()) * (basepoint - other_line.p1) >= 0) {
+            // if not in touch
+            if (Distance(self_line, other_line) > PH_CONST_COLLISION_PRES) {
                 continue;
             }
 
-            N = N + NormilizeVector(Projection(resultantForce, other_line.norm())) * (-1);
-
+            touch = true;
+            N += Projection(resultantForce, other_line.getNormal()).normilize();
             resultantForce = resultantForce - Projection(resultantForce, N);
+            velocity -= Projection(velocity, N); 
         }
     }
+    // doesn't work some why
+    //resultantForce = resultantForce - Projection(resultantForce, N);
+    //velocity -= Projection(velocity, N);  
     isInTouch |= touch;
 }
