@@ -106,14 +106,14 @@ void Engine::renderObject(const std::unique_ptr<Object>& object) {
 }
 
 void Engine::physicsPerFrame() {
-    for (auto& _obj : moveableObjects_) {
-        auto obj = static_cast<MoveableObject*>(_obj.get());
-        Vector2f& F = obj->resultantForce;
-        float m = obj->mass;
+    for (auto& _obj : moveableObjects_) { // NOLINT
+        auto* obj = dynamic_cast<MoveableObject*>(_obj.get());
+        Vector2f& force = obj->resultant_force;
+        float mass = obj->mass;
         Vector2f& vel = obj->velocity;
 
-        F = Vector2f(0, -1 * m * PH_CONST_G) + obj->magicForces;
-        obj->isInTouch = false;
+        force = Vector2f(0, -1 * mass * PH_CONST_G) + obj->magic_force;
+        obj->is_in_touch = false;
         for (const auto& coln : objects_) {
             obj->sumNormalForces(coln);
         }
@@ -121,37 +121,37 @@ void Engine::physicsPerFrame() {
             obj->sumNormalForces(coln);
         }
 
-        obj->magicForces = Vector2f(0, 0);
+        obj->magic_force = Vector2f(0, 0);
 
-        Vector2f a = F / m;
-        vel = vel + a * frametime / 1000.f;
+        Vector2f acceleration = force / mass;
+        vel = vel + acceleration * frametime / 1000.f;
         obj->move(vel * frametime / 1000.f);
     }
 }
 
 void Engine::characterJump() {
-    auto player = static_cast<MoveableObject*>(moveableObjects_[0].get());
-    if (player->isInTouch) {
+    auto* player = dynamic_cast<MoveableObject*>(moveableObjects_[0].get());
+    if (player->is_in_touch) {
         player->velocity = player->velocity + Vector2f(0, 3);
     }
 }
 
 void Engine::characterLeft() {
-    auto player = static_cast<MoveableObject*>(moveableObjects_[0].get());
-    player->magicForces = Vector2f(-20, 0);
+    auto* player = dynamic_cast<MoveableObject*>(moveableObjects_[0].get());
+    player->magic_force = Vector2f(-20, 0);
 }
 
 void Engine::characterRight() {
-    auto player = static_cast<MoveableObject*>(moveableObjects_[0].get());
-    player->magicForces = Vector2f(20, 0);
+    auto* player = dynamic_cast<MoveableObject*>(moveableObjects_[0].get());
+    player->magic_force = Vector2f(20, 0);
 }
 
 void Engine::restart() {
-    auto player = static_cast<MoveableObject*>(moveableObjects_[0].get());
+    auto* player = dynamic_cast<MoveableObject*>(moveableObjects_[0].get());
     player->basepoint = Vector2f(0, 0);
-    player->magicForces = Vector2f(0, 0);
+    player->magic_force = Vector2f(0, 0);
     player->velocity = Vector2f(0, 0);
-    player->resultantForce = Vector2f(0, 0);
+    player->resultant_force = Vector2f(0, 0);
 }
 
 void Engine::drawBaton(const std::unique_ptr<Object>& obj) {

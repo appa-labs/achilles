@@ -8,7 +8,9 @@
 #define math_sqrt(x) std::sqrt(x)
 #define math_abs(x) std::abs(x)
 
-extern inline const float PH_CONST_G = 9.81f;
+#define nullvector Vector2f(0, 0)
+
+extern inline const float PH_CONST_G = 1.f; // 9.81f;
 extern inline const float PH_CONST_COLLISION_PRES = 0.05f;
 inline const float kEps = 1e-6;
 
@@ -122,6 +124,8 @@ Vector2f Projection(const Vector2f& v, const LineSegment& axis);
 
 Vector2f Projection(const Vector2f& v, Vector2f axis_vec);
 
+bool IsColliniar(const Vector2f& v1, const Vector2f& v2);
+
 // ----------------------------------------------------------------------
 // Object
 // ----------------------------------------------------------------------
@@ -152,12 +156,12 @@ class Object {
 // that initializes the fields. It inherits from class Object.
 class MoveableObject : public Object {
    public:
-    Vector2f resultantForce;
+    Vector2f resultant_force;
     Vector2f velocity;
-    Vector2f magicForces;
+    Vector2f magic_force;
     float mass = 0.F;
-    float frictionCoef = 1.F;
-    bool isInTouch = false;
+    float friction_coef = 1.F;
+    bool is_in_touch = false;
    
     void move(const Vector2f& vector);
 

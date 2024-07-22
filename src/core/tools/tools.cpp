@@ -165,35 +165,47 @@ Vector2f Projection(const Vector2f& v, Vector2f axis_vec) {
         return axis_vec * ((axis_vec * v) / axis_vec_ls);
 }
 
+bool IsColliniar(const Vector2f& v1, const Vector2f& v2) {
+    return v1.x * v2.y - v1.y * v2.x == 0;
+}
+
 void MoveableObject::move(const Vector2f& vector) {
     basepoint = basepoint + vector;
 }
 
 void MoveableObject::sumNormalForces(const std::unique_ptr<Object>& obj) {
-    bool touch = false;
     if (this == obj.get()) {
         return;
     }
-    //Vector2f N = {0, 0};
+
+    Vector2f normal_force = nullvector;
     for (auto self_line : polygons) {
         self_line = self_line.move(basepoint);
         for (auto other_line : obj->polygons) {
             other_line = other_line.move(obj->basepoint);
-            // if not in touch
-            // if (IsIntersect(self_line, other_line)) {
-            //     magicForces = other_line.getNormal() * (mass * PH_CONST_G);
-            //     continue;
-            // }
-            if (Distance(self_line, other_line) <= PH_CONST_COLLISION_PRES) {
-                touch = true;
-            //N += Projection(resultantForce, other_line.getNormal()).normilize();
-            resultantForce += other_line.getNormal() * mass * PH_CONST_G;
-            velocity -= Projection(velocity, other_line.getNormal());
-            } 
+
+            float distance = Distance(self_line, other_line);
+    
+            if (distance > PH_CONST_COLLISION_PRES) {
+                continue;
+            }
+            
+            float step_into = std::min(math_abs(SignedDistance(self_line.p1, other_line)), 
+                                        math_abs(SignedDistance(self_line.p2, other_line)));
+
+            if (IsIntersect(self_line, other_line) && step_into > kEps) {
+                auto difference = (PH_CONST_COLLISION_PRES - distance) * other_line.getNormal();
+                basepoint += difference;
+                self_line = self_line.move(difference);
+            }
+            
+            is_in_touch = true;
+            normal_force += other_line.getNormal();
         }
     }
-    // doesn't work some why
-    //resultantForce = resultantForce - Projection(resultantForce, N);
-    //velocity -= Projection(velocity, N);  
-    isInTouch |= touch;
+
+    if (is_in_touch) {
+        resultant_force -= Projection(resultant_force, normal_force);
+        velocity -= Projection(velocity, normal_force);  
+    }
 }
