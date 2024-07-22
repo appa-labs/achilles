@@ -1,12 +1,17 @@
 load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary")
 
+filegroup(
+    name = "resources",
+    srcs = glob(["resources/**"]),
+)
+
 cc_binary(
     name = "game",
     srcs = [
         "main.cpp",
     ],
     data = [
-        "//:resources",
+        ":resources",
     ],
     deps = [
         "//src/core/engine:engine",

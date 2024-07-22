@@ -10,7 +10,7 @@
 
 #define nullvector Vector2f(0, 0)
 
-extern inline const float PH_CONST_G = 1.f; // 9.81f;
+extern inline const float PH_CONST_G = 9.81f;
 extern inline const float PH_CONST_COLLISION_PRES = 0.05f;
 inline const float kEps = 1e-6;
 
