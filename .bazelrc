@@ -16,6 +16,10 @@ test --copt="--language=c++"
 build --cxxopt="-O3"
 test --cxxopt="-O3"
 
+# modules
+# build --cxxopt="-fmodules-ts"
+# test --cxxopt="-fmodules-ts"
+
 # Avx512
 # build --cxxopt="-march=native"
 # test --cxxopt="-march=native"

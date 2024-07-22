@@ -186,7 +186,7 @@ void MoveableObject::sumNormalForces(const std::unique_ptr<Object>& obj) {
 
             touch = true;
             N += Projection(resultantForce, other_line.getNormal()).normilize();
-            resultantForce = resultantForce - Projection(resultantForce, N);
+            resultantForce -= Projection(resultantForce, N);
             velocity -= Projection(velocity, N); 
         }
     }

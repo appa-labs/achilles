@@ -2,7 +2,6 @@
 
 #include <cmath>
 #include <memory>
-#include <spdlog/spdlog.h>-
 #include <utility>
 #include <vector>
 
