@@ -185,9 +185,9 @@ void MoveableObject::move(const Vector2f& vector) {
     basepoint = basepoint + vector;
 }
 
-void MoveableObject::sumNormalForces(Object* obj) {
+void MoveableObject::sumNormalForces(const std::unique_ptr<Object>& obj) {
     bool touch = false;
-    if (this == obj) {
+    if (this == obj.get()) {
         return;
     }
     Vector2f N = {0, 0};

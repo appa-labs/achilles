@@ -1,7 +1,8 @@
 #pragma once
 
 #include <cmath>
-#include <spdlog/spdlog.h>
+#include <memory>
+#include <spdlog/spdlog.h>-
 #include <utility>
 #include <vector>
 
@@ -160,7 +161,7 @@ class MoveableObject : public Object {
    
     void move(const Vector2f& vector);
 
-    void sumNormalForces(Object* obj);
+    void sumNormalForces(const std::unique_ptr<Object>& obj);
 
     explicit MoveableObject(const Vector2f& basepoint, const std::vector<LineSegment>& polygons)
         : Object(basepoint, polygons) {

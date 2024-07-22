@@ -84,7 +84,8 @@ void Engine::renderFrame() {
     }
     for (const auto& obj : moveableObjects_) {
         // renderObject(obj);
-        camera = obj->basepoint;
+        // TODO(): fix this
+        camera = obj->basepoint; // works only with one moveable objectss
         drawBaton(obj);
     }
     window.display();
@@ -113,10 +114,10 @@ void Engine::physicsPerFrame() {
         F = Vector2f(0, -1 * m * PH_CONST_G) + obj->magicForces;
         obj->isInTouch = false;
         for (const auto& coln : objects_) {
-            obj->sumNormalForces(coln.get());
+            obj->sumNormalForces(coln);
         }
         for (const auto& coln : moveableObjects_) {
-            obj->sumNormalForces(coln.get());
+            obj->sumNormalForces(coln);
         }
 
         obj->magicForces = Vector2f(0, 0);
