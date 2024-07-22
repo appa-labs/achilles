@@ -54,13 +54,8 @@ Vector2f& Vector2f::operator*=(float scalar) {
     return *this;
 }
 
-Vector2f Vector2f::operator*(const Vector2f& other) const {
-    return {x * other.x, y * other.y};
-}
-
-Vector2f& Vector2f::operator*=(const Vector2f& other) {
-    *this = *this * other;
-    return *this;
+float Vector2f::operator*(const Vector2f& other) const {
+    return x * other.x + y * other.y;
 }
 
 Vector2f Vector2f::operator/(float scalar) const {
@@ -113,10 +108,6 @@ bool Vector2f::operator!=(const Vector2f& other) const {
     return normal;
 }
 
-float DotProduct(const Vector2f &v1, const Vector2f &v2) {
-    return v1.x * v2.x + v1.y * v2.y;
-}
-
 float Distance(const Vector2f& p1, const Vector2f& p2) {
     return math_sqrt((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y));
 }
@@ -130,7 +121,7 @@ float Distance(const Vector2f& point, const LineSegment& segment) {
     // We find projection of point p onto the line. 
     // It falls where t = [(p-p1) . (p2-p1)] / |p2-p1|^2
     // We clamp t from [0,1] to handle points outside the segment.
-    const float t = std::max(0.0f, std::min(1.0f, DotProduct(point - segment.p1, segment.p2 - segment.p1) / l2));
+    const float t = std::max(0.0f, std::min(1.0f, (point - segment.p1 ) * (segment.p2 - segment.p1) / l2));
     const Vector2f projection = segment.p1 + t * ( - segment.p1);  // Projection falls on the segment
     return Distance(point, projection);
 }
@@ -164,21 +155,14 @@ bool IsIntersect(const LineSegment& s1, const LineSegment& s2) {
             ((a2 >= 0 && b2 <= 0) || (a2 <= 0 && b2 >= 0));
 }
 
-// TODO(Kirill): check correctness of this func
-Vector2f Projection(const Vector2f& v, const LineSegment& axis) {
-    Vector2f axis_vec(axis.p1.x - axis.p2.x, axis.p1.y - axis.p2.y);
-    if ((axis_vec * v).length() <= 0) {
-        axis_vec = axis_vec * (-1);
-    }
-    return axis_vec.normilize() * (axis_vec * v) / axis_vec.length();
+Vector2f Projection(const Vector2f& v, const LineSegment& axis_line) {
+    Vector2f axis_vec = axis_line.p2 - axis_line.p1;
+    return Projection(v, axis_vec);
 }
 
-// TODO(Kirill): check correctness of this func
 Vector2f Projection(const Vector2f& v, Vector2f axis_vec) {
-    if ((axis_vec * v).length() <= 0) {
-        axis_vec = axis_vec * (-1);
-    }
-    return axis_vec / axis_vec.length() * (axis_vec * v) / axis_vec.length();
+    float axis_vec_ls = axis_vec.squaredLength();
+        return axis_vec * ((axis_vec * v) / axis_vec_ls);
 }
 
 void MoveableObject::move(const Vector2f& vector) {

@@ -14,7 +14,7 @@ extern inline const float PH_CONST_COLLISION_PRES = 0.05f;
 // ----------------------------------------------------------------------
 // Vector2f
 // ----------------------------------------------------------------------
-// Class Vector2f represents a vector in 2D space or point, depends on context.
+// Class Vector2f represents a vector or point in 2D space, depends on context.
 // It has two float fields: x and y. It has methods for vector normalization,
 // getting SFML coordinates, getting local coordinates, vector addition,
 // subtraction, multiplication by scalar, division by scalar, comparison.
@@ -39,8 +39,6 @@ class Vector2f {
     Vector2f& operator-=(const Vector2f& other);
     
     Vector2f& operator*=(float scalar);
-
-    Vector2f& operator*=(const Vector2f& other);
     
     Vector2f& operator/=(float scalar);
 
@@ -52,7 +50,8 @@ class Vector2f {
     
     Vector2f operator*(float scalar) const;
 
-    Vector2f operator*(const Vector2f& other) const;
+    // dot product
+    float operator*(const Vector2f& other) const;
     
     Vector2f operator/(float scalar) const;
 
