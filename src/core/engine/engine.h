@@ -1,15 +1,15 @@
 #pragma once
 
-#include <map>
-#include <memory>
-#include <string>
-#include <vector>
+#include <SFML/Graphics.hpp>
+#include <SFML/Window.hpp>
 #include <fstream>
 #include <iostream>
 #include <map>
+#include <map>
+#include <memory>
 #include <spdlog/spdlog.h>
-#include <SFML/Graphics.hpp>
-#include <SFML/Window.hpp>
+#include <string>
+#include <vector>
 
 #include "src/core/tools/tools.h"
 

@@ -68,7 +68,7 @@ void Engine::loadObjects(const std::string& path) {
             objects_.push_back(std::make_unique<Object>(buf, vectorcache));
         }
     }
-    objtypes_.clear();  // ����������� ������, ���� ����� ��
+    objtypes_.clear();
 }
 
 void Engine::stop() {
@@ -77,10 +77,11 @@ void Engine::stop() {
 }
 
 void Engine::renderFrame() {
-    const auto black = sf::Color(0, 0, 0, 0);
-    window.clear(black);
+    const auto green = sf::Color(0, 100, 0, 0);
+    window.clear(green);
     for (const auto& obj : objects_) {
         renderObject(obj);
+        //drawBaton(obj);
     }
     for (const auto& obj : moveableObjects_) {
         // renderObject(obj);

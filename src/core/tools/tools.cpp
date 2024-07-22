@@ -85,7 +85,7 @@ Vector2f operator*(float scalar, const Vector2f& vector) {
 }
 
 bool Vector2f::operator==(const Vector2f& other) const {
-    return x == other.x && y == other.y;
+    return math_abs(x - other.x) <= kEps && math_abs(y - other.y) <= kEps;
 }
 
 bool Vector2f::operator!=(const Vector2f& other) const {
@@ -174,20 +174,22 @@ void MoveableObject::sumNormalForces(const std::unique_ptr<Object>& obj) {
     if (this == obj.get()) {
         return;
     }
-    Vector2f N = {0, 0};
+    //Vector2f N = {0, 0};
     for (auto self_line : polygons) {
         self_line = self_line.move(basepoint);
         for (auto other_line : obj->polygons) {
             other_line = other_line.move(obj->basepoint);
             // if not in touch
-            if (Distance(self_line, other_line) > PH_CONST_COLLISION_PRES) {
-                continue;
-            }
-
-            touch = true;
-            N += Projection(resultantForce, other_line.getNormal()).normilize();
-            resultantForce -= Projection(resultantForce, N);
-            velocity -= Projection(velocity, N); 
+            // if (IsIntersect(self_line, other_line)) {
+            //     magicForces = other_line.getNormal() * (mass * PH_CONST_G);
+            //     continue;
+            // }
+            if (Distance(self_line, other_line) <= PH_CONST_COLLISION_PRES) {
+                touch = true;
+            //N += Projection(resultantForce, other_line.getNormal()).normilize();
+            resultantForce += other_line.getNormal() * mass * PH_CONST_G;
+            velocity -= Projection(velocity, other_line.getNormal());
+            } 
         }
     }
     // doesn't work some why

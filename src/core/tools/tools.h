@@ -6,9 +6,11 @@
 #include <vector>
 
 #define math_sqrt(x) std::sqrt(x)
+#define math_abs(x) std::abs(x)
 
 extern inline const float PH_CONST_G = 9.81f;
 extern inline const float PH_CONST_COLLISION_PRES = 0.05f;
+inline const float kEps = 1e-6;
 
 // ----------------------------------------------------------------------
 // Vector2f
