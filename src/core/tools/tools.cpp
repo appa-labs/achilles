@@ -186,17 +186,22 @@ void MoveableObject::sumNormalForces(const std::unique_ptr<Object>& obj) {
 
             float distance = Distance(self_line, other_line);
     
-            if (distance > PH_CONST_COLLISION_PRES) {
+            if (distance - PH_CONST_COLLISION_PRES > kEps) {
                 continue;
             }
             
+            // idea was in pushing object out if it stucks
             float step_into = std::min(math_abs(SignedDistance(self_line.p1, other_line)), 
                                         math_abs(SignedDistance(self_line.p2, other_line)));
 
             if (IsIntersect(self_line, other_line) && step_into > kEps) {
-                auto difference = (PH_CONST_COLLISION_PRES - distance) * other_line.getNormal();
+                auto difference = (step_into + PH_CONST_COLLISION_PRES) * other_line.getNormal();
                 basepoint += difference;
                 self_line = self_line.move(difference);
+            } else { // if just close to other object
+                auto distance_vec = distance * other_line.getNormal();
+                basepoint += distance_vec;
+                self_line = self_line.move(distance_vec);
             }
             
             is_in_touch = true;
