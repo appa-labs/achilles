@@ -104,8 +104,6 @@ class LineSegment {
 // ----------------------------------------------------------------------
 // Math functions
 // ----------------------------------------------------------------------
-float DotProduct(const Vector2f& v1, const Vector2f& v2);
-
 float Distance(const Vector2f& p1, const Vector2f& p2);
 
 float Distance(const Vector2f& point, const LineSegment& segment);
