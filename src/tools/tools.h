@@ -12,7 +12,7 @@
 
 extern inline const float kPhysConstG = 9.81f;
 extern inline const float kPhysCollisionPres = 0.05f;
-inline const float kEps = 1e-6;
+extern inline const float kEps = 1e-6;
 
 // ----------------------------------------------------------------------
 // Vector2f

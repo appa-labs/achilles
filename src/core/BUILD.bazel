@@ -9,9 +9,8 @@ cc_library(
         "engine.cpp",
     ],
     deps = [
-        "//src/core/tools:tools",
+        "//src/tools:tools",
         "//third_party:sfml",
-        "@spdlog//:spdlog",
     ],
     visibility = ["//visibility:public"],
 )

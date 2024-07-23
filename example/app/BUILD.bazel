@@ -1,9 +1,4 @@
-load("@rules_cc//cc:defs.bzl", "cc_library", "cc_binary")
-
-filegroup(
-    name = "resources",
-    srcs = glob(["resources/**"]),
-)
+load("@rules_cc//cc:defs.bzl", "cc_binary")
 
 cc_binary(
     name = "game",
@@ -11,13 +6,11 @@ cc_binary(
         "main.cpp",
     ],
     data = [
-        ":resources",
+        "//example:resources",
     ],
     deps = [
-        "//src/core/engine:engine",
-        "//src/core/tools:tools",
-        "//src/logger:logger_init",
-        "//third_party:sfml",
+        "//example/core:my_engine",
+        "//example/logger:logger_init",
         "@spdlog//:spdlog",
     ],
 )

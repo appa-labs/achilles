@@ -1,19 +1,13 @@
-#include "src/core/engine/engine.h"
+#include "example/core/my_engine.h"
 
-void Engine::initialization() {
-    width = sf::VideoMode::getDesktopMode().width;
-    height = sf::VideoMode::getDesktopMode().height;
-    aspect = static_cast<float>(width) / height;
+void MyEngine::initialization() {
+    Engine::initialization();
 
-    sf::ContextSettings settings(0, 0, 8, 1, 1, 0, false);
-    window.create(sf::VideoMode(width, height), "Achilles", sf::Style::Fullscreen, settings);
-    window.setMouseCursorVisible(false);
-
-    loadObjTypes("resources/objectTypes.txt");
-    loadObjects("resources/objectMap.txt");
+    loadObjTypes("example/resources/objectTypes.txt");
+    loadObjects("example/resources/objectMap.txt");
 }
 
-void Engine::loadObjTypes(const std::string& path) {
+void MyEngine::loadObjTypes(const std::string& path) {
     std::ifstream fin;
     fin.open(path);
     if (!(fin.is_open())) {
@@ -37,7 +31,7 @@ void Engine::loadObjTypes(const std::string& path) {
     }
 }
 
-void Engine::loadObjects(const std::string& path) {
+void MyEngine::loadObjects(const std::string& path) {
     std::ifstream fin;
     fin.open(path);
     if (!(fin.is_open())) {
@@ -71,17 +65,16 @@ void Engine::loadObjects(const std::string& path) {
     objtypes_.clear();
 }
 
-void Engine::stop() {
+void MyEngine::stop() {
     spdlog::info("Engine close window");
-    window.close();
+    Engine::stop();
 }
 
-void Engine::renderFrame() {
+void MyEngine::renderFrame() {
     const auto green = sf::Color(0, 100, 0, 0);
     window.clear(green);
     for (const auto& obj : objects_) {
         renderObject(obj);
-        //drawBaton(obj);
     }
     for (const auto& obj : moveableObjects_) {
         // renderObject(obj);
@@ -92,7 +85,7 @@ void Engine::renderFrame() {
     window.display();
 }
 
-void Engine::renderObject(const std::unique_ptr<Object>& object) {
+void MyEngine::renderObject(const std::unique_ptr<Object>& object) {
     for (const auto& line : object->polygons) {
         sf::Vertex vline[] = {
           sf::Vertex(sf::Vector2f(
@@ -105,48 +98,24 @@ void Engine::renderObject(const std::unique_ptr<Object>& object) {
     }
 }
 
-void Engine::physicsPerFrame() {
-    for (auto& _obj : moveableObjects_) { // NOLINT
-        auto* obj = dynamic_cast<MoveableObject*>(_obj.get());
-        Vector2f& force = obj->resultant_force;
-        float mass = obj->mass;
-        Vector2f& vel = obj->velocity;
-
-        force = Vector2f(0, -1 * mass * PH_CONST_G) + obj->magic_force;
-        obj->is_in_touch = false;
-        for (const auto& coln : objects_) {
-            obj->sumNormalForces(coln);
-        }
-        for (const auto& coln : moveableObjects_) {
-            obj->sumNormalForces(coln);
-        }
-
-        obj->magic_force = Vector2f(0, 0);
-
-        Vector2f acceleration = force / mass;
-        vel = vel + acceleration * frametime / 1000.f;
-        obj->move(vel * frametime / 1000.f);
-    }
-}
-
-void Engine::characterJump() {
+void MyEngine::characterJump() {
     auto* player = dynamic_cast<MoveableObject*>(moveableObjects_[0].get());
     if (player->is_in_touch) {
         player->velocity = player->velocity + Vector2f(0, 3);
     }
 }
 
-void Engine::characterLeft() {
+void MyEngine::characterLeft() {
     auto* player = dynamic_cast<MoveableObject*>(moveableObjects_[0].get());
     player->magic_force = Vector2f(-20, 0);
 }
 
-void Engine::characterRight() {
+void MyEngine::characterRight() {
     auto* player = dynamic_cast<MoveableObject*>(moveableObjects_[0].get());
     player->magic_force = Vector2f(20, 0);
 }
 
-void Engine::restart() {
+void MyEngine::restart() {
     auto* player = dynamic_cast<MoveableObject*>(moveableObjects_[0].get());
     player->basepoint = Vector2f(0, 0);
     player->magic_force = Vector2f(0, 0);
@@ -154,25 +123,25 @@ void Engine::restart() {
     player->resultant_force = Vector2f(0, 0);
 }
 
-void Engine::drawBaton(const std::unique_ptr<Object>& obj) {
+void MyEngine::drawBaton(const std::unique_ptr<Object>& obj) {
     LineSegment l = obj->polygons[0];
-    l = l.move(obj->basepoint - Vector2f(PH_CONST_COLLISION_PRES, -PH_CONST_COLLISION_PRES) - camera);
+    l = l.move(obj->basepoint - Vector2f(kPhysCollisionPres, -kPhysCollisionPres) - camera);
     auto white = sf::Color(255, 255, 255);
 
-    sf::CircleShape circle1(PH_CONST_COLLISION_PRES / 2 * height);
+    sf::CircleShape circle1(kPhysCollisionPres / 2 * height);
     circle1.setFillColor(white);
     circle1.move(l.p1.getSfmlCords(width, height).x, l.p1.getSfmlCords(width, height).y);
 
-    sf::CircleShape circle2(PH_CONST_COLLISION_PRES / 2 * height);
+    sf::CircleShape circle2(kPhysCollisionPres / 2 * height);
     circle2.setFillColor(white);
     circle2.move(l.p2.getSfmlCords(width, height).x, l.p2.getSfmlCords(width, height).y);
 
     sf::RectangleShape rect(sf::Vector2f(
-        PH_CONST_COLLISION_PRES * height,
+        kPhysCollisionPres * height,
         0.3 / 2 * height));  // the rectangle is specified by the size
     rect.setFillColor(white);
     rect.move(
-        l.p1.getSfmlCords(width, height).x, (l.p1 - Vector2f(0, PH_CONST_COLLISION_PRES))
+        l.p1.getSfmlCords(width, height).x, (l.p1 - Vector2f(0, kPhysCollisionPres))
                                         .getSfmlCords(width, height)
                                         .y);  // shifted relative to the top left point
 
@@ -181,7 +150,7 @@ void Engine::drawBaton(const std::unique_ptr<Object>& obj) {
     window.draw(rect);
 }
 
-void Engine::renderFPS(sf::Text& frame_rate_text) {
+void MyEngine::renderFPS(sf::Text& frame_rate_text) {
     if (frametime == 0) {
         ++frametime;
     }

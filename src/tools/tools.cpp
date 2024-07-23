@@ -1,4 +1,4 @@
-#include "src/core/tools/tools.h"
+#include "src/tools/tools.h"
 
 [[nodiscard]] Vector2f Vector2f::getSfmlCords(
     int width, int height) const {
@@ -187,7 +187,7 @@ void MoveableObject::sumNormalForces(const std::unique_ptr<Object>& obj) {
 
             float distance = Distance(self_line, other_line);
     
-            if (distance - PH_CONST_COLLISION_PRES > kEps) {
+            if (distance - kPhysCollisionPres > kEps) {
                 continue;
             }
             
@@ -196,7 +196,7 @@ void MoveableObject::sumNormalForces(const std::unique_ptr<Object>& obj) {
                                         math_abs(SignedDistance(self_line.p2, other_line)));
 
             if (IsIntersect(self_line, other_line) && step_into > kEps) {
-                auto difference = (step_into + PH_CONST_COLLISION_PRES) * other_line.getNormal();
+                auto difference = (step_into + kPhysCollisionPres) * other_line.getNormal();
                 basepoint += difference;
                 self_line = self_line.move(difference);
             } else { // if just close to other object
