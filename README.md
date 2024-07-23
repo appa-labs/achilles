@@ -17,7 +17,7 @@ Achilles Game Engine is a 2D game engine that provides a framework for developin
 
 ## Installation
 
-To install achilles, follow this [steps](https://github.com/appa-labs/achilles/blob/main/docs/SETUP.md) or quck start with the following commands:
+To install achilles, follow this [steps](https://github.com/appa-labs/achilles/blob/main/docs/SETUP.md) or quick start with the following commands:
 
 ```WORKSPACE
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
