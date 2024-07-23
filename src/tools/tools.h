@@ -124,8 +124,6 @@ Vector2f Projection(const Vector2f& v, const LineSegment& axis);
 
 Vector2f Projection(const Vector2f& v, Vector2f axis_vec);
 
-bool IsColliniar(const Vector2f& v1, const Vector2f& v2);
-
 // ----------------------------------------------------------------------
 // Object
 // ----------------------------------------------------------------------

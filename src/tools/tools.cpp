@@ -165,11 +165,6 @@ Vector2f Projection(const Vector2f& v, Vector2f axis_vec) {
         return axis_vec * ((axis_vec * v) / axis_vec_ls);
 }
 
-// TODO(): Check corectness of this func, especially float compare
-bool IsColliniar(const Vector2f& v1, const Vector2f& v2) {
-    return v1.x * v2.y - v1.y * v2.x == 0;
-}
-
 void MoveableObject::move(const Vector2f& vector) {
     basepoint = basepoint + vector;
 }
