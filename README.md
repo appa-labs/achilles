@@ -1,6 +1,6 @@
-# Achilles Game
+# Achilles Game Engine
 
-Achilles Game is a 2D platformer game developed using C++ and SFML. It is currently in the early stages of development.
+Achilles is a 2D light weight game engine developed using C++ and [SFML](https://github.com/SFML/SFML).
 
 ## Table of Contents
 
@@ -13,22 +13,24 @@ Achilles Game is a 2D platformer game developed using C++ and SFML. It is curren
 
 ## Description
 
-Achilles Game is an exciting 2D platformer game that aims to provide a thrilling gaming experience. The game features a protagonist named Achilles who embarks on an epic adventure through various levels filled with obstacles, enemies, and puzzles. 
-
-The game is being developed using C++ and [SFML](https://github.com/SFML/SFML), which allows for smooth graphics, animations, and sound effects. The early level of development focuses on creating the basic gameplay mechanics (especially physics), such as character movement and collision detection.
+Achilles Game Engine is a 2D game engine that provides a framework for developing platformer games. The engine includes features such as physics simulation, collision detection, and rendering. It is designed to be easy to use and flexible, allowing developers to create custom game mechanics and content.
 
 ## Installation
 
-To install Achilles Game, follow this [steps](https://github.com/appa-labs/Achilles/blob/main/docs/SETUP.md).
+To install Achilles Game, follow this [steps](https://github.com/appa-labs/Achilles/blob/main/docs/SETUP.md) or quck start with the following commands:
+
+```WORKSPACE
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
+
+git_repository(
+    name = "achilles",
+    remote = "https://github.com/appa-labs/Achilles.git",
+)
+```
 
 ## Usage
 
-To play Achilles Game, use the following controls:
-- Move left: A key
-- Move right: D key
-- Jump: Spacebar
-
-Avoid obstacles, defeat enemies, and collect power-ups to progress through the levels. Reach the end of each level to unlock new challenges and advance in the game.
+To make game using Achilles Game Engine, you need to create a new class that inherits from `Engine` class and implement some pure virtual functions, see example [here](https://github.com/appa-labs/Achilles/tree/main/example).
 
 ## Examples
 
