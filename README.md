@@ -28,6 +28,11 @@ git_repository(
 )
 ```
 
+And make sure you installed sfml library:
+```
+sudo apt install -y libsfml-dev
+```
+
 ## Usage
 
 To make game using achilles, you need to create a new class that inherits from `Engine` class and implement some pure virtual functions, see example [here](https://github.com/appa-labs/achilles/tree/main/example).
