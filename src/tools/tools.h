@@ -155,9 +155,9 @@ class MoveableObject : public Object {
     Vector2f resultant_force;
     Vector2f velocity;
     Vector2f magic_force;
-    float mass = 0.F;
-    float friction_coef = 1.F;
-    bool is_in_touch = false;
+    float mass{0.f};
+    float friction_coef{1.f};
+    bool is_in_touch{false};
    
     void move(const Vector2f& vector);
 
