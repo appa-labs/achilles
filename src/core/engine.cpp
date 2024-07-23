@@ -30,7 +30,7 @@ void Engine::renderPhysics() {
             obj->sumNormalForces(coln);
         }
 
-        obj->magic_force = Vector2f(0, 0);
+        obj->magic_force = nullvector;
 
         Vector2f acceleration = force / mass;
         vel = vel + acceleration * frametime / 1000.f;
