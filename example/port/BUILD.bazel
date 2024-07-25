@@ -1,0 +1,7 @@
+# web porting
+load("@emsdk//emscripten_toolchain:wasm_rules.bzl", "wasm_cc_binary")
+
+wasm_cc_binary(
+    name = "example_game_wasm",
+    cc_target = "//example/app:game",
+)

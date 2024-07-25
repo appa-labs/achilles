@@ -4,7 +4,6 @@
 #
 # For more details, please check https://github.com/bazelbuild/bazel/issues/18958
 ###############################################################################
-# bazel_dep(name = "rules_go", version = "0.46.0")
 bazel_dep(name = "rules_cc", version = "0.0.9")
 bazel_dep(name = "bazel_skylib", version = "1.5.0")
 
@@ -42,4 +41,7 @@ git_override(
     commit = "bff5c59c843221b05ef0e37cef089ecc9d24e7da",
     remote = "https://github.com/erenon/bazel_clang_tidy.git",
 )
+
+# emsdk dependencies
+bazel_dep(name = "platforms", version = "0.0.9")
 

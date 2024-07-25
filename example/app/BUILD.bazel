@@ -13,4 +13,5 @@ cc_binary(
         "//example/logger:logger_init",
         "@spdlog//:spdlog",
     ],
+    visibility = ["//visibility:public"],
 )
