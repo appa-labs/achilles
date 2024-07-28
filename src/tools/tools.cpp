@@ -1,7 +1,6 @@
 #include "src/tools/tools.h"
 
-[[nodiscard]] Vector2f Vector2f::getSfmlCords(
-    int width, int height) const {
+[[nodiscard]] Vector2f Vector2f::getSfmlCords(int width, int height) const {
     float aspect = static_cast<float>(width) / height;
     return {(x + 1.f * aspect) / aspect / 2.f * width, (-1.f * y + 1.f) / 2.f * height};
 }
@@ -25,7 +24,6 @@ Vector2f& Vector2f::normilize() {
     y /= vec_length;
     return *this;
 }
-
 
 Vector2f Vector2f::operator+(const Vector2f& other) const {
     return {x + other.x, y + other.y};
@@ -113,16 +111,17 @@ float Distance(const Vector2f& p1, const Vector2f& p2) {
 }
 
 float Distance(const Vector2f& point, const LineSegment& segment) {
-    float l2 = segment.squaredLength();// avoid sqrt
-    if (l2 == 0) { // length == 0
+    float l2 = segment.squaredLength();  // avoid sqrt
+    if (l2 == 0) {                       // length == 0
         return Distance(point, segment.p1);
     }
     // Consider the line extending the segment, parameterized as p1 + t(p2 - p1).
-    // We find projection of point p onto the line. 
+    // We find projection of point p onto the line.
     // It falls where t = [(p-p1) . (p2-p1)] / |p2-p1|^2
     // We clamp t from [0,1] to handle points outside the segment.
-    const float t = std::max(0.0f, std::min(1.0f, (point - segment.p1 ) * (segment.p2 - segment.p1) / l2));
-    const Vector2f projection = segment.p1 + t * ( - segment.p1);  // Projection falls on the segment
+    const float t =
+        std::max(0.0f, std::min(1.0f, (point - segment.p1) * (segment.p2 - segment.p1) / l2));
+    const Vector2f projection = segment.p1 + t * (-segment.p1);  // Projection falls on the segment
     return Distance(point, projection);
 }
 
@@ -132,9 +131,7 @@ float Distance(const LineSegment& s1, const LineSegment& s2) {
     }
     return std::min(
         Distance(s1.p1, s2),
-        std::min(Distance(s1.p2, s2), 
-            std::min(Distance(s2.p1, s1), 
-                Distance(s2.p2, s1))));
+        std::min(Distance(s1.p2, s2), std::min(Distance(s2.p1, s1), Distance(s2.p2, s1))));
 }
 
 float SignedDistance(const Vector2f& point, const LineSegment& segment) {
@@ -151,8 +148,8 @@ bool IsIntersect(const LineSegment& s1, const LineSegment& s2) {
     float a2 = SignedDistance(s2.p1, s1);
     float b2 = SignedDistance(s2.p2, s1);
 
-    return ((a1 >= 0 && b1 <= 0) || (a1 <= 0 && b1 >= 0)) && 
-            ((a2 >= 0 && b2 <= 0) || (a2 <= 0 && b2 >= 0));
+    return ((a1 >= 0 && b1 <= 0) || (a1 <= 0 && b1 >= 0)) &&
+           ((a2 >= 0 && b2 <= 0) || (a2 <= 0 && b2 >= 0));
 }
 
 Vector2f Projection(const Vector2f& v, const LineSegment& axis_line) {
@@ -162,7 +159,7 @@ Vector2f Projection(const Vector2f& v, const LineSegment& axis_line) {
 
 Vector2f Projection(const Vector2f& v, Vector2f axis_vec) {
     float axis_vec_ls = axis_vec.squaredLength();
-        return axis_vec * ((axis_vec * v) / axis_vec_ls);
+    return axis_vec * ((axis_vec * v) / axis_vec_ls);
 }
 
 void MoveableObject::move(const Vector2f& vector) {
@@ -181,25 +178,26 @@ void MoveableObject::sumNormalForces(const std::unique_ptr<Object>& obj) {
             other_line = other_line.move(obj->basepoint);
 
             float distance = Distance(self_line, other_line);
-    
+
             if (distance - kPhysCollisionPres > kEps) {
                 continue;
             }
-            
+
             // idea was in pushing object out if it stucks
-            float step_into = std::min(math_abs(SignedDistance(self_line.p1, other_line)), 
-                                        math_abs(SignedDistance(self_line.p2, other_line)));
+            float step_into = std::min(
+                math_abs(SignedDistance(self_line.p1, other_line)),
+                math_abs(SignedDistance(self_line.p2, other_line)));
 
             if (IsIntersect(self_line, other_line) && step_into > kEps) {
                 auto difference = (step_into + kPhysCollisionPres) * other_line.getNormal();
                 basepoint += difference;
                 self_line = self_line.move(difference);
-            } else { // if just close to other object
+            } else {  // if just close to other object
                 auto distance_vec = distance * other_line.getNormal();
                 basepoint += distance_vec;
                 self_line = self_line.move(distance_vec);
             }
-            
+
             is_in_touch = true;
             normal_force += other_line.getNormal();
         }
@@ -207,6 +205,15 @@ void MoveableObject::sumNormalForces(const std::unique_ptr<Object>& obj) {
 
     if (is_in_touch) {
         resultant_force -= Projection(resultant_force, normal_force);
-        velocity -= Projection(velocity, normal_force);  
+        velocity -= Projection(velocity, normal_force);
     }
+}
+
+float Distance(const LineSegment& segment, const Object& obj) {
+    float ans = -1;
+    for (LineSegment line : obj->polygons) {
+        line = line.move(basepoint);
+        ans = ans == -1 ? Distance(segment, line) : std::min(ans, Distance(segment, line));
+    }
+    return ans;
 }

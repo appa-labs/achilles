@@ -1,13 +1,13 @@
 #pragma once
 
+#include "src/tools/tools.h"
+
 #include <SFML/Graphics.hpp>
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <map>
 #include <memory>
 #include <vector>
-
-#include "src/tools/tools.h"
 
 // ----------------------------------------------------------------------
 // Engine
@@ -41,6 +41,8 @@ class Engine {
     virtual void renderObject(const std::unique_ptr<Object>& object) = 0;
 
     void renderPhysics();
+    bool isCollide(const MoveableObject& self, const MoveableObject& other);
+    bool isCollide(const MoveableObject& self, const Object& other);
 
     virtual ~Engine() = default;
 

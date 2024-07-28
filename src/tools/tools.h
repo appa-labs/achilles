@@ -28,34 +28,34 @@ class Vector2f {
 
     Vector2f() = default;
 
-    Vector2f(float _x, float _y) : x(_x), y(_y){}; // NOLINT
+    Vector2f(float _x, float _y) : x(_x), y(_y){};  // NOLINT
 
     [[nodiscard]] float length() const;
 
-    [[nodiscard]] float squaredLength() const; // avoid a sqrt
-    
+    [[nodiscard]] float squaredLength() const;  // avoid a sqrt
+
     Vector2f& normilize();
-    
+
     // Arithmetic
     Vector2f& operator+=(const Vector2f& other);
-    
+
     Vector2f& operator-=(const Vector2f& other);
-    
+
     Vector2f& operator*=(float scalar);
-    
+
     Vector2f& operator/=(float scalar);
 
     Vector2f& operator/=(const Vector2f& other);
-    
+
     Vector2f operator+(const Vector2f& other) const;
-    
+
     Vector2f operator-(const Vector2f& other) const;
-    
+
     Vector2f operator*(float scalar) const;
 
     // dot product
     float operator*(const Vector2f& other) const;
-    
+
     Vector2f operator/(float scalar) const;
 
     Vector2f operator/(const Vector2f& other) const;
@@ -70,7 +70,7 @@ class Vector2f {
     bool operator!=(const Vector2f& other) const;
 
     [[nodiscard]] Vector2f getSfmlCords(int width, int height) const;
-    
+
     [[nodiscard]] Vector2f getLocalCords(int width, int height) const;
 };
 
@@ -85,7 +85,7 @@ class LineSegment {
     Vector2f p1;
     Vector2f p2;
 
-    LineSegment(const Vector2f& _p1, const Vector2f& _p2) : p1(_p1), p2(_p2){}; // NOLINT
+    LineSegment(const Vector2f& _p1, const Vector2f& _p2) : p1(_p1), p2(_p2){};  // NOLINT
 
     [[nodiscard]] float squaredLength() const;
 
@@ -133,7 +133,8 @@ class Object {
    public:  // TODO (later): change visability for members - bpoint & polygons
     friend class Engine;
 
-    explicit Object(const Vector2f& _basepoint, const std::vector<LineSegment>& _polygons)  // NOLINT
+    explicit Object(
+        const Vector2f& _basepoint, const std::vector<LineSegment>& _polygons)  // NOLINT
         : basepoint(_basepoint), polygons(_polygons) {
     }
 
@@ -158,7 +159,7 @@ class MoveableObject : public Object {
     float mass{0.f};
     float friction_coef{1.f};
     bool is_in_touch{false};
-   
+
     void move(const Vector2f& vector);
 
     void sumNormalForces(const std::unique_ptr<Object>& obj);
@@ -167,7 +168,14 @@ class MoveableObject : public Object {
         : Object(basepoint, polygons) {
     }
 
-    explicit MoveableObject(const Vector2f& basepoint, const std::vector<LineSegment>& polygons, float m)
+    explicit MoveableObject(
+        const Vector2f& basepoint, const std::vector<LineSegment>& polygons, float m)
         : Object(basepoint, polygons), mass(m) {
     }
 };
+
+float Distance(const LineSegment& segment, const Object& obj);
+
+inline float Distance(const Object& obj, const LineSegment& segment) {
+    return Distance(segment, obj);
+}

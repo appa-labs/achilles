@@ -15,7 +15,7 @@ void Engine::stop() {
 }
 
 void Engine::renderPhysics() {
-    for (auto& _obj : moveableObjects_) { // NOLINT
+    for (auto& _obj : moveableObjects_) {  // NOLINT
         auto* obj = dynamic_cast<MoveableObject*>(_obj.get());
         Vector2f& force = obj->resultant_force;
         float mass = obj->mass;
@@ -36,4 +36,24 @@ void Engine::renderPhysics() {
         vel = vel + acceleration * frametime / 1000.f;
         obj->move(vel * frametime / 1000.f);
     }
+}
+
+bool Engine::isCollide(const MoveableObject& self, const Object& other) {
+    for (const auto& line : self.polygons) {
+        Vector2f p = line.p1 + self.basepoint;
+        Vector2f p_nextframe = p + self.vel * frametime / 1000.f;
+        if (Distance({p, p_nextframe}, other) <= kPhysCollisionPres) {
+            return true;
+        }
+        p = line.p2 + self.basepoint;
+        p_nextframe = p + self.vel * frametime / 1000.f;
+        if (Distance({p, p_nextframe}, other) <= kPhysCollisionPres) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Engine::isCollide(const MoveableObject& self, const MoveableObject& other) {
+    // same as higher func but with (possible) movement of other object
 }
