@@ -41,8 +41,8 @@ class Engine {
     virtual void renderObject(const std::unique_ptr<Object>& object) = 0;
 
     void renderPhysics();
-    bool isCollide(const MoveableObject& self, const MoveableObject& other);
-    bool isCollide(const MoveableObject& self, const Object& other);
+    Vector2f computeCollideNormalWithStatic(MoveableObject* self);
+    Vector2f computeCollideNormalWithMoveable(MoveableObject* self);
 
     virtual ~Engine() = default;
 

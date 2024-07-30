@@ -22,13 +22,11 @@ void Engine::renderPhysics() {
         Vector2f& vel = obj->velocity;
 
         force = Vector2f(0, -1 * mass * kPhysConstG) + obj->magic_force;
-        obj->is_in_touch = false;
-        for (const auto& coln : objects_) {
-            obj->sumNormalForces(coln);
-        }
-        for (const auto& coln : moveableObjects_) {
-            obj->sumNormalForces(coln);
-        }
+
+        Vector2f generalNormal = computeCollideNormalWithStatic(obj) + computeCollideNormalWithMoveable(obj);
+        Vector2f generalLine = {-1 * generalNormal.y, generalNormal.x};
+        force = Projection(force, generalLine);
+        vel = Projection(vel, generalLine);
 
         obj->magic_force = nullvector;
 
@@ -38,22 +36,33 @@ void Engine::renderPhysics() {
     }
 }
 
-bool Engine::isCollide(const MoveableObject& self, const Object& other) {
-    for (const auto& line : self.polygons) {
-        Vector2f p = line.p1 + self.basepoint;
-        Vector2f p_nextframe = p + self.vel * frametime / 1000.f;
-        if (Distance({p, p_nextframe}, other) <= kPhysCollisionPres) {
-            return true;
-        }
-        p = line.p2 + self.basepoint;
-        p_nextframe = p + self.vel * frametime / 1000.f;
-        if (Distance({p, p_nextframe}, other) <= kPhysCollisionPres) {
-            return true;
+// This functions computes general normal like in case of colliding with 1 LineSegment
+// NEED OPTIMIZATION IN THE FUTURE
+Vector2f Engine::computeCollideNormalWithStatic(MoveableObject* self) {
+    Vector2f generalNormal = nullvector;
+    for (const auto& obj : objects_) {
+        for (LineSegment justline : obj->polygons) {
+            justline = justline.move(obj->basepoint);
+            for (const auto& line : self->polygons) {
+                Vector2f p = line.p1 + self->basepoint;
+                Vector2f p_nextframe = p + self->velocity * frametime / 1000.f;
+                if (Distance({p, p_nextframe}, justline) <= kPhysCollisionPres) {
+                    generalNormal = generalNormal + justline.getNormal();
+                    break;
+                }
+                p = line.p2 + self->basepoint;
+                p_nextframe = p + self->velocity * frametime / 1000.f;
+                if (Distance({p, p_nextframe}, justline) <= kPhysCollisionPres) {
+                    generalNormal = generalNormal + justline.getNormal();
+                    break;
+                }
+            }
         }
     }
-    return false;
+    return generalNormal;
 }
 
-bool Engine::isCollide(const MoveableObject& self, const MoveableObject& other) {
-    // same as higher func but with (possible) movement of other object
+// same as higher func but with (possible) movement and forces of other object(s)
+Vector2f Engine::computeCollideNormalWithMoveable(MoveableObject* self) {
+    return {0, 0};
 }

@@ -162,8 +162,6 @@ class MoveableObject : public Object {
 
     void move(const Vector2f& vector);
 
-    void sumNormalForces(const std::unique_ptr<Object>& obj);
-
     explicit MoveableObject(const Vector2f& basepoint, const std::vector<LineSegment>& polygons)
         : Object(basepoint, polygons) {
     }
@@ -173,9 +171,3 @@ class MoveableObject : public Object {
         : Object(basepoint, polygons), mass(m) {
     }
 };
-
-float Distance(const LineSegment& segment, const Object& obj);
-
-inline float Distance(const Object& obj, const LineSegment& segment) {
-    return Distance(segment, obj);
-}
