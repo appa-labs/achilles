@@ -99,6 +99,34 @@ class LineSegment {
     }
 };
 
+class Triangle {
+   public:
+    Vector2f p1, p2, p3;
+
+    explicit Triangle(const Vector2f& _p1, const Vector2f& _p2, const Vector2f& _p3) // NOLINT
+        : p1(_p1), p2(_p2), p3(_p3) {
+    }
+
+    [[nodiscard]] double getDoubleSquare(); // avoid division by 2
+};
+
+class Quadrangle {
+   public:
+    Vector2f p1, p2, p3, p4;
+
+    explicit Quadrangle(const Vector2f& _p1, const Vector2f& _p2,  // NOLINT
+                        const Vector2f& _p3, const Vector2f& _p4)  // NOLINT
+        : p1(_p1), p2(_p2), p3(_p3), p4(_p4) {
+    }
+
+    [[nodiscard]] double doubleSquare(); // avoid division by 2
+
+    [[nodiscard]] bool cover(const Vector2f& point);
+
+    // Check if segment is inside quadrangle or half inside
+    [[nodiscard]] bool cover(const LineSegment& segment);
+};
+
 // ----------------------------------------------------------------------
 // Math functions
 // ----------------------------------------------------------------------

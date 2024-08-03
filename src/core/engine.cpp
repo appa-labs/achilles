@@ -44,17 +44,13 @@ Vector2f Engine::computeCollideNormalWithStatic(MoveableObject* self) {
         for (LineSegment justline : obj->polygons) {
             justline = justline.move(obj->basepoint);
             for (const auto& line : self->polygons) {
-                Vector2f p = line.p1 + self->basepoint;
-                Vector2f p_nextframe = p + self->velocity * frametime / 1000.f;
-                if (Distance({p, p_nextframe}, justline) <= kPhysCollisionPres) {
-                    generalNormal = generalNormal + justline.getNormal();
-                    break;
-                }
-                p = line.p2 + self->basepoint;
-                p_nextframe = p + self->velocity * frametime / 1000.f;
-                if (Distance({p, p_nextframe}, justline) <= kPhysCollisionPres) {
-                    generalNormal = generalNormal + justline.getNormal();
-                    break;
+                Vector2f path = self->velocity * frametime / 1000.f;
+                Vector2f cur_p1 = line.p1 + self->basepoint;
+                Vector2f cur_p2 = line.p2 + self->basepoint;
+
+                auto quad = Quadrangle(cur_p1, cur_p2, cur_p2 + path, cur_p1 + path);
+                if (quad.cover(justline)) {
+                    generalNormal += justline.getNormal();
                 }
             }
         }
