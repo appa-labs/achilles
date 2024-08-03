@@ -1,8 +1,6 @@
 #pragma once
 
 #include <cmath>
-#include <memory>
-#include <utility>
 #include <vector>
 
 #define math_sqrt(x) std::sqrt(x)
@@ -130,9 +128,7 @@ Vector2f Projection(const Vector2f& v, Vector2f axis_vec);
 // It has a constructor that initializes the fields. It has a friend class
 // Engine.
 class Object {
-   public:  // TODO (later): change visability for members - bpoint & polygons
-    friend class Engine;
-
+   public:
     explicit Object(
         const Vector2f& _basepoint, const std::vector<LineSegment>& _polygons)  // NOLINT
         : basepoint(_basepoint), polygons(_polygons) {
