@@ -99,6 +99,13 @@ class LineSegment {
     }
 };
 
+
+// ----------------------------------------------------------------------
+// Triangle
+// ----------------------------------------------------------------------
+// Class Triangle represents a triangle in 2D space. It has three fields:
+// p1, p2, p3 of type Vector2f. It has a method for getting the double
+// square of the triangle.
 class Triangle {
    public:
     Vector2f p1, p2, p3;
@@ -110,6 +117,13 @@ class Triangle {
     [[nodiscard]] double doubleSquare(); // avoid division by 2
 };
 
+// ----------------------------------------------------------------------
+// Quadrangle
+// ----------------------------------------------------------------------
+// Class Quadrangle represents a quadrangle in 2D space. It has four fields:
+// p1, p2, p3, p4 of type Vector2f. It has a method for getting the double
+// square of the quadrangle and a method for checking if a point is inside
+// the quadrangle.
 class Quadrangle {
    public:
     Vector2f p1, p2, p3, p4;
@@ -119,12 +133,30 @@ class Quadrangle {
         : p1(_p1), p2(_p2), p3(_p3), p4(_p4) {
     }
 
-    [[nodiscard]] double doubleSquare(); // avoid division by 2
+    virtual ~Quadrangle() = default;
+
+    [[nodiscard]] virtual double doubleSquare(); // avoid division by 2
 
     [[nodiscard]] bool cover(const Vector2f& point);
 
     // Check if segment is inside quadrangle or half inside
     [[nodiscard]] bool cover(const LineSegment& segment);
+};
+
+// ----------------------------------------------------------------------
+// Parallelogram
+// ----------------------------------------------------------------------
+// Class Parallelogram represents a parallelogram in 2D space. It has four fields:
+// p1, p2, p3, p4 of type Vector2f. It inherits from class Quadrangle.
+// It has a method for checking if a point is inside the parallelogram.
+class Parallelogram : public Quadrangle {
+   public:
+    explicit Parallelogram(const Vector2f& _p1, const Vector2f& _p2,  // NOLINT
+                           const Vector2f& _p3, const Vector2f& _p4)  // NOLINT
+        : Quadrangle(_p1, _p2, _p3, _p4) {
+    }
+
+    [[nodiscard]] double doubleSquare() override;
 };
 
 // ----------------------------------------------------------------------

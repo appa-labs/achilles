@@ -133,6 +133,10 @@ bool Vector2f::operator!=(const Vector2f& other) const {
     return cover(segment.p1) || cover(segment.p2);
 }
 
+[[nodiscard]] double Parallelogram::doubleSquare() {
+    return Triangle(p1, p2, p3).doubleSquare() * 2;
+}
+
 float Distance(const Vector2f& p1, const Vector2f& p2) {
     return math_sqrt((p2.x - p1.x) * (p2.x - p1.x) + (p2.y - p1.y) * (p2.y - p1.y));
 }

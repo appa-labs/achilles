@@ -48,8 +48,8 @@ Vector2f Engine::computeCollideNormalWithStatic(MoveableObject* self) {
                 Vector2f cur_p1 = line.p1 + self->basepoint;
                 Vector2f cur_p2 = line.p2 + self->basepoint;
 
-                auto quad = Quadrangle(cur_p1, cur_p2, cur_p2 + path, cur_p1 + path);
-                if (quad.cover(justline)) {
+                auto path_area = Parallelogram(cur_p1, cur_p2, cur_p2 + path, cur_p1 + path);
+                if (path_area.cover(justline)) {
                     generalNormal += justline.getNormal();
                 }
             }
