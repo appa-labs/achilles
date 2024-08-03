@@ -107,7 +107,7 @@ class Triangle {
         : p1(_p1), p2(_p2), p3(_p3) {
     }
 
-    [[nodiscard]] double getDoubleSquare(); // avoid division by 2
+    [[nodiscard]] double doubleSquare(); // avoid division by 2
 };
 
 class Quadrangle {

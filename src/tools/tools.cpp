@@ -106,22 +106,22 @@ bool Vector2f::operator!=(const Vector2f& other) const {
     return normal;
 }
 
-[[nodiscard]] double Triangle::getDoubleSquare() {
+[[nodiscard]] double Triangle::doubleSquare() {
     double double_square = static_cast<double>(p2.x - p1.x) * (p3.y - p1.y);
     double_square -= static_cast<double>(p3.x - p1.x) * (p2.y - p1.y);
     return math_abs(double_square);
 }
 
 [[nodiscard]] double Quadrangle::doubleSquare() {
-    double squre = Triangle(p1, p2, p3).getDoubleSquare();
-    squre += Triangle(p1, p3, p4).getDoubleSquare();
+    double squre = Triangle(p1, p2, p3).doubleSquare();
+    squre += Triangle(p1, p3, p4).doubleSquare();
     return squre;
 }
 
 [[nodiscard]] bool Quadrangle::cover(const Vector2f& point) {
-    double from_point_double_square = Triangle(p1, p2, point).getDoubleSquare();
-    from_point_double_square += Triangle(p2, p3, point).getDoubleSquare();
-    from_point_double_square += Triangle(p3, p4, point).getDoubleSquare();
+    double from_point_double_square = Triangle(p1, p2, point).doubleSquare();
+    from_point_double_square += Triangle(p2, p3, point).doubleSquare();
+    from_point_double_square += Triangle(p3, p4, point).doubleSquare();
 
     if (math_abs(from_point_double_square - doubleSquare()) <= kEps) {
         return true;
