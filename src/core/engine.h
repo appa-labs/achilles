@@ -45,10 +45,11 @@ class Engine {
     virtual ~Engine() = default;
 
    protected:
-    Vector2f computeCollideNormalWithStatic(MoveableObject* self);
-    Vector2f computeCollideNormalWithMoveable(MoveableObject* self);
-
     std::vector<std::unique_ptr<Object>> objects_;
     std::vector<std::unique_ptr<Object>> moveableObjects_;
     std::map<std::string, std::vector<LineSegment>> objtypes_;
+
+   private:
+    Vector2f computeCollideNormalWithStatic(MoveableObject* self);
+    Vector2f computeCollideNormalWithMoveable(MoveableObject* self);
 };
