@@ -1,0 +1,7 @@
+load("@io_bazel_rules_docker//docker:docker.bzl", "docker_image")
+
+docker_image(
+    name = "game",
+    file = "Dockerfile",
+    base = "@io\_bazel\_rules\_docker//containers:ubuntu",
+)

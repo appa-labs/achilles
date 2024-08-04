@@ -1,0 +1,7 @@
+load("@io_bazel_rules_docker//docker:docker.bzl", "cc_image")
+
+cc_image(
+    name = "game",
+    base = "//example/app:game",
+    file = "Dockerfile.build",
+)
