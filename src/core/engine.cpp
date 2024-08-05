@@ -48,13 +48,13 @@ Vector2f Engine::computeCollideNormalWithStatic(MoveableObject* self) {
     for (const auto& obj : objects_) {
         for (LineSegment justline : obj->polygons) {
             justline = justline.move(obj->basepoint);
-            for (const auto& line : self->polygons) {
+            for (auto line : self->polygons) {
                 Vector2f path = self->velocity * frametime / 1000.f;
-                Vector2f cur_p1 = line.p1 + self->basepoint;
-                Vector2f cur_p2 = line.p2 + self->basepoint;
+                line.p1 += self->basepoint;
+                line.p2 += self->basepoint;
 
-                auto path_area = Parallelogram(cur_p1, cur_p2, cur_p2 + path, cur_p1 + path);
-                if (path_area.cover(justline)) {
+                auto path_area = PathCollisionArea(line, path);
+                if (path_area.collision(justline)) {
                     generalNormal += justline.getNormal();
                     self->in_touch = true;
                     player_color = sf::Color::Red;  // DEBUG

@@ -127,7 +127,7 @@ void MyEngine::drawBaton(const std::unique_ptr<Object>& obj) {
     LineSegment l = obj->polygons[0];
     l = l.move(obj->basepoint - Vector2f(kPhysCollisionPres, -kPhysCollisionPres) - camera);
     //auto white = sf::Color(255, 255, 255);
-    auto white = player_color;
+    auto white = player_color; // DEBUG
 
     sf::CircleShape circle1(kPhysCollisionPres / 2 * height);
     circle1.setFillColor(white);

@@ -112,24 +112,21 @@ bool Vector2f::operator!=(const Vector2f& other) const {
     return math_abs(double_square);
 }
 
-[[nodiscard]] double Quadrangle::doubleSquare() {
+[[nodiscard]] double Quadrangle::doubleSquare() const {
     double squre = Triangle(p1, p2, p3).doubleSquare();
     squre += Triangle(p1, p3, p4).doubleSquare();
     return squre;
 }
 
-[[nodiscard]] bool Quadrangle::cover(const Vector2f& point) {
+[[nodiscard]] bool Quadrangle::cover(const Vector2f& point) const{
     double from_point_double_square = Triangle(p1, p2, point).doubleSquare();
     from_point_double_square += Triangle(p2, p3, point).doubleSquare();
     from_point_double_square += Triangle(p3, p4, point).doubleSquare();
 
-    if (math_abs(from_point_double_square - doubleSquare()) <= kEps) {
-        return true;
-    }
-    return false;
+    return math_abs(from_point_double_square - doubleSquare()) <= kEps;
 }
 
-[[nodiscard]] bool Quadrangle::cover(const LineSegment& segment) {
+[[nodiscard]] bool Quadrangle::cover(const LineSegment& segment) const {
     return cover(segment.p1) || cover(segment.p2) || 
             IsIntersect(segment, LineSegment(p1, p2)) ||
             IsIntersect(segment, LineSegment(p2, p3)) || 
@@ -137,8 +134,16 @@ bool Vector2f::operator!=(const Vector2f& other) const {
             IsIntersect(segment, LineSegment(p4, p1));
 }
 
-[[nodiscard]] double Parallelogram::doubleSquare() {
+[[nodiscard]] double Parallelogram::doubleSquare() const {
     return Triangle(p1, p2, p3).doubleSquare() * 2;
+}
+
+[[nodiscard]] bool PathCollisionArea::collision(const LineSegment& segment) const {
+    return cover(segment) || 
+            Distance(LineSegment(p1, p2), segment) - kPhysCollisionPres <= kEps ||
+            Distance(LineSegment(p2, p3), segment) - kPhysCollisionPres <= kEps ||
+            Distance(LineSegment(p3, p4), segment) - kPhysCollisionPres <= kEps ||
+            Distance(LineSegment(p4, p1), segment) - kPhysCollisionPres <= kEps;
 }
 
 float Distance(const Vector2f& p1, const Vector2f& p2) {

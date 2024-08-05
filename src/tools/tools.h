@@ -135,12 +135,12 @@ class Quadrangle {
 
     virtual ~Quadrangle() = default;
 
-    [[nodiscard]] virtual double doubleSquare(); // avoid division by 2
+    [[nodiscard]] virtual double doubleSquare() const; // avoid division by 2
 
-    [[nodiscard]] bool cover(const Vector2f& point);
+    [[nodiscard]] bool cover(const Vector2f& point) const;
 
     // Check if segment is inside quadrangle or half inside
-    [[nodiscard]] bool cover(const LineSegment& segment);
+    [[nodiscard]] bool cover(const LineSegment& segment) const;
 };
 
 // ----------------------------------------------------------------------
@@ -156,7 +156,23 @@ class Parallelogram : public Quadrangle {
         : Quadrangle(_p1, _p2, _p3, _p4) {
     }
 
-    [[nodiscard]] double doubleSquare() override;
+    ~Parallelogram() override = default;
+
+    [[nodiscard]] double doubleSquare() const override;
+};
+
+// ----------------------------------------------------------------------
+// PathCollisionArea
+// ----------------------------------------------------------------------
+// Class PathCollisionArea represents a path collision area in 2D space
+// of one LineSegment.
+class PathCollisionArea : public Parallelogram {
+   public:
+    explicit PathCollisionArea(const LineSegment& segment, const Vector2f& path)
+        : Parallelogram(segment.p1, segment.p2, segment.p1 + path, segment.p2 + path) {
+    }
+
+    [[nodiscard]] bool collision(const LineSegment& segment) const;
 };
 
 // ----------------------------------------------------------------------
