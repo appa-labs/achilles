@@ -130,7 +130,11 @@ bool Vector2f::operator!=(const Vector2f& other) const {
 }
 
 [[nodiscard]] bool Quadrangle::cover(const LineSegment& segment) {
-    return cover(segment.p1) || cover(segment.p2);
+    return cover(segment.p1) || cover(segment.p2) || 
+            IsIntersect(segment, LineSegment(p1, p2)) ||
+            IsIntersect(segment, LineSegment(p2, p3)) || 
+            IsIntersect(segment, LineSegment(p3, p4)) ||
+            IsIntersect(segment, LineSegment(p4, p1));
 }
 
 [[nodiscard]] double Parallelogram::doubleSquare() {

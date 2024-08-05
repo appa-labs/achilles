@@ -56,7 +56,7 @@ void MyEngine::loadObjects(const std::string& path) {
         if (inputbuffer == "m") {
             float mass;
             input >> mass;
-            moveableObjects_.push_back(std::make_unique<MoveableObject>(buf, vectorcache, mass));
+            moveable_objects_.push_back(std::make_unique<MoveableObject>(buf, vectorcache, mass));
         }
         if (inputbuffer == "s") {
             objects_.push_back(std::make_unique<Object>(buf, vectorcache));
@@ -76,7 +76,7 @@ void MyEngine::renderFrame() {
     for (const auto& obj : objects_) {
         renderObject(obj);
     }
-    for (const auto& obj : moveableObjects_) {
+    for (const auto& obj : moveable_objects_) {
         // renderObject(obj);
         // TODO(): fix this
         camera = obj->basepoint; // works only with one moveable objectss
@@ -99,24 +99,24 @@ void MyEngine::renderObject(const std::unique_ptr<Object>& object) {
 }
 
 void MyEngine::characterJump() {
-    auto* player = dynamic_cast<MoveableObject*>(moveableObjects_[0].get());
-    if (player->is_in_touch) {
+    auto* player = dynamic_cast<MoveableObject*>(moveable_objects_[0].get());
+    if (player->in_touch) {
         player->velocity = player->velocity + Vector2f(0, 3);
     }
 }
 
 void MyEngine::characterLeft() {
-    auto* player = dynamic_cast<MoveableObject*>(moveableObjects_[0].get());
+    auto* player = dynamic_cast<MoveableObject*>(moveable_objects_[0].get());
     player->magic_force = Vector2f(-20, 0);
 }
 
 void MyEngine::characterRight() {
-    auto* player = dynamic_cast<MoveableObject*>(moveableObjects_[0].get());
+    auto* player = dynamic_cast<MoveableObject*>(moveable_objects_[0].get());
     player->magic_force = Vector2f(20, 0);
 }
 
 void MyEngine::restart() {
-    auto* player = dynamic_cast<MoveableObject*>(moveableObjects_[0].get());
+    auto* player = dynamic_cast<MoveableObject*>(moveable_objects_[0].get());
     player->basepoint = Vector2f(0, 0);
     player->magic_force = Vector2f(0, 0);
     player->velocity = Vector2f(0, 0);
@@ -126,7 +126,8 @@ void MyEngine::restart() {
 void MyEngine::drawBaton(const std::unique_ptr<Object>& obj) {
     LineSegment l = obj->polygons[0];
     l = l.move(obj->basepoint - Vector2f(kPhysCollisionPres, -kPhysCollisionPres) - camera);
-    auto white = sf::Color(255, 255, 255);
+    //auto white = sf::Color(255, 255, 255);
+    auto white = player_color;
 
     sf::CircleShape circle1(kPhysCollisionPres / 2 * height);
     circle1.setFillColor(white);

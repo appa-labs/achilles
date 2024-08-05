@@ -25,6 +25,9 @@ class Engine {
     float frametime = 1.f;
     sf::RenderWindow window;
     Vector2f camera;
+    // debug--------
+    sf::Color player_color = sf::Color::White;
+    //--------------
 
     Engine() = default;
 
@@ -46,7 +49,7 @@ class Engine {
 
    protected:
     std::vector<std::unique_ptr<Object>> objects_;
-    std::vector<std::unique_ptr<Object>> moveableObjects_;
+    std::vector<std::unique_ptr<Object>> moveable_objects_;
     std::map<std::string, std::vector<LineSegment>> objtypes_;
 
    private:

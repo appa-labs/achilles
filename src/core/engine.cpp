@@ -15,7 +15,7 @@ void Engine::stop() {
 }
 
 void Engine::renderPhysics() {
-    for (auto& _obj : moveableObjects_) {  // NOLINT
+    for (auto& _obj : moveable_objects_) {  // NOLINT
         auto* obj = dynamic_cast<MoveableObject*>(_obj.get());
         Vector2f& force = obj->resultant_force;
         float mass = obj->mass;
@@ -23,10 +23,12 @@ void Engine::renderPhysics() {
 
         force = Vector2f(0, -1 * mass * kPhysConstG) + obj->magic_force;
 
-        Vector2f generalNormal = computeCollideNormalWithStatic(obj) + computeCollideNormalWithMoveable(obj);
-        Vector2f generalLine = {-1 * generalNormal.y, generalNormal.x};
-        force = Projection(force, generalLine);
-        vel = Projection(vel, generalLine);
+        Vector2f general_normal = computeCollideNormalWithStatic(obj) + computeCollideNormalWithMoveable(obj);
+
+        if(obj->in_touch) {
+            force -= Projection(force, general_normal);
+            vel -= Projection(vel, general_normal);
+        }
 
         obj->magic_force = nullvector;
 
@@ -40,6 +42,8 @@ void Engine::renderPhysics() {
 // NEED OPTIMIZATION IN THE FUTURE
 Vector2f Engine::computeCollideNormalWithStatic(MoveableObject* self) {
     Vector2f generalNormal = nullvector;
+    self->in_touch = false;
+    player_color = sf::Color::White;
     for (const auto& obj : objects_) {
         for (LineSegment justline : obj->polygons) {
             justline = justline.move(obj->basepoint);
@@ -51,6 +55,8 @@ Vector2f Engine::computeCollideNormalWithStatic(MoveableObject* self) {
                 auto path_area = Parallelogram(cur_p1, cur_p2, cur_p2 + path, cur_p1 + path);
                 if (path_area.cover(justline)) {
                     generalNormal += justline.getNormal();
+                    self->in_touch = true;
+                    player_color = sf::Color::Red;
                 }
             }
         }
