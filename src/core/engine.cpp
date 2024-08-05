@@ -43,25 +43,25 @@ void Engine::renderPhysics() {
 Vector2f Engine::computeCollideNormalWithStatic(MoveableObject* self) {
     player_color = sf::Color::White; // DEBUG
     
-    Vector2f generalNormal = nullvector;
+    Vector2f general_normal = nullvector;
     self->in_touch = false;
     for (const auto& obj : objects_) {
         for (LineSegment justline : obj->polygons) {
             justline = justline.move(obj->basepoint);
             for (auto line : self->polygons) {
                 Vector2f path = self->velocity * frametime / 1000.f;
-                line = line.move(path);
+                line = line.move(self->basepoint);
 
                 auto path_area = PathCollisionArea(line, path);
                 if (path_area.collision(justline)) {
-                    generalNormal += justline.getNormal();
+                    general_normal += justline.getNormal();
                     self->in_touch = true;
                     player_color = sf::Color::Red;  // DEBUG
                 }
             }
         }
     }
-    return generalNormal;
+    return general_normal;
 }
 
 // same as higher func but with (possible) movement and forces of other object(s)

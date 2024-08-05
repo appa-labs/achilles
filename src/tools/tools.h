@@ -169,7 +169,7 @@ class Parallelogram : public Quadrangle {
 class PathCollisionArea : public Parallelogram {
    public:
     explicit PathCollisionArea(const LineSegment& segment, const Vector2f& path)
-        : Parallelogram(segment.p1, segment.p2, segment.p1 + path, segment.p2 + path) {
+        : Parallelogram(segment.p1, segment.p2, segment.p2 + path, segment.p1 + path) {
     }
 
     [[nodiscard]] bool collision(const LineSegment& segment) const;
