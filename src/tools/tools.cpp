@@ -140,10 +140,10 @@ bool Vector2f::operator!=(const Vector2f& other) const {
 
 [[nodiscard]] bool PathCollisionArea::collision(const LineSegment& segment) const {
     return cover(segment) || 
-        math_abs(Distance(LineSegment(p1, p2), segment) - kPhysCollisionPres) < kEps ||
-        math_abs(Distance(LineSegment(p2, p3), segment) - kPhysCollisionPres) < kEps ||
-        math_abs(Distance(LineSegment(p3, p4), segment) - kPhysCollisionPres) < kEps ||
-        math_abs(Distance(LineSegment(p4, p1), segment) - kPhysCollisionPres) < kEps;
+            Distance(LineSegment(p1, p2), segment) - kPhysCollisionPres < kEps ||
+            Distance(LineSegment(p2, p3), segment) - kPhysCollisionPres < kEps ||
+            Distance(LineSegment(p3, p4), segment) - kPhysCollisionPres < kEps ||
+            Distance(LineSegment(p4, p1), segment) - kPhysCollisionPres < kEps;
 }
 
 float Distance(const Vector2f& p1, const Vector2f& p2) {
