@@ -41,9 +41,10 @@ void Engine::renderPhysics() {
 // This functions computes general normal like in case of colliding with 1 LineSegment
 // NEED OPTIMIZATION IN THE FUTURE
 Vector2f Engine::computeCollideNormalWithStatic(MoveableObject* self) {
+    player_color = sf::Color::White; // DEBUG
+    
     Vector2f generalNormal = nullvector;
-    self->in_touch = false;  // DEBUG
-    player_color = sf::Color::White;
+    self->in_touch = false;
     for (const auto& obj : objects_) {
         for (LineSegment justline : obj->polygons) {
             justline = justline.move(obj->basepoint);
