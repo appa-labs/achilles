@@ -50,8 +50,7 @@ Vector2f Engine::computeCollideNormalWithStatic(MoveableObject* self) {
             justline = justline.move(obj->basepoint);
             for (auto line : self->polygons) {
                 Vector2f path = self->velocity * frametime / 1000.f;
-                line.p1 += self->basepoint;
-                line.p2 += self->basepoint;
+                line = line.move(path);
 
                 auto path_area = PathCollisionArea(line, path);
                 if (path_area.collision(justline)) {
