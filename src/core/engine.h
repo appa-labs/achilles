@@ -25,9 +25,8 @@ class Engine {
     float frametime = 1.f;
     sf::RenderWindow window;
     Vector2f camera;
-    // debug--------
-    sf::Color player_color = sf::Color::White;
-    //--------------
+
+    sf::Color player_color = sf::Color::White;  // DEBUG
 
     Engine() = default;
 

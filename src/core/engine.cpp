@@ -42,7 +42,7 @@ void Engine::renderPhysics() {
 // NEED OPTIMIZATION IN THE FUTURE
 Vector2f Engine::computeCollideNormalWithStatic(MoveableObject* self) {
     Vector2f generalNormal = nullvector;
-    self->in_touch = false;
+    self->in_touch = false;  // DEBUG
     player_color = sf::Color::White;
     for (const auto& obj : objects_) {
         for (LineSegment justline : obj->polygons) {
@@ -56,7 +56,7 @@ Vector2f Engine::computeCollideNormalWithStatic(MoveableObject* self) {
                 if (path_area.cover(justline)) {
                     generalNormal += justline.getNormal();
                     self->in_touch = true;
-                    player_color = sf::Color::Red;
+                    player_color = sf::Color::Red;  // DEBUG
                 }
             }
         }
