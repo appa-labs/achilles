@@ -232,6 +232,8 @@ class MoveableObject : public Object {
     float friction_coef{1.f};
     bool in_touch{false};
 
+    std::vector<PathCollisionArea> areas; // DEBUG
+
     void move(const Vector2f& vector);
 
     explicit MoveableObject(const Vector2f& basepoint, const std::vector<LineSegment>& polygons)

@@ -77,7 +77,6 @@ void MyEngine::renderFrame() {
         renderObject(obj);
     }
     for (const auto& obj : moveable_objects_) {
-        // renderObject(obj);
         // TODO(): fix this
         camera = obj->basepoint; // works only with one moveable objectss
         drawBaton(obj);
@@ -162,3 +161,4 @@ void MyEngine::renderFPS(sf::Text& frame_rate_text) {
     window.draw(frame_rate_text);
     window.display();
 }
+

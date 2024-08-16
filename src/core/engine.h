@@ -46,6 +46,9 @@ class Engine {
 
     virtual ~Engine() = default;
 
+    // DEBUG
+    void renderPath(const std::unique_ptr<Object>& obj);
+
    protected:
     std::vector<std::unique_ptr<Object>> objects_;
     std::vector<std::unique_ptr<Object>> moveable_objects_;
