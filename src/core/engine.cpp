@@ -68,7 +68,7 @@ void Engine::renderPhysics() {
         float mass = obj->mass;
         Vector2f& vel = obj->velocity;
 
-        force = Vector2f(0, -1 * mass * kPhysConstG) + obj->magic_force;
+        force = Vector2f(0, -1 * mass * kPhysConstG);
 
         Vector2f general_normal = computeCollideNormalWithStatic(obj) + computeCollideNormalWithMoveable(obj);
         renderPath(_obj);  // DEBUG
@@ -77,7 +77,7 @@ void Engine::renderPhysics() {
             force -= Projection(force, general_normal);
             vel -= Projection(vel, general_normal);
         }
-
+        force += obj->magic_force;
         obj->magic_force = nullvector;
 
         Vector2f acceleration = force / mass;
