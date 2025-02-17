@@ -17,7 +17,7 @@ Checks: >
   cppcoreguidelines-*,
   -cppcoreguidelines-avoid-magic-numbers,
   -cppcoreguidelines-pro-type-vararg,
-  google-*,
+  -cppcoreguidelines-non-private-member-variables-in-classes,
   hicpp-avoid-goto,
   llvm-include-order,
   llvm-namespace-comment,
@@ -28,6 +28,7 @@ Checks: >
   -llvmlibc-restrict-system-libc-headers,
   misc-*,
   -misc-no-recursion,
+  -misc-non-private-member-variables-in-classes,
   modernize-*,
   -modernize-use-trailing-return-type,
   performance-*,
@@ -38,7 +39,9 @@ Checks: >
   -fuchsia-default-arguments-calls,
   -fuchsia-overloaded-operator,
   -fuchsia-default-arguments-declarations
-HeaderFilterRegex: '\.h$'
+HeaderFileExtensions:         ['', 'h','hh','hpp','hxx']
+ImplementationFileExtensions: ['c','cc','cpp','cxx']
+HeaderFilterRegex:   ''
 WarningsAsErrors: '*'
 CheckOptions:
   - key: readability-identifier-naming.NamespaceCase
@@ -54,7 +57,7 @@ CheckOptions:
   - key: readability-identifier-naming.StructCase
     value: CamelCase
   - key: readability-identifier-naming.FunctionCase
-    value: CamelCase
+    value: camelBack
   - key: readability-identifier-naming.VariableCase
     value: lower_case
   - key: readability-identifier-naming.PrivateMemberCase
@@ -73,13 +76,11 @@ CheckOptions:
     value: CamelCase
   - key: readability-identifier-naming.ConstexprVariablePrefix
     value: k
-  - key: google-runtime-int.TypeSuffix
-    value: _t
   - key: readability-identifier-naming.TypeTemplateParameterCase
     value: CamelCase
-  - key: readability-identifier-naming.TypeTemplateParameterIgnoredRegexp
-    value: ^expr-type$
   - key: readability-identifier-naming.FunctionIgnoredRegexp
     value: ^(begin|end)$
   - key: readability-identifier-naming.TypeAliasIgnoredRegexp
     value: ^(iterator_category|value_type|difference_type|pointer|reference|iterator_type|iterator_concept)$
+  - key: google-runtime-int.TypeSuffix
+    value: _t

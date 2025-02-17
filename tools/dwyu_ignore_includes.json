@@ -1,0 +1,5 @@
+{
+  "extra_ignore_include_paths": [
+    "sys/stat.h", "fcntl.h", "unistd.h", "sys/mman.h"
+  ]
+}

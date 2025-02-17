@@ -1,0 +1,12 @@
+load("@rules_cc//cc:defs.bzl", "cc_test")
+
+cc_test(
+    name = "tools",
+    srcs = [
+        "test.cpp",
+    ],
+    deps = [
+        "//src/core/tools:tools",
+        "//tools:catch2",
+    ],
+)

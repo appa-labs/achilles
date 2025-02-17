@@ -70,8 +70,8 @@ Enter file in which to save the key (C:\Users\<user_name>/.ssh/id_ed25519):
 # Переходим в директорию, где вы хотите разместить репозиторий с проектом
 cd <твоя выбранная директория>
 
-# Клонируем репозиторий с https://github.com/appa-labs/Achilles
-git clone git@github.com:appa-labs/Achilles.git
+# Клонируем репозиторий с https://github.com/repo_name
+git clone git@github.com:repo_name.git
 
 # Переходим в директорию склонированного репозитория
 cd Achilles
@@ -114,4 +114,19 @@ git config --local user.email "<твой email с github.com>"
 
 ![](https://lanziani.com/slides/gitflow/images/gitflow_1.png)
 
-> Если в кратце, то вся работа происходит в сторонних ветках созданных для отдельных задач, после решения задачи создается pool request, который, если все хорошо, получает approve и ветку мерджат в main.
+### Запуск проекта из консоли <a id='build'/>
+
+Все действия нужно производить из консоли, аналогично тому, как вы настраивали ключи и git.
+
+Быстрый запуск:
+
+```bash
+# Скачать sfml
+sudo apt install -y libsfml-dev
+# Cобрать
+bazel buld <path-to-build-file>:<pocket-name>
+
+# Собрать и запустить
+bazel run <path-to-build-file>:<pocket-name>
+```
+

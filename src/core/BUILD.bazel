@@ -1,0 +1,16 @@
+load("@rules_cc//cc:defs.bzl", "cc_library")
+
+cc_library(
+    name = "engine",
+    hdrs = [
+        "engine.h",
+    ],
+    srcs = [
+        "engine.cpp",
+    ],
+    deps = [
+        "//src/tools:tools",
+        "//third_party:sfml",
+    ],
+    visibility = ["//visibility:public"],
+)

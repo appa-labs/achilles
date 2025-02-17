@@ -38,8 +38,8 @@ AlwaysBreakAfterReturnType: None
 AlwaysBreakBeforeMultilineStrings: true
 AlwaysBreakTemplateDeclarations: Yes
 AttributeMacros: ['SDC_ALWAYS_INLINE']
-BinPackArguments: true
-BinPackParameters: true
+BinPackArguments: false
+BinPackParameters: false
 BitFieldColonSpacing: Both
 BreakArrays: false  # clang-format 16   # TODO(sokolik): it's difference with sdc config
 BreakBeforeBraces: Attach

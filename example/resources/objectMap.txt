@@ -1,0 +1,2 @@
+player 0 0 m 1
+hline -2 -1 s
